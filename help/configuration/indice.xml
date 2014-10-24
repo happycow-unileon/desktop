@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE index
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+    <indexitem text="Ayuda login" target="AyudaLogin"/>
+    <indexitem text="Ayuda evaluación criterios" target="AyudaEvaluacionCriterio"/>
+    <indexitem text="Ayuda evaluación vacas" target="AyudaEvaluacionVaca"/>
+    <indexitem text="Ayuda exel" target="AyudaExcel"/>
+    <indexitem text="Ayuda gestion granjas" target="AyudaGestionGranja"/>
+    <indexitem text="Ayuda habilitar o deshabilitar" target="AyudaHabilitarDeshabilitar"/>
+    <indexitem text="Ayuda lista de granjas" target="AyudaListaGranjas"/>
+    <indexitem text="Ayuda modificar datos de la granja" target="AyudaModificarDatosGranja"/>
+    <indexitem text="Ayuda añadir nueva granja" target="AyudaNuevaGranjaAnhadir"/>
+    <indexitem text="Ayuda reporte" target="AyudaReporte"/>
+    <indexitem text="Ayuda añadir nuevo usuario" target="AyudaAdminNuevoUsuario"/>
+    <indexitem text="Ayuda añadir nuevo criterio" target="AyudaAdminNuevoCriterio"/>
+    <indexitem text="Ayuda excel admin" target="AyudaAdminExcel"/>
+    <indexitem text="Ayuda eliminar usuario" target="AyudaAdminEliminarUsuario"/>
+    <indexitem text="Ayuda eliminar criterio" target="AyudaAdminEliminarCriterio"/>
+    <indexitem text="Ayuda backup administrador" target="AyudaAdminBackup"/>
+</index>
