@@ -4,10 +4,14 @@ import es.unileon.happycow.controller.EvaluationControllerCow;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.model.composite.Criterion;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 
 /**
  *
@@ -57,7 +61,7 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
         buttonValorate = new javax.swing.JButton("Valorar");
         buttonEvaluated = new javax.swing.JButton("Evaluado");
         buttonCancel=new javax.swing.JButton("Cancelar");
-        lblNumberCows=new javax.swing.JLabel();
+        lblNumberCows=new javax.swing.JLabel("Numero de vacas necesarias");
         model=new DefaultListModel();
     }
     
@@ -98,6 +102,12 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
                 new String[] { }));
         
         comboValorateCow.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nueva vaca" }));
+    }
+    
+    public void setComboCow(DefaultComboBoxModel combo){
+        comboSeeCow.setModel(combo);
+        comboValorateCow.setModel(combo);
+        comboValorateCow.addItem("Nueva vaca");
     }
     
     private void configureComponents(){
@@ -218,6 +228,11 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
                 buttonCancel();
             }
         });
+        
+    }
+    
+    public void setSelectedCow(int i){
+        comboValorateCow.setSelectedIndex(i);
     }
     
     private void addLayout(){
@@ -394,9 +409,9 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
         add(buttonCancel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblNumberCows, gridBagConstraints);
@@ -440,6 +455,14 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
     public int getSelectedCow(){
         return comboValorateCow.getSelectedIndex();
     }
+    
+    public void habilitarValoraciones(){
+        buttonValorate.setEnabled(true);
+    }
+    
+    public void deshabilitarValoraciones(){
+        buttonValorate.setEnabled(false);
+    }
 
     private void buttonCopyCowActionPerformed() {
         controller.duplicateCow();
@@ -461,17 +484,19 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
     }
 
     private void textPonderationCategoryActionPerformed() {
+        controller.setPonderationCategory(Float.parseFloat(textPonderationCategory.getText()));
     }
 
     private void textPonderationCriterionActionPerformed() {
+        controller.setPonderationCriterion(Float.parseFloat(textPonderationCriterion.getText()));
     }
 
     private void textPonderationCategoryFocusLost() {
-   
+        textPonderationCategoryActionPerformed();
     }
 
     private void textPonderationCriterionFocusLost() {
-        
+        textPonderationCriterionActionPerformed();
     }
 
 

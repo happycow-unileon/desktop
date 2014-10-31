@@ -32,7 +32,7 @@ public abstract class EvaluationAlgorithm {
         if(result<5){
             result=5;
         }
-        return 5;
+        return result;
     }
 
     public float getBehaviour() {

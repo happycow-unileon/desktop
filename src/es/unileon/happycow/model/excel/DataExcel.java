@@ -1,5 +1,6 @@
 package es.unileon.happycow.model.excel;
 
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
@@ -35,7 +36,8 @@ public class DataExcel {
                 mapBetweenIdName.put(farm.getFarmName(), farm.getIdFarm());
                 listFarm.addElement(farm.getFarmName());
                 
-                for (InterfaceEvaluationModel interfaceEvaluationModel : farm.getListEvaluation()) {
+                for (InterfaceEvaluationModel interfaceEvaluationModel : 
+                        Database.getInstance().getListEvaluations(user.getId(), farm.getIdFarm())){//farm.getListEvaluation()) {
                     String date=interfaceEvaluationModel.getInformation().getFecha().toString();
                     mapBetweenIdDate.put(date, interfaceEvaluationModel.getIdHandler());
                     listEvaluation.addElement(date);

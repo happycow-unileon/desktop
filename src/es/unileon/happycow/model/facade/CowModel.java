@@ -1,22 +1,16 @@
 package es.unileon.happycow.model.facade;
 
-import es.unileon.happycow.database.concreteDatabase.DefaultDatabase;
-import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCow;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.composite.CategoryComposite;
-import es.unileon.happycow.model.facade.EvaluationModel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import jxl.format.PaperSize;
 
 /**
  *
@@ -24,7 +18,7 @@ import jxl.format.PaperSize;
  */
 public class CowModel implements InterfaceEvaluationModel{
     private final InterfaceEvaluationModel evaluation;
-    private final HashMap<IdHandler, LinkedList<IdHandler>> cows;
+    private final HashMap<String, LinkedList<IdHandler>> cows;
     
     
 
@@ -69,11 +63,11 @@ public class CowModel implements InterfaceEvaluationModel{
                     numberCows++;
                     LinkedList<IdHandler> valorations=new LinkedList<>();
                     valorations.add(valoration.getId());
-                    cows.put(oneCow,valorations);
+                    cows.put(oneCow.toString(),valorations);
                 }else{
-                    IdHandler nextCow=new IdCow(j);
+                    IdHandler nextCow=new IdCow(j+1);
                     //else, get the next cow and add the valoration
-                    cows.get(nextCow).add((IdHandler)valoration);
+                    cows.get(nextCow.toString()).add(valoration.getId());
                 }
                 
             }
@@ -119,7 +113,7 @@ public class CowModel implements InterfaceEvaluationModel{
         
         LinkedList list=cows.get(idCow);
         if(list==null){
-            cows.put(idCow, new LinkedList<IdHandler>());
+            cows.put(idCow.toString(), new LinkedList<IdHandler>());
         }
         result=result & cows.get(idCow).add(valoration.getId());
         

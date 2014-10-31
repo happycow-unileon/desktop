@@ -3,7 +3,6 @@ package es.unileon.happycow.database.concreteDatabase;
 import es.unileon.happycow.model.Rol;
 import es.unileon.happycow.model.User;
 import java.io.File;
-import java.io.IOException;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -45,9 +44,12 @@ public class SQLite extends DefaultDatabase {
             try {
                 // Connect to the database or create if it don't exist
                 conection = DriverManager.getConnection(stringConexion);
+                File fil=new File(pathDatabase);
+                System.out.println(fil.getAbsolutePath());
                 System.out.println("* Creating connection...");
                 //creamos la base de datos si no está creada
                 crearBaseDatos();
+                System.out.println("Start with criterions");
                 //cargamos los criterios
                 getListCriterion();
                 newUser(new User("Admin", "Admin", Rol.ADMINISTRADOR));
@@ -64,7 +66,7 @@ public class SQLite extends DefaultDatabase {
         //configuramos parámetros
         try {
             sql=conection.prepareStatement("PRAGMA foreign_keys = ON");
-            executeSQL(sql, TIPOSQL.CONSULTA);
+            executeSQL(sql, TIPOSQL.MODIFICACION);
         } catch (SQLException ex) {
             Logger.getLogger(SQLite.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

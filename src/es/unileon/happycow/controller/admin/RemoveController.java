@@ -44,7 +44,8 @@ public class RemoveController implements InterfaceController{
         boolean resultado;
         switch(remove){
             case CRITERION:
-                resultado=Database.getInstance().removeCriterion(new IdCriterion(target));
+                String targetModified=target.split("-")[0];
+                resultado=Database.getInstance().removeCriterion(new IdCriterion(targetModified));
                 if(resultado){
                     panel.removeElement(target);
                 }else{
@@ -69,7 +70,7 @@ public class RemoveController implements InterfaceController{
             case CRITERION:
                 LinkedList<Criterion> cri=Database.getInstance().getListCriterion();
                 for (Criterion criterion : cri) {
-                    list.add(criterion.getName());
+                    list.add(criterion.getName()+"-"+criterion.getCategory().toString());
                 }
                 panel.changeCombo(list);
                 break;

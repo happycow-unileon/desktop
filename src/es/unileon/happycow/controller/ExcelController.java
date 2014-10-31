@@ -1,11 +1,13 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.InterfaceExcelPanel;
 import es.unileon.happycow.gui.JFrameApplication;
 import es.unileon.happycow.gui.PanelExcel;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import es.unileon.happycow.model.Farm;
+import es.unileon.happycow.model.Rol;
 import es.unileon.happycow.model.User;
 import es.unileon.happycow.model.excel.DataExcel;
 import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
@@ -101,7 +103,9 @@ public class ExcelController implements InterfaceController {
 
                 Excel exc = new Excel(file);
                 if(exc.exportDataUsers(exportacion)){
-                    JFrameController.getInstance().comeBack();
+                    if(Database.getInstance().getUser().getRol()==Rol.VETERINARIO){
+                        JFrameController.getInstance().comeBack();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(JFrameApplication.getInstance(),
                             "Error en la exportación", "Error", JOptionPane.OK_OPTION);

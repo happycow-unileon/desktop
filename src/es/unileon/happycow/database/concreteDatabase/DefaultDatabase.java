@@ -34,8 +34,8 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     protected int nextIdValoration = -1;
     protected CriterionPrototype criterions;
     protected boolean criterionInitialized;
-    
-    protected Farm actualFarm;
+
+//    protected Farm actualFarm;
 
     protected enum TIPOSQL {
 
@@ -43,9 +43,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     };
 
     public DefaultDatabase() {
-        criterions=new CriterionPrototype();
-        criterionInitialized=false;
-        actualFarm=null;
+        criterions = new CriterionPrototype();
+        criterionInitialized = false;
+//        actualFarm = null;
     }
 
     @Override
@@ -114,7 +114,8 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     /**
      * Mejorar cuando se tenga las sentencias de delete on cascade
-     * @return 
+     *
+     * @return
      */
     @Override
     public boolean clearDB() {
@@ -260,10 +261,32 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             sql.executeUpdate();
 
             System.out.println("* Tables created");
-            
-            InsertCriterion fill=new InsertCriterion();
-            fill.execute(sql, conection);
-            sql.executeUpdate();
+            try {
+                sql=conection.prepareStatement("SELECT COUNT(*) FROM CRITERION");
+                result=sql.executeQuery();
+                
+                if(result.next()){
+                    int number=result.getInt(1);
+                    
+                    if(number<=0){
+                        InsertCriterion fill = new InsertCriterion();
+                        LinkedList<String> sentences=fill.execute();
+                        System.out.println("Sentencias de criterios recogida: "+sentences.size());
+                        if(sentences!=null){
+                            for (String sentence : sentences) {
+                                sql = conection.prepareStatement(sentence);
+                                sql.executeUpdate();
+                            }
+                        }else{
+                            System.out.println("No tenemos los criterios");
+                        }
+                    }else{
+                        System.out.println("Error, metiendo los criterios ya están metidos");
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
         } catch (SQLException e) {
             System.out.println("Error creando tablas: ".concat(e.toString()));
             throw new Exception("Error creando las tablas de la base de datos");
@@ -346,8 +369,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return weighting;
     }
 
-    
-    
     //usuarios
     @Override
     public User getUser() {
@@ -493,24 +514,23 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     }
 
     @Override
-    public boolean changePassword(IdHandler user, String password){
-        boolean resultChange=false;
+    public boolean changePassword(IdHandler user, String password) {
+        boolean resultChange = false;
         try {
-            sql=conection.prepareStatement("UPDATE USUARIO SET CONTRASENIA=? WHERE NOMBREUSUARIO=?");
+            sql = conection.prepareStatement("UPDATE USUARIO SET CONTRASENIA=? WHERE NOMBREUSUARIO=?");
             sql.setString(1, password);
             sql.setString(2, user.toString());
             executeSQL(sql, TIPOSQL.MODIFICACION);
-            resultChange=true;
+            resultChange = true;
         } catch (SQLException ex) {
             Logger.getLogger(DefaultDatabase.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(DefaultDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return resultChange;
     }
-    
-    
+
     //granjas
     @Override
     public LinkedList<Farm> getListFarms() {
@@ -519,23 +539,23 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     @Override
     public Farm getFarm(IdHandler id) {
-        if(actualFarm!=null){
-            if(actualFarm.getIdFarm().compareTo(id)==0){
-                return actualFarm;
-            }
-        }
-        
+//        if (actualFarm != null) {
+//            if (actualFarm.getIdFarm().compareTo(id) == 0) {
+//                return actualFarm;
+//            }
+//        }
+
         return this.getFarm(this.user.getId(), id);
     }
 
     @Override
     public Farm getFarm(IdHandler idUser, IdHandler idFarm) {
-        if(actualFarm!=null){
-            if(actualFarm.getIdFarm().compareTo(idFarm)==0){
-                return actualFarm;
-            }
-        }
-        Farm farm=null;
+//        if (actualFarm != null) {
+//            if (actualFarm.getIdFarm().compareTo(idFarm) == 0) {
+//                return actualFarm;
+//            }
+//        }
+        Farm farm = null;
         try {
             sql = conection.prepareStatement("SELECT * FROM FARM WHERE IDGRANJA=?");
             sql.setInt(1, Integer.parseInt(idFarm.toString()));
@@ -550,7 +570,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                         result.getString("DNIGANADERO"),
                         result.getInt("NUMEROVACAS"), idUser,
                         result.getString("OTROSDATOS"));
-                actualFarm=farm;
+//                actualFarm = farm;
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -560,7 +580,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     @Override
     public boolean newFarm(Farm farm) {
-        actualFarm=farm;
+//        actualFarm = farm;
         boolean resultFarm = false;
         try {
             sql = conection.prepareStatement("INSERT INTO FARM"
@@ -603,10 +623,10 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     protected boolean switchFarm(IdHandler id, boolean enabled) {
         boolean resultSwitch = false;
         String isEnabled;
-        if(enabled){
-            isEnabled="TRUE";
-        }else{
-            isEnabled="FALSE";
+        if (enabled) {
+            isEnabled = "TRUE";
+        } else {
+            isEnabled = "FALSE";
         }
         try {
             sql = conection.prepareStatement("UPDATE FARM SET "
@@ -624,7 +644,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     @Override
     public boolean removeFarm(Farm farm) {
-        actualFarm=null;
+//        actualFarm = null;
         boolean resultRemove = false;
         try {
             sql = conection.prepareStatement("DELETE FROM FARM WHERE IDGRANJA=?");
@@ -639,7 +659,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     @Override
     public boolean modifiedFarm(Farm farm) {
-        actualFarm=farm;
+//        actualFarm = farm;
         boolean modified = false;
         try {
             sql = conection.prepareStatement("UPDATE FARM SET "
@@ -751,15 +771,15 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
         return list;
     }
-    
+
     @Override
-    public int getNumberCow(IdHandler id, IdHandler evaluation){
-        int number=0;
-        if(actualFarm!=null){
-            if(actualFarm.getIdFarm().compareTo(id)==0){
-                number= actualFarm.getCowNumber();
-            }
-        }
+    public int getNumberCow(IdHandler id, IdHandler evaluation) {
+        int number = 0;
+//        if (actualFarm != null) {
+//            if (actualFarm.getIdFarm().compareTo(id) == 0) {
+//                number = actualFarm.getCowNumber();
+//            }
+//        }
         try {
             sql = conection.prepareStatement("SELECT NUMEROVACAS FROM FARM WHERE IDGRANJA=? AND IDEVALUATION=?");
             sql.setInt(1, Integer.parseInt(id.toString()));
@@ -768,22 +788,22 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             executeSQL(sql, TIPOSQL.CONSULTA);
 
             if (result.next()) {
-                number= result.getInt("NUMEROVACAS");
+                number = result.getInt("NUMEROVACAS");
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
         return number;
     }
-    
+
     @Override
-    public int getNumberCow(IdHandler id){
-        int number=0;
-        if(actualFarm!=null){
-            if(actualFarm.getIdFarm().compareTo(id)==0){
-                number= actualFarm.getCowNumber();
-            }
-        }
+    public int getNumberCow(IdHandler id) {
+        int number = 0;
+//        if (actualFarm != null) {
+//            if (actualFarm.getIdFarm().compareTo(id) == 0) {
+//                number = actualFarm.getCowNumber();
+//            }
+//        }
         try {
             sql = conection.prepareStatement("SELECT NUMEROVACAS FROM FARM WHERE IDGRANJA=?");
             sql.setInt(1, Integer.parseInt(id.toString()));
@@ -791,7 +811,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             executeSQL(sql, TIPOSQL.CONSULTA);
 
             if (result.next()) {
-                number= result.getInt("NUMEROVACAS");
+                number = result.getInt("NUMEROVACAS");
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -799,10 +819,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return number;
     }
 
-    
-    
-    
-    
     //evaluaciones
     @Override
     public LinkedList<InterfaceEvaluationModel> getListEvaluations(IdHandler idFarm) {
@@ -847,17 +863,17 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         InterfaceEvaluationModel evaluation = null;
         try {
             sql = conection.prepareStatement(
-                    "SELECT " +
-                    "E.IDEVALUATION, E.FECHA, E.NUMEROVACAS, E.IDGRANJA, E.NOTA AS NOTAEV, E.ALIMENTACION, E.SALUD, E.COMFORT, E.COMPORTAMIENTO," +
-                    "C.CATEGORIA, PCA.PONDERACION AS PONCATEGORIA, C.NOMBRECRITERIO, PCR.PONDERACION AS PONCRITERIO, V.NOTA, " +
-                    "V.IDVALORATION " +
-                    "FROM " +
-                    "EVALUATION AS E " +
-                    "LEFT JOIN CRITERION AS C " +
-                    "LEFT JOIN PONDERACIONCATEGORIA AS PCA ON PCA.CATEGORIA=C.CATEGORIA " +
-                    "LEFT JOIN VALORATION AS V  ON C.NOMBRECRITERIO=V.NOMBRECRITERIO " +
-                    "LEFT JOIN PONDERACIONCRITERIO AS PCR ON PCR.NOMBRECRITERIO=V.NOMBRECRITERIO AND PCR.IDEVALUATION=V.IDEVALUATION " +
-                    "WHERE V.IDEVALUATION=? AND PCA.IDEVALUATION=? AND E.IDEVALUATION=?");
+                    "SELECT "
+                    + "E.IDEVALUATION, E.FECHA, E.NUMEROVACAS, E.IDGRANJA, E.NOTA AS NOTAEV, E.ALIMENTACION, E.SALUD, E.COMFORT, E.COMPORTAMIENTO,"
+                    + "C.CATEGORIA, PCA.PONDERACION AS PONCATEGORIA, C.NOMBRECRITERIO, PCR.PONDERACION AS PONCRITERIO, V.NOTA, "
+                    + "V.IDVALORATION "
+                    + "FROM "
+                    + "EVALUATION AS E "
+                    + "LEFT JOIN CRITERION AS C "
+                    + "LEFT JOIN PONDERACIONCATEGORIA AS PCA ON PCA.CATEGORIA=C.CATEGORIA "
+                    + "LEFT JOIN VALORATION AS V  ON C.NOMBRECRITERIO=V.NOMBRECRITERIO "
+                    + "LEFT JOIN PONDERACIONCRITERIO AS PCR ON PCR.NOMBRECRITERIO=V.NOMBRECRITERIO AND PCR.IDEVALUATION=V.IDEVALUATION "
+                    + "WHERE V.IDEVALUATION=? AND PCA.IDEVALUATION=? AND E.IDEVALUATION=?");
             sql.setInt(1, Integer.parseInt(id.toString()));
             sql.setInt(2, Integer.parseInt(id.toString()));
             sql.setInt(3, Integer.parseInt(id.toString()));
@@ -873,22 +889,21 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     float comfort = result.getFloat("COMFORT");
                     float comportamiento = result.getFloat("COMPORTAMIENTO");
                     Date fecha = result.getDate("FECHA");
-                    int numberCow=result.getInt("NUMEROVACAS");
+                    int numberCow = result.getInt("NUMEROVACAS");
                     information = new InformationEvaluation(
                             id, idFarm, user.getId(), nota, alimentacion,
                             salud, comfort, comportamiento, fecha, numberCow);
                     evaluation = new EvaluationModel(true, information);
-                    firstTime=false;
+                    firstTime = false;
                 }
 
-                
                 IdHandler category = new IdCategory(result.getString("CATEGORIA"));
                 evaluation.setWeighing(category, result.getFloat("PONCATEGORIA"));
-                if(result.getString("NOMBRECRITERIO")!=null){
+                if (result.getString("NOMBRECRITERIO") != null) {
                     Criterion criterion = criterions.clone(result.getString("NOMBRECRITERIO"));
                     criterion.setWeighing(result.getFloat("PONCRITERIO"));
                     evaluation.add(category, criterion);
-                
+
                     Valoration valoration = new Valoration(new IdValoration(result.getInt("IDVALORATION")), result.getInt("NOTA"));
 
                     evaluation.add(category, criterion.getId(), valoration);
@@ -943,13 +958,13 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             if (saveEvaluation(evaluation.getInformation())) {
                 for (Category cat : Category.values()) {
                     ponderationCategory.add(new PonderationDB(
-                            Integer.parseInt(evaluation.getIdHandler().toString()), 
+                            Integer.parseInt(evaluation.getIdHandler().toString()),
                             Category.getName(cat),
                             evaluation.getWeighing(new IdCategory(cat))));
 
                     for (Criterion criterio : evaluation.getListCriterion(cat)) {
                         ponderationCriterion.add(new PonderationDB(
-                                Integer.parseInt(evaluation.getIdHandler().toString()), 
+                                Integer.parseInt(evaluation.getIdHandler().toString()),
                                 criterio.getName(), criterio.getWeighing()));
                         for (Valoration valoration : evaluation.listOfCriterion(criterio.getId())) {
                             if (!saveValoration(
@@ -1007,7 +1022,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         try {
             startTransaccion();
         } catch (SQLException ex) {
-            resultSave=false;
+            resultSave = false;
             Logger.getLogger(DefaultDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultSave = resultSave & removeEvaluation(evaluation.getIdHandler());
@@ -1064,7 +1079,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             borrar.append("delete from ponderacioncategoria where idevaluation = " + id.toString());
             preparedStatement = conection.prepareStatement(borrar.toString());
             preparedStatement.execute();
-            
+
             borrar = new StringBuilder();
             borrar.append("delete from evaluation where idevaluation = " + id.toString());
             preparedStatement = conection.prepareStatement(borrar.toString());
@@ -1076,9 +1091,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return resultRemove;
     }
 
-    
-    
-    
     //identificadores
     @Override
     public int nextIdFarm() {
@@ -1137,9 +1149,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return id;
     }
 
-    
-    
-    
     //criterios
     @Override
     public boolean newCriterion(Criterion criterion) {
@@ -1167,11 +1176,11 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     protected boolean isCriterionInitialized() {
         return criterionInitialized;
     }
-    
+
     @Override
     public LinkedList<Criterion> getListCriterion() {
-        if(!isCriterionInitialized()){
-            criterionInitialized=true;
+        if (!isCriterionInitialized()) {
+            criterionInitialized = true;
             try {
                 sql = conection.prepareStatement("SELECT * FROM CRITERION");
                 executeSQL(sql, TIPOSQL.CONSULTA);
@@ -1219,14 +1228,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return criterions.clone(id.toString());
     }
 
-    
-    
-    
-    
-    
     //funciones del backup
     @Override
-    public boolean saveValoration(ValorationDB valoration){
+    public boolean saveValoration(ValorationDB valoration) {
         boolean resultSave = false;
         try {
             sql = conection.prepareStatement("INSERT INTO VALORATION"
@@ -1245,8 +1249,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
         return resultSave;
     }
-    
-    
+
     @Override
     public LinkedList<Farm> getAllFarms() {
         LinkedList<Farm> farms = new LinkedList<>();
@@ -1373,10 +1376,10 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     @Override
     public boolean saveCategoryPonderation(LinkedList<PonderationDB> list) {
         boolean correct = true;
-            for (PonderationDB ponderationDB : list) {
-                correct = correct && newPonderacionCategoria(
-                        ponderationDB.getId(), ponderationDB.getName(), ponderationDB.getPonderation());
-            }
+        for (PonderationDB ponderationDB : list) {
+            correct = correct && newPonderacionCategoria(
+                    ponderationDB.getId(), ponderationDB.getName(), ponderationDB.getPonderation());
+        }
         return correct;
     }
 
@@ -1384,11 +1387,12 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         boolean nuevo = false;
         try {
             /**
-             * SetFloat del sql tiene errores de forma que si es 0.5, aparece 0.50000000000000342 y similares
-             * por ello se setea directamente en el sql
+             * SetFloat del sql tiene errores de forma que si es 0.5, aparece
+             * 0.50000000000000342 y similares por ello se setea directamente en
+             * el sql
              */
             sql = conection.prepareStatement("INSERT INTO PONDERACIONCATEGORIA"
-                    + "(IDEVALUATION,CATEGORIA,PONDERACION) VALUES(?,?,'"+ponderacion +"')");
+                    + "(IDEVALUATION,CATEGORIA,PONDERACION) VALUES(?,?,'" + ponderacion + "')");
             sql.setInt(1, idEvaluation);
             sql.setString(2, idCategoria);
             //sql.setFloat(3, ponderacion);
@@ -1416,11 +1420,12 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         boolean nuevo = false;
         try {
             /**
-             * SetFloat del sql tiene errores de forma que si es 0.5, aparece 0.50000000000000342 y similares
-             * por ello se setea directamente en el sql
+             * SetFloat del sql tiene errores de forma que si es 0.5, aparece
+             * 0.50000000000000342 y similares por ello se setea directamente en
+             * el sql
              */
             sql = conection.prepareStatement("INSERT INTO PONDERACIONCRITERIO"
-                    + "(IDEVALUATION, NOMBRECRITERIO, PONDERACION) VALUES(?,?,'"+ponderacion+"')");
+                    + "(IDEVALUATION, NOMBRECRITERIO, PONDERACION) VALUES(?,?,'" + ponderacion + "')");
             sql.setInt(1, idEvaluation);
             sql.setString(2, idCriterio.toString());
             //sql.setFloat(3, ponderacion);
@@ -1437,8 +1442,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     /**
      * La diferencia con el otro, es que este no hace commit
+     *
      * @param evaluation
-     * @return 
+     * @return
      */
     @Override
     public boolean saveEvaluationBackup(InterfaceEvaluationModel evaluation) {
@@ -1449,12 +1455,12 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             if (saveEvaluation(evaluation.getInformation())) {
                 for (Category cat : Category.values()) {
                     ponderationCategory.add(new PonderationDB(
-                            Integer.parseInt(evaluation.getIdHandler().toString()), 
+                            Integer.parseInt(evaluation.getIdHandler().toString()),
                             Category.getName(cat),
                             evaluation.getWeighing(new IdCategory(cat))));
                     for (Criterion criterio : evaluation.getListCriterion(cat)) {
                         ponderationCriterion.add(new PonderationDB(
-                                Integer.parseInt(evaluation.getIdHandler().toString()), 
+                                Integer.parseInt(evaluation.getIdHandler().toString()),
                                 criterio.getName(), criterio.getWeighing()));
                         for (Valoration valoration : evaluation.listOfCriterion(criterio.getId())) {
                             if (!saveValoration(

@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class Opciones extends javax.swing.JPanel {
     private final JFrameController controller=JFrameController.getInstance();
+    private boolean view;
 
     /**
      * Creates new form Opciones
@@ -27,7 +28,8 @@ public class Opciones extends javax.swing.JPanel {
     }
     
     private void createComponents(){
-        buttonView = new javax.swing.JButton("Modo Vacas/Criterios", new javax.swing.ImageIcon
+        view=true;
+        buttonView = new javax.swing.JButton("Modo criterios", new javax.swing.ImageIcon
                         (getClass().getResource("/images/view.png")));
         buttonComeBack = new javax.swing.JButton("Volver", new javax.swing.ImageIcon
                         (getClass().getResource("/images/back.png")));
@@ -47,7 +49,6 @@ public class Opciones extends javax.swing.JPanel {
         configureButton(buttonComeBack);
         configureButton(buttonView);
         configureButton(buttonContrasena);
-//        buttonView.setEnabled(false);
     }
     
     private void configureButton(JButton button){
@@ -119,6 +120,13 @@ public class Opciones extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(JFrameApplication.getInstance(), 
                 "Paciencia, funcionalidad no implementada", 
                 "No implementado", JOptionPane.INFORMATION_MESSAGE);
+        
+//        if(view){
+//            buttonView.setText("Modo Vacas");
+//        }else{
+//            buttonView.setText("Modo Criterios");
+//        }
+//        view=!view;
 //        controller.changeView();
     }
     

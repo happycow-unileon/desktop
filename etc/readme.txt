@@ -1,0 +1,1 @@
+Codigo fuente, javadoc y otras cosas de lo obtenido de JavaHelp para su uso en el programa (no se enlaza con el programa, es de donde sacamos la librería y el javadoc para sus correspondientes carpetas (bueno, el javadoc no lo sacamos))

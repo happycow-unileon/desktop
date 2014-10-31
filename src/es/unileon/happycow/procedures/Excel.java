@@ -191,7 +191,7 @@ public class Excel {
 
         paintCells(row, ColumnExcel.FARM_NAME.ordinal(), ColumnExcel.values().length, yellowBackground);
         row++;
-        for (InterfaceEvaluationModel interfaceEvaluationModel : farm.getListEvaluation()) {
+        for (InterfaceEvaluationModel interfaceEvaluationModel : Database.getInstance().getListEvaluations(farm.getIdUser(), farm.getIdFarm())) {
             
             row = writeEvaluation(row, Database.getInstance().getEvaluation(interfaceEvaluationModel.getIdHandler()));
             row++;
