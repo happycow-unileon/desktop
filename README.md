@@ -2,7 +2,9 @@ happycow
 ========
 Chicos, Ni se os ocurra subir nada específico de netbeans, eclipse y similares, eh? quiero decir, nada de las carpetas dist y build, nada de nbproject.properties ni .git, nada de .sqlite también.
 
-Para una correcta generación del jar, con sus librerías dentro y el splashscreeen, en el fichero build.xml de netbeans añadir dentro de las etiquetas project
+Para una correcta generación del jar, con sus librerías dentro y el splashscreeen, se necesita:
++ Incluir las carpetas help y resources como carpetas fuentes en netbeans
++ en el fichero build.xml de netbeans añadir dentro de las etiquetas project
 ATENCIÓN: falta una etiqueta target que github no muestra bien!, leer el readme
 <target name="-post-jar">
     <property name="store.jar.name" value="HappyCow"/>
