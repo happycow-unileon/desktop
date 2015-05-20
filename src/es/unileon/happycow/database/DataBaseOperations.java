@@ -7,8 +7,10 @@ import es.unileon.happycow.model.User;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
 import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -344,5 +346,12 @@ public interface DataBaseOperations {
     public boolean saveCriterionPonderation(LinkedList<PonderationDB> list);
     
     public boolean removeEvaluation(IdHandler id);
+    
+    public boolean saveFile(IdHandler handler, File file);
+    
+    public List<String> getFileNames(IdHandler idHandler);
+    
+    public byte[] getFile(IdHandler idHandler, String name);
+     
     
 }

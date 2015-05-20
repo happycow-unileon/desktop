@@ -192,18 +192,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         try {
             sql.executeUpdate();
             
-                        //tablas con los datos de los códigos y su usuario
-            sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ("
-                    + "IDEVALUATION NUMBER(38, 0),"
-                    + "FILE BLOB"
-                    + "EXTENSION NVARCHAR2(10),"
-                    + "FILENAME NVARCHAR2,"
-                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION),"
-                    + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)"
-                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
-
-            sql.executeUpdate();
-            
             //tablas con los datos de los códigos y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FARM ("
                     + "  IDGRANJA NUMBER(38, 0),"
@@ -279,6 +267,17 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     + "PONDERACION FLOAT(126),  "
                     + "CONSTRAINT PK_PONDERACIONCRITERIO PRIMARY KEY (IDEVALUATION, NOMBRECRITERIO))");
             sql.executeUpdate();
+            
+            sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ( "
+                    + "IDEVALUATION NUMBER(38, 0), "
+                    + "FILE BLOB, "
+                    + "EXTENSION NVARCHAR2(10), "
+                    + "FILENAME NVARCHAR2(100), "
+                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION), "
+                    + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)  "
+                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
+
+            sql.executeUpdate();
 
             System.out.println("* Tables created");
             try {
@@ -308,6 +307,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 System.out.println(e.toString());
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("Error creando tablas: ".concat(e.toString()));
             throw new Exception("Error creando las tablas de la base de datos");
         }
@@ -1503,9 +1503,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return resultSave;
     }
     
-    
+    @Override
     public boolean saveFile(IdHandler handler, File file) {
-        
+        System.out.println("ok jajja");
         boolean error = true;
         
         try {
@@ -1519,13 +1519,15 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             executeSQL(sql, TIPOSQL.MODIFICACION);
             error = false;
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         return error;
         
     }
     
-    public List<String> getFileNames(IdHandler idHandler) throws SQLException {
+    @Override    
+    public List<String> getFileNames(IdHandler idHandler) {
         List<String> fileNamesList = new ArrayList<>();
         try {
             sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
@@ -1533,17 +1535,42 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             
             executeSQL(sql, TIPOSQL.CONSULTA);
             while (result.next()) {
-                
+                fileNamesList.add(result.getString("FILENAME"));
             }
+            
         } catch (Exception ex) {
             
         }
         
         return fileNamesList;
         
-    }    
+    } 
     
-    //TODO mover a una clase de Utilidades
+    //Metodo que devuelve null si no se ha encontrado el fichero para una evaluacion
+    @Override
+    public byte[] getFile(IdHandler idHandler, String name) {
+        byte[] fileBytes = null;
+        boolean found = false;
+        try {
+            
+            sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=? AND FILENAME=?");
+            sql.setString(1,idHandler.toString());
+            sql.setString(2,name);
+            
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            
+            while (result.next() && !found) {
+                fileBytes = result.getBytes("FILE");
+                found = true;
+            }
+            
+        } catch (Exception ex) {
+            
+        }
+        
+        return fileBytes;
+    }
+    
     // Metodos auxiliares para los blobs
     private byte[] getByteArray(String url) {
 
@@ -1571,7 +1598,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         FileInputStream fileInputStream = null;
         
         byte[] bFile = new byte[(int) file.length()];
-
         try {
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(bFile);
@@ -1598,7 +1624,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
  
     }
     
-    private void saveFile(byte[] arr, String fileName, String extension) {
+    public static void saveFileToTheSystem(byte[] arr, String fileName, String extension) {
     
         FileOutputStream fos = null;
         try {
@@ -1626,4 +1652,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             return "";
         }
     }
+    
+    
 }
