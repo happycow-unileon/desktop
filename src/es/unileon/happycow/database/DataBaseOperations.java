@@ -353,5 +353,9 @@ public interface DataBaseOperations {
     
     public byte[] getFile(IdHandler idHandler, String name);
      
+    public void saveFileToTheSystem(byte[] arr, File file);
     
+    public LinkedList<FilesDB> getAllFiles();
+    
+    public boolean saveFiles(LinkedList<FilesDB> list);
 }

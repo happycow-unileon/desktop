@@ -271,11 +271,15 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ( "
                     + "IDEVALUATION NUMBER(38, 0), "
                     + "FILE BLOB, "
-                    + "EXTENSION NVARCHAR2(10), "
                     + "FILENAME NVARCHAR2(100), "
-                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION), "
-                    + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)  "
-                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
+                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION, FILENAME))");
+            /**
+             * TODO !!!
+             * Se ha quitado la constrain porque cuando la evaluación todavía no se ha guardado
+             * al guardar el fichero no tiene el id e incumple la foreign key
+             *  + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)  "
+                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);
+             */ 
 
             sql.executeUpdate();
 
@@ -1503,26 +1507,50 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         return resultSave;
     }
     
+    
+    
+    //funciones de los adjuntos para evaluaciones
     @Override
     public boolean saveFile(IdHandler handler, File file) {
-        System.out.println("ok jajja");
-        boolean error = true;
+        boolean correcto = true;
         
         try {
-            sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE, EXTENSION, FILENAME) VALUES(?,?,?, ?)");
+            sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
 
             byte[] arr = getByteArray(file); 
             sql.setString(1, handler.toString());
             sql.setBytes(2,arr);
-            sql.setString(3, getFileExtension(file));
-            sql.setString(4, file.getName());
+//            sql.setString(3, getFileExtension(file));
+            sql.setString(3, file.getName());
             executeSQL(sql, TIPOSQL.MODIFICACION);
-            error = false;
+           
         } catch (Exception ex) {
+             correcto = false;
             ex.printStackTrace();
         }
         
-        return error;
+        return correcto;
+        
+    }
+    
+    private boolean saveFile(IdHandler handler, byte[] arr, String name) {
+        boolean correcto = true;
+        
+        try {
+            sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
+
+            sql.setString(1, handler.toString());
+            sql.setBytes(2,arr);
+//            sql.setString(3, getFileExtension(file));
+            sql.setString(3, name);
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+           
+        } catch (Exception ex) {
+             correcto = false;
+            ex.printStackTrace();
+        }
+        
+        return correcto;
         
     }
     
@@ -1538,8 +1566,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 fileNamesList.add(result.getString("FILENAME"));
             }
             
+            System.out.println(fileNamesList.size());
         } catch (Exception ex) {
-            
+            System.out.println(ex.toString());
         }
         
         return fileNamesList;
@@ -1624,11 +1653,12 @@ public abstract class DefaultDatabase implements DataBaseOperations {
  
     }
     
-    public static void saveFileToTheSystem(byte[] arr, String fileName, String extension) {
+    @Override
+    public void saveFileToTheSystem(byte[] arr, File file) {
     
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(fileName + extension);
+            fos = new FileOutputStream(file);
             fos.write(arr);
             fos.close();
         } catch (FileNotFoundException ex) {
@@ -1644,14 +1674,42 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
     }
     
-    private String getFileExtension(File file) {
-        String fileName = file.getName();
-        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-            return fileName.substring(fileName.lastIndexOf(".") + 1);
-        } else {
-            return "";
+//    private String getFileExtension(File file) {
+//        String fileName = file.getName();
+//        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+//            return fileName.substring(fileName.lastIndexOf(".") + 1);
+//        } else {
+//            return "";
+//        }
+//    }
+    
+    @Override
+    public LinkedList<FilesDB> getAllFiles(){
+        LinkedList<FilesDB> list=new LinkedList<>();
+        byte[] fileBytes = null;
+        try {
+            
+            sql = conection.prepareStatement("SELECT * FROM FILES");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            
+            while (result.next()) {
+                fileBytes = result.getBytes("FILE");
+                int idEvaluation=result.getInt("IDEVALUATION");
+                String name=result.getString("FILENAME");
+                list.add(new FilesDB(idEvaluation, name, fileBytes));
+            }
+            
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
         }
+        
+        return list;
     }
     
-    
+    public boolean saveFiles(LinkedList<FilesDB> list){
+        for(FilesDB file: list){
+            saveFile(new IdEvaluation(file.getId()), file.getFile(), file.getFilename());
+        }
+        return true;
+    }
 }

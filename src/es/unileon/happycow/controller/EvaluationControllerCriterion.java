@@ -14,9 +14,12 @@ import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
 import es.unileon.happycow.procedures.Report;
 import es.unileon.happycow.strategy.AverageEvaluation;
 import es.unileon.happycow.strategy.EvaluationAlgorithm;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -36,11 +39,11 @@ public class EvaluationControllerCriterion implements InterfaceController {
         setNumberCows();
         panel.deshabilitarValoraciones();
         configurePanel();
-        if(model!=null){
+        if (model != null) {
             addAll();
         }
     }
-    
+
     public EvaluationControllerCriterion(InterfaceEvaluationCriterionPanel panel, IdHandler farm) {
         this.panel = panel;
         this.model = new EvaluationModel(true, farm);
@@ -50,21 +53,24 @@ public class EvaluationControllerCriterion implements InterfaceController {
         panel.deshabilitarValoraciones();
         configurePanel();
     }
-    
-    private void addAll(){
+
+    private void addAll() {
         for (Category category : Category.values()) {
-            LinkedList<String> criterios=new LinkedList<>();
+            LinkedList<String> criterios = new LinkedList<>();
             for (Criterion criterion : model.getListCriterion(category)) {
                 criterios.add(criterion.getName());
             }
             panel.setCriterion(category, criterios);
         }
+
+        List<String> list = Database.getInstance().getFileNames(model.getIdHandler());
+        panel.setListFiles(list);
     }
-    
-    private void configurePanel(){
+
+    private void configurePanel() {
         panel.setPonderationCategory(model.getWeighing(new IdCategory(panel.getSelectedCategory())));
     }
-    
+
     private void setNumberCows() {
         Farm farm = Database.getInstance().getFarm(model.getInformation().getIdFarm());
         int cows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
@@ -127,17 +133,17 @@ public class EvaluationControllerCriterion implements InterfaceController {
     }
 
     public void removeValoration(String valoration) {
-        String cortes[]=valoration.split(":");
-        float nota=Integer.parseInt(cortes[cortes.length-1].trim());
-        LinkedList<Valoration> val=model.listOfCriterion(new IdCriterion(panel.getCriterion()));
-        IdHandler idValoration=null;
-        for (Iterator<Valoration> it = val.iterator(); it.hasNext() && idValoration==null;) {
+        String cortes[] = valoration.split(":");
+        float nota = Integer.parseInt(cortes[cortes.length - 1].trim());
+        LinkedList<Valoration> val = model.listOfCriterion(new IdCriterion(panel.getCriterion()));
+        IdHandler idValoration = null;
+        for (Iterator<Valoration> it = val.iterator(); it.hasNext() && idValoration == null;) {
             Valoration valoration1 = it.next();
-            if(valoration1.getNota()==nota){
-                idValoration=valoration1.getId();
+            if (valoration1.getNota() == nota) {
+                idValoration = valoration1.getId();
             }
         }
-        if(idValoration!=null){
+        if (idValoration != null) {
             model.remove(idValoration);
             IdCriterion idCri = new IdCriterion(panel.getCriterion());
             int i = 1;
@@ -169,7 +175,7 @@ public class EvaluationControllerCriterion implements InterfaceController {
     public void changeCategory() {
         IdHandler category = new IdCategory(panel.getSelectedCategory());
         panel.setPonderationCategory(model.getWeighing(category));
-        if(panel.getCriterion()==null){
+        if (panel.getCriterion() == null) {
             panel.deshabilitarValoraciones();
         }
     }
@@ -198,12 +204,36 @@ public class EvaluationControllerCriterion implements InterfaceController {
     public void criterionSaved() {
         EvaluationAlgorithm calc = new AverageEvaluation(model);
         calc.calcular();
-        String total="Total: "+Float.toString(calc.getTotal()) +" * ";
-        String food="Alimentación: "+Float.toString(calc.getFood())+" * ";
-        String health="Salud: "+Float.toString(calc.getHealth())+" * ";
-        String house="Refugio: "+Float.toString(calc.getHouse())+" * ";
-        String behaviour="Comportamiento: "+Float.toString(calc.getBehaviour())+" * ";
-        
+        String total = "Total: " + Float.toString(calc.getTotal()) + " * ";
+        String food = "Alimentación: " + Float.toString(calc.getFood()) + " * ";
+        String health = "Salud: " + Float.toString(calc.getHealth()) + " * ";
+        String house = "Refugio: " + Float.toString(calc.getHouse()) + " * ";
+        String behaviour = "Comportamiento: " + Float.toString(calc.getBehaviour()) + " * ";
+
         panel.setInformation(total, food, health, house, behaviour);
+    }
+
+    public void addFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fileChooser.getSelectedFile();
+            Database.getInstance().saveFile(model.getIdHandler(), fichero);
+            panel.addFilePanel(fichero.getName());
+        }
+    }
+
+    public void downloadFile(String name) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int seleccion = fileChooser.showSaveDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fileChooser.getSelectedFile();
+            File downloaded=new File(fichero.getPath()+File.separator+name);
+            System.out.println(downloaded.getAbsolutePath());
+            byte[] data=Database.getInstance().getFile(model.getIdHandler(), name);
+            Database.getInstance().saveFileToTheSystem(data, downloaded);
+        }
     }
 }

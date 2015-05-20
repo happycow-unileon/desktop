@@ -2,24 +2,29 @@ package es.unileon.happycow.gui.evaluation;
 
 import es.unileon.happycow.controller.EvaluationControllerCriterion;
 import es.unileon.happycow.handler.Category;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
-import javax.swing.Box;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 
 /**
  *
  * @author dorian
  */
-public class PanelEvaluation extends javax.swing.JPanel implements InterfaceEvaluationCriterionPanel{
+public class PanelEvaluation extends javax.swing.JPanel implements InterfaceEvaluationCriterionPanel {
+
     private TabEvaluation[] panels;
     private Category categorySelected;
     private EvaluationControllerCriterion controller;
     private javax.swing.JTabbedPane panelPestanas;
     private javax.swing.JPanel panelInformation;
     private javax.swing.JScrollPane scrollInformation;
+
+    private javax.swing.JButton addFile;
 
     /**
      * Creates new form PanelEvaluation
@@ -34,63 +39,108 @@ public class PanelEvaluation extends javax.swing.JPanel implements InterfaceEval
         addEvents();
         addLayout();
     }
-    
-    private void createComponents(){
+
+    private void createComponents() {
         panelPestanas = new javax.swing.JTabbedPane();
-        panels=new TabEvaluation[4];
-        panels[Category.FOOD.ordinal()]=new TabEvaluation(Category.FOOD);
-        panels[Category.HEALTH.ordinal()]=new TabEvaluation(Category.HEALTH);
-        panels[Category.HOUSE.ordinal()]=new TabEvaluation(Category.HOUSE);
-        panels[Category.BEHAVIOUR.ordinal()]=new TabEvaluation(Category.BEHAVIOUR);
-        
+        panels = new TabEvaluation[4];
+        panels[Category.FOOD.ordinal()] = new TabEvaluation(Category.FOOD);
+        panels[Category.HEALTH.ordinal()] = new TabEvaluation(Category.HEALTH);
+        panels[Category.HOUSE.ordinal()] = new TabEvaluation(Category.HOUSE);
+        panels[Category.BEHAVIOUR.ordinal()] = new TabEvaluation(Category.BEHAVIOUR);
+
+        addFile = new JButton();
+
         scrollInformation = new javax.swing.JScrollPane();
         panelInformation = new javax.swing.JPanel();
     }
-    
-    private void configureComponents(){
-        categorySelected=Category.FOOD;
+
+    private void configureComponents() {
+        categorySelected = Category.FOOD;
         panelInformation.setPreferredSize(new java.awt.Dimension(60, 85));
         scrollInformation.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollInformation.setViewportView(panelInformation);
         scrollInformation.setMinimumSize(new java.awt.Dimension(60, 30));
-        scrollInformation.setMaximumSize(new java.awt.Dimension(150, Integer.MAX_VALUE));
-        panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.X_AXIS));
+        scrollInformation.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.Y_AXIS));
+
+        addFile.setText("Adjuntar archivo");
     }
-    
-    private void addEvents(){
+
+    private void addEvents() {
         panelPestanas.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 panelPestanasMouseClicked(evt);
             }
         });
+
+        addFile.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controller.addFile();
+            }
+        });
     }
-    
-    private void addLayout(){
-        setLayout(new java.awt.BorderLayout());
-        
+
+    private void addLayout() {
+//        setLayout(new java.awt.BorderLayout());
+//        
+//        panelPestanas.addTab(Category.getName(Category.FOOD), panels[Category.FOOD.ordinal()]);
+//        panelPestanas.addTab(Category.getName(Category.HEALTH), panels[Category.HEALTH.ordinal()]);
+//        panelPestanas.addTab(Category.getName(Category.HOUSE), panels[Category.HOUSE.ordinal()]);
+//        panelPestanas.addTab(Category.getName(Category.BEHAVIOUR), panels[Category.BEHAVIOUR.ordinal()]);
+//        add(panelPestanas, java.awt.BorderLayout.CENTER);
+//        
+//        add(scrollInformation, java.awt.BorderLayout.SOUTH);
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         panelPestanas.addTab(Category.getName(Category.FOOD), panels[Category.FOOD.ordinal()]);
         panelPestanas.addTab(Category.getName(Category.HEALTH), panels[Category.HEALTH.ordinal()]);
         panelPestanas.addTab(Category.getName(Category.HOUSE), panels[Category.HOUSE.ordinal()]);
         panelPestanas.addTab(Category.getName(Category.BEHAVIOUR), panels[Category.BEHAVIOUR.ordinal()]);
-        add(panelPestanas, java.awt.BorderLayout.CENTER);
-        
-        add(scrollInformation, java.awt.BorderLayout.SOUTH);
-        
-        
+        add(panelPestanas);
+        add(addFile);
+        add(scrollInformation);
+
     }
-    
-    
+
+    @Override
+    public void setListFiles(List<String> list) {
+        for (String name : list) {
+            final JButton button = new JButton(name);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    controller.downloadFile(button.getText());
+                }
+            });
+            panelInformation.add(button);
+        }
+        panelInformation.updateUI();
+    }
+
+    @Override
+    public void addFilePanel(String file) {
+        final JButton button = new JButton(file);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                controller.downloadFile(button.getText());
+            }
+        });
+        panelInformation.add(button);
+        panelInformation.updateUI();
+    }
 
     private void panelPestanasMouseClicked(java.awt.event.MouseEvent evt) {
-        categorySelected=Category.getEnum(panelPestanas.getSelectedIndex());
+        categorySelected = Category.getEnum(panelPestanas.getSelectedIndex());
         controller.changeCategory();
     }
 
-    private TabEvaluation getActualPanel(){
+    private TabEvaluation getActualPanel() {
         return panels[categorySelected.ordinal()];
     }
-    
+
     @Override
     public void setNumberCow(int number) {
         for (TabEvaluation tabEvaluation : panels) {
@@ -110,7 +160,7 @@ public class PanelEvaluation extends javax.swing.JPanel implements InterfaceEval
 
     @Override
     public void setController(EvaluationControllerCriterion controller) {
-        this.controller=controller;
+        this.controller = controller;
         for (TabEvaluation panel : panels) {
             panel.setController(controller);
         }
@@ -185,16 +235,16 @@ public class PanelEvaluation extends javax.swing.JPanel implements InterfaceEval
 
     @Override
     public void setInformation(String... information) {
-//        getActualPanel().setInformation(information);
-        panelInformation.removeAll();
-        panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.X_AXIS));
-        for (String string : information) {
-            JLabel info=new JLabel(string);
-            panelInformation.add(info);
-            panelInformation.add(Box.createHorizontalStrut(10));
-        }
-        panelInformation.add(Box.createHorizontalGlue());
-        panelInformation.updateUI();
+////        getActualPanel().setInformation(information);
+//        panelInformation.removeAll();
+//        panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.Y_AXIS));
+//        for (String string : information) {
+//            JLabel info=new JLabel(string);
+//            panelInformation.add(info);
+//            //panelInformation.add(Box.createHorizontalStrut(10));
+//        }
+//        //panelInformation.add(Box.createHorizontalGlue());
+//        panelInformation.updateUI();
     }
 
     @Override

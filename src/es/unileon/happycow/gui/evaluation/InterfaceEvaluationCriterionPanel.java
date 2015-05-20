@@ -3,6 +3,7 @@ package es.unileon.happycow.gui.evaluation;
 import es.unileon.happycow.controller.EvaluationControllerCriterion;
 import es.unileon.happycow.handler.Category;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 
 /**
@@ -23,6 +24,9 @@ public interface InterfaceEvaluationCriterionPanel {
     public void setModelCriterion(DefaultListModel list);
     public void setPonderationCriterion(float ponderation);
     public void setPonderationCategory(float ponderation);
+    
+    public void addFilePanel(String file);
+    public void setListFiles(List<String> list);
     
     public void setHelp(String help);
     public void deshabilitarValoraciones();

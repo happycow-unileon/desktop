@@ -116,7 +116,6 @@ public class InsertCriterion {
 
     private boolean getXml() {
         boolean result = true;
-        System.out.println("seguro que por aqui");
         try {
 //            URI path=new URI(getClass().getResourceAsStream("/criterions/CriterionsBase.xml"));
 //            String pathModified=path.getFile();

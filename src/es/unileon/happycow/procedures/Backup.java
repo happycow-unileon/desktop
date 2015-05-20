@@ -2,6 +2,7 @@ package es.unileon.happycow.procedures;
 
 import es.unileon.happycow.database.PonderationDB;
 import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database.FilesDB;
 import es.unileon.happycow.database.ValorationDB;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
@@ -60,6 +61,7 @@ public class Backup {
             File notas = new File(temporal, "notas");
             File ponderacionCriterio = new File(temporal, "ponCategorias");
             File ponderacionCategoria = new File(temporal, "ponCriterios");
+            File files = new File(temporal, "files");
             // Se abre el fichero donde se hará la copia
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(usuarios));
             LinkedList<User> users = Database.getInstance().getListUsers();
@@ -108,6 +110,13 @@ public class Backup {
             LinkedList<PonderationDB> ponderation = Database.getInstance().getCriterionPonderation();
             for (PonderationDB poncri : ponderation) {
                 oos.writeObject(poncri);
+            }
+            oos.close();
+            
+            oos = new ObjectOutputStream(new FileOutputStream(files));
+            LinkedList<FilesDB> filesAdj = Database.getInstance().getAllFiles();
+            for (FilesDB file : filesAdj) {
+                oos.writeObject(file);
             }
             oos.close();
             
@@ -278,6 +287,7 @@ public class Backup {
                     File notas = new File(temporal, "notas");
                     File ponderacionCriterio = new File(temporal, "ponCategorias");
                     File ponderacionCategoria = new File(temporal, "ponCriterios");
+                    File files = new File(temporal, "files");
 
 
                     // Se abre el fichero donde se hará la copia
@@ -370,6 +380,21 @@ public class Backup {
                         System.out.println(o.toString());
                     }
                     result=result & Database.getInstance().saveCriterionPonderation(list);
+                    oos.close();
+                    
+                    oos = new ObjectInputStream(new FileInputStream(files));
+                    LinkedList<FilesDB> listFiles=new LinkedList<>();
+                    try{
+                    FilesDB pon=(FilesDB)oos.readObject();
+                        while(pon!=null){
+                            listFiles.add(pon);
+                            pon=(FilesDB)oos.readObject();
+                        }
+                        
+                    }catch(EOFException o){
+                        System.out.println(o.toString());
+                    }
+                    result=result & Database.getInstance().saveFiles(listFiles);
                     oos.close();
                 }
             }catch(IOException | ClassNotFoundException e){

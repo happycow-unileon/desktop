@@ -7,6 +7,7 @@
 package es.unileon.happycow.database;
 
 import es.unileon.happycow.handler.IdHandler;
+import java.io.IOException;
 
 /**
  *
@@ -71,6 +72,21 @@ public class ValorationDB {
 
     public void setWeighing(float weighing) {
         this.weighing = weighing;
+    }
+    
+    
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException {
+        stream.writeObject(idValoration);
+        stream.writeObject(idEvaluation);
+        stream.writeObject(idCriterion);
+        stream.writeFloat(nota);
+        stream.writeFloat(weighing);
     }
     
     

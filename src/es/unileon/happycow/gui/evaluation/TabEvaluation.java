@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 
@@ -67,8 +68,6 @@ public class TabEvaluation extends javax.swing.JPanel implements InterfaceEvalua
     }
     
     private void createComponents(){
-//        scrollInformation = new javax.swing.JScrollPane();
-//        panelInformation = new javax.swing.JPanel();
         scrollCriterion = new javax.swing.JScrollPane();
         jListCriterion = new javax.swing.JList();
         scrollValoration = new javax.swing.JScrollPane();
@@ -101,7 +100,6 @@ public class TabEvaluation extends javax.swing.JPanel implements InterfaceEvalua
         setLayout(new java.awt.GridBagLayout());
         upperPanel.setLayout(new java.awt.GridBagLayout());
         bottomPanel.setLayout(new java.awt.GridBagLayout());
-//        panelInformation.setLayout(new java.awt.FlowLayout());
         
         textPonderationCategory.setColumns(5);
         textPonderationCategory.setHorizontalAlignment(JTextField.CENTER);
@@ -119,11 +117,6 @@ public class TabEvaluation extends javax.swing.JPanel implements InterfaceEvalua
         buttonEvaluated.setToolTipText("Marque el criterio como evaluado");
         buttonEvaluatedAll.setToolTipText("Evaluación de la granja finalizada");
         
-//        panelInformation.setPreferredSize(new java.awt.Dimension(60, 85));
-//        scrollInformation.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//        scrollInformation.setViewportView(panelInformation);
-//        scrollInformation.setMinimumSize(new java.awt.Dimension(60, 30));
-//        scrollInformation.setMaximumSize(new java.awt.Dimension(150, Integer.MAX_VALUE));
         textPaneHelp.setContentType("text/html");
         textPaneHelp.setEnabled(false);
         textPaneHelp.setDisabledTextColor(Color.BLACK);
@@ -131,9 +124,6 @@ public class TabEvaluation extends javax.swing.JPanel implements InterfaceEvalua
         
         jListValorations.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListValorations.setToolTipText("Valoraciones realizadas");
-//        jListValorations.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-//        jListValorations.setPreferredSize(new java.awt.Dimension(120, 85));
-//        scrollValoration.setMinimumSize(new java.awt.Dimension(60, 30));
         scrollValoration.setViewportView(jListValorations);
         jListValorations.setModel(modelValoration);
         
@@ -593,6 +583,16 @@ public class TabEvaluation extends javax.swing.JPanel implements InterfaceEvalua
             }
             setModelCriterion(listIcon);
         }
+    }
+
+    @Override
+    public void addFilePanel(String file) {
+        
+    }
+
+    @Override
+    public void setListFiles(List<String> list) {
+        
     }
 
 }

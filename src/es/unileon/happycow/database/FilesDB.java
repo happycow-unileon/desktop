@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package es.unileon.happycow.database;
 
 import java.io.IOException;
@@ -13,24 +12,20 @@ import java.io.Serializable;
  *
  * @author dorian
  */
-public class PonderationDB implements Serializable{
-    /**
-     * Identificador de la evaluación
-     */
-    private int id;
-    /**
-     * Nombre de lo que pondera (categoría o criterio)
-     */
-    private String name;
-    /**
-     * La ponderación
-     */
-    private float ponderation;
+public class FilesDB implements Serializable {
 
-    public PonderationDB(int id, String name, float ponderation) {
+    //identificador de la evaluación
+
+    private int id;
+
+    private String filename;
+
+    private byte[] file;
+
+    public FilesDB(int id, String filename, byte[] file) {
         this.id = id;
-        this.name = name;
-        this.ponderation = ponderation;
+        this.filename = filename;
+        this.file = file;
     }
 
     public int getId() {
@@ -41,20 +36,20 @@ public class PonderationDB implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFilename() {
+        return filename;
     }
 
-    public float getPonderation() {
-        return ponderation;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public byte[] getFile() {
+        return file;
     }
 
-    public void setPonderation(float ponderation) {
-        this.ponderation = ponderation;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
     
     private void readObject(java.io.ObjectInputStream stream)
@@ -65,9 +60,9 @@ public class PonderationDB implements Serializable{
     private void writeObject(java.io.ObjectOutputStream stream)
             throws IOException {
         stream.writeObject(id);
-        stream.writeObject(name);
-        stream.writeFloat(ponderation);
+        stream.writeObject(filename);
+        stream.write(file);
    // Aquí escribimos en stream los bytes que queramos que se envien por red.
     }
-    
+
 }
