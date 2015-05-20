@@ -8,6 +8,11 @@ import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
 import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -15,7 +20,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -184,7 +191,19 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 + "  CONSTRAINT PK_USUARIO PRIMARY KEY (NOMBREUSUARIO));");
         try {
             sql.executeUpdate();
+            
+                        //tablas con los datos de los códigos y su usuario
+            sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ("
+                    + "IDEVALUATION NUMBER(38, 0),"
+                    + "FILE BLOB"
+                    + "EXTENSION NVARCHAR2(10),"
+                    + "FILENAME NVARCHAR2,"
+                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION),"
+                    + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)"
+                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
 
+            sql.executeUpdate();
+            
             //tablas con los datos de los códigos y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FARM ("
                     + "  IDGRANJA NUMBER(38, 0),"
@@ -203,6 +222,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     + "  CONSTRAINT KEY_FARM_IDGRANJA UNIQUE (IDGRANJA));");
 
             sql.executeUpdate();
+            
 
             //tablas con registro de los tipos de codigos usados y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS EVALUATION ("
@@ -1482,5 +1502,128 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
         return resultSave;
     }
+    
+    
+    public boolean saveFile(IdHandler handler, File file) {
+        
+        boolean error = true;
+        
+        try {
+            sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE, EXTENSION, FILENAME) VALUES(?,?,?, ?)");
 
+            byte[] arr = getByteArray(file); 
+            sql.setString(1, handler.toString());
+            sql.setBytes(2,arr);
+            sql.setString(3, getFileExtension(file));
+            sql.setString(4, file.getName());
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+            error = false;
+        } catch (Exception ex) {
+        }
+        
+        return error;
+        
+    }
+    
+    public List<String> getFileNames(IdHandler idHandler) throws SQLException {
+        List<String> fileNamesList = new ArrayList<>();
+        try {
+            sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
+            sql.setString(1,idHandler.toString());
+            
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            while (result.next()) {
+                
+            }
+        } catch (Exception ex) {
+            
+        }
+        
+        return fileNamesList;
+        
+    }    
+    
+    //TODO mover a una clase de Utilidades
+    // Metodos auxiliares para los blobs
+    private byte[] getByteArray(String url) {
+
+        FileInputStream fileInputStream = null;
+
+        File file = new File(url);
+
+        byte[] bFile = new byte[(int) file.length()];
+
+        try {
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+            
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bFile;
+    }
+
+    private byte[] getByteArray(File file) {
+
+        FileInputStream fileInputStream = null;
+        
+        byte[] bFile = new byte[(int) file.length()];
+
+        try {
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+            
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bFile;
+    }
+    
+    private FileInputStream getFileStream(String url) {
+        FileInputStream fileInputStream = null;
+        try {
+            File file = new File(url);
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+           ex.printStackTrace();
+        }
+        
+        return fileInputStream;
+ 
+    }
+    
+    private void saveFile(byte[] arr, String fileName, String extension) {
+    
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(fileName + extension);
+            fos.write(arr);
+            fos.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private String getFileExtension(File file) {
+        String fileName = file.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
+    }
 }
