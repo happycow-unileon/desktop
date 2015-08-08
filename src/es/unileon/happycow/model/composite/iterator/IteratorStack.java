@@ -1,6 +1,5 @@
 package es.unileon.happycow.model.composite.iterator;
 
-import java.util.LinkedList;
 import java.util.Stack;
 
 import es.unileon.happycow.model.composite.Component;
@@ -34,5 +33,10 @@ public class IteratorStack implements Iterator<Component> {
 	public boolean hasNext() {
 		return !stack.isEmpty();
 	}
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

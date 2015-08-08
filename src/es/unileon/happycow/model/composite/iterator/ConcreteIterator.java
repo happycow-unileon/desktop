@@ -36,4 +36,9 @@ public class ConcreteIterator implements Iterator<Component> {
 		return !queue.isEmpty();
 	}
 
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

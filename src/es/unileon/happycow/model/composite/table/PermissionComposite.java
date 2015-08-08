@@ -2,12 +2,12 @@ package es.unileon.happycow.model.composite.table;
 
 import java.util.HashMap;
 
-public class Table {
+public class PermissionComposite {
 
     private HashMap<String, Boolean> _hashMap;
-    private static Table _table;
+    private static PermissionComposite _table;
 
-    private Table() {
+    private PermissionComposite() {
         this._hashMap = new HashMap<String, Boolean>();
 
         // Evaluacion
@@ -41,9 +41,9 @@ public class Table {
         return false;
     }
 
-    public static Table getInstance() {
+    public static PermissionComposite getInstance() {
         if (_table == null) {
-            _table = new Table();
+            _table = new PermissionComposite();
         }
         return _table;
     }

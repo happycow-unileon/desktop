@@ -1,26 +1,24 @@
 package es.unileon.happycow.model.composite;
 
-import es.unileon.happycow.database.*;
-import es.unileon.happycow.handler.*;
-import es.unileon.happycow.model.InformationEvaluation;
+import es.unileon.happycow.database.Database;
+import es.unileon.happycow.handler.IdGeneric;
+import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdValoration;
 import es.unileon.happycow.model.composite.iterator.Iterator;
+import es.unileon.happycow.model.composite.iterator.IteratorException;
 import es.unileon.happycow.model.composite.table.Entity;
 
-public class Valoration implements Component {
+public class Valoration extends Component {
 
-    public static final Entity TYPE = Entity.VALORATION;
-
-    private IdHandler _idHandler;
-    private float _weighing;
     private float nota;
-    private Component parent;
-    private Component root;
 
     public Valoration(IdHandler idHandler, float nota) {
-        _idHandler = idHandler;
         this.nota = nota;
         //por defecto el peso es 1
-        this._weighing = 1;
+        
+        this.TYPE=Entity.VALORATION;
+        id = idHandler;
+        _weighing = 1;
     }
 
     public Valoration(float nota) {
@@ -55,68 +53,52 @@ public class Valoration implements Component {
         return true;
     }
 
-    @Override
-    public void show(int depth) {
-        System.out.println(_idHandler.toString() + " --> " + depth);
-    }
 
     @Override
     public Component search(IdHandler id) {
-        if (_idHandler.compareTo(id) == 0) {
+        if (this.id.compareTo(id) == 0) {
             return this;
         }
 
         return null;
     }
 
+
     @Override
-    public IdHandler getId() {
-        return _idHandler;
+    public Iterator<Component> iterator(String[] args) throws IteratorException {
+        throw new IteratorException("Leaf");
     }
 
     @Override
-    public Iterator<Component> iterator(String[] args) {
-        return null;
+    public boolean remove(Component delete) {
+        return false;
     }
 
     @Override
-    public Entity getLevel() {
-        return TYPE;
+    public int size() {
+        return 1;
     }
 
     @Override
-    public float getWeighing() {
-        return _weighing;
+    public Component search(String id) {
+        return this.search(new IdGeneric(id));
     }
 
     @Override
-    public void setWeighing(float weighing) {
-        this._weighing = weighing;
+    public String show(int depth) {
+        StringBuilder result=new StringBuilder();
+        result.append(id.toString()).append(" --> ").append(depth);
+        result.append("\n");
+        return result.toString();
     }
-
+    
     @Override
-    public Component getParent() {
-        return parent;
-    }
+    public boolean delete(Component component) {
+        boolean isRemoved = false;
 
-    @Override
-    public Component getRoot() {
-        return root;
-    }
+        isRemoved = _list.remove(component);
 
-    @Override
-    public void setParent(Component parent) {
-        this.parent = parent;
-    }
-
-    @Override
-    public void setRoot(Component root) {
-        this.root = root;
-    }
-
-    @Override
-    public InformationEvaluation getInformation() {
-        return this.root.getInformation();
+        return isRemoved;
     }
 
 }

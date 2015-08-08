@@ -2,6 +2,7 @@ package es.unileon.happycow.model.composite;
 
 import es.unileon.happycow.handler.*;
 import es.unileon.happycow.model.composite.table.Entity;
+import java.util.LinkedList;
 
 public class Criterion extends Composite implements Cloneable {
 
@@ -51,11 +52,16 @@ public class Criterion extends Composite implements Cloneable {
      * @param name the name
      */
     public Criterion(IdHandler idCriterion, IdHandler category, String description, String help, int weighing) {
-        super(Entity.CRITERION, idCriterion);
+
         this.category = category;
         this.description = description;
         this.help = help;
         this.name = idCriterion.toString();
+        
+        this.TYPE=Entity.CRITERION;
+        id = idCriterion;
+        _list = new LinkedList<>();
+        _weighing = weighing;
     }
 
     public Criterion(String name, IdHandler category, String description, String help, int weighing) {
@@ -65,6 +71,7 @@ public class Criterion extends Composite implements Cloneable {
     public Criterion(String name, IdHandler category, String description, String help) {
         this(new IdCriterion(name), category, description, help, 1);
     }
+    
 
     /**
      * Get the category
@@ -102,10 +109,6 @@ public class Criterion extends Composite implements Cloneable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
     
     @Override
     public Object clone() throws CloneNotSupportedException {

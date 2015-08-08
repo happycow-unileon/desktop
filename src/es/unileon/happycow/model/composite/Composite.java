@@ -2,71 +2,39 @@ package es.unileon.happycow.model.composite;
 
 import es.unileon.happycow.handler.IdGeneric;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.InformationEvaluation;
-import es.unileon.happycow.model.composite.table.Table;
 import es.unileon.happycow.model.composite.iterator.ConcreteIterator;
-import es.unileon.happycow.model.composite.iterator.Iterator;
 import es.unileon.happycow.model.composite.iterator.IteratorClassify;
 import es.unileon.happycow.model.composite.iterator.IteratorCriterion;
 import es.unileon.happycow.model.composite.iterator.IteratorException;
 import es.unileon.happycow.model.composite.iterator.IteratorStack;
-import es.unileon.happycow.model.composite.table.Entity;
+import es.unileon.happycow.model.composite.table.PermissionComposite;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  *
  * @author amdiaz
  */
-public abstract class Composite implements Component {
-
-    private Entity TYPE;
-
-    private final IdHandler _idHandler;
-    private final LinkedList<Component> _list;
-    private float _weighing;
-    private Component parent;
-    private Component root;
-
-    public Composite(Entity type, IdHandler idHandler) {
-        _idHandler = idHandler;
-        this.TYPE = type;
-        _list = new LinkedList<>();
-        _weighing = 1;
-    }
-
-    public Composite(Entity type, IdHandler idHandler, int weighing) {
-        this.TYPE=type;
-        _idHandler = idHandler;
-        _list = new LinkedList<>();
-        _weighing = weighing;
-    }
-
-    @Override
-    public Entity getLevel() {
-        return TYPE;
-    }
-
-    public LinkedList<Component> getList() {
-        return _list;
-    }
-
+public abstract class Composite extends Component {
+    
     @Override
     public boolean isLeaf() {
         return false;
     }
 
-    public boolean add(Component component) {
+    @Override
+    public void add(Component component) throws CompositeException{
         if (component != null) {
             if (this.search(component.getId()) == null) {
-                if (Table.getInstance().canAdd(getLevel(), component.getLevel())) {
+                if (PermissionComposite.getInstance().canAdd(getType(), component.getType())) {
                     component.setParent(this);
                     component.setRoot(root);
-                    return _list.add(component);
+                    _list.add(component);
+                }else{
+                    throw new CompositeException("No se puede añadir.");
                 }
             }
         }
-
-        return false;
 
     }
 
@@ -74,6 +42,7 @@ public abstract class Composite implements Component {
         return _list.remove(component);
     }
 
+    @Override
     public boolean delete(Component component) {
         boolean isRemoved = false;
 
@@ -93,17 +62,25 @@ public abstract class Composite implements Component {
     }
 
     @Override
-    public void show(int depth) {
-        System.out.println(_idHandler.toString() + " --> " + depth);
+    public String show(int depth) {
+        StringBuilder result=new StringBuilder();
+        result.append(id.toString()).append(" --> ").append(depth);
+        result.append("\n");
         for (int i = 0; i < _list.size(); i++) {
-            _list.get(i).show(depth + 1);
+            result.append(_list.get(i).show(depth + 1));
         }
+        return result.toString();
     }
+    
+    @Override
+	public int size() {
+		return _list.size();
+	}
 
     @Override
     public Component search(IdHandler id) {
         Component find = null;
-        if (_idHandler.compareTo(id) == 0) {
+        if (this.id.compareTo(id) == 0) {
             find = this;
         } else {
             for (int i = 0; i < _list.size() && find == null; i++) {
@@ -113,10 +90,9 @@ public abstract class Composite implements Component {
 
         return find;
     }
-
-    @Override
-    public IdHandler getId() {
-        return _idHandler;
+    
+    public Component search(String id){
+        return search(new IdGeneric(id));
     }
 
     // Es el encargado de instanciar uno u otro iterador concreto
@@ -146,39 +122,5 @@ public abstract class Composite implements Component {
     public LinkedList<Component> getChildren() {
         return _list;
     }
-
-    @Override
-    public float getWeighing() {
-        return _weighing;
-    }
-
-    @Override
-    public void setWeighing(float weighing) {
-        this._weighing = weighing;
-    }
-
-    @Override
-    public Component getParent() {
-        return parent;
-    }
-
-    @Override
-    public Component getRoot() {
-        return root;
-    }
-
-    @Override
-    public void setParent(Component parent) {
-        this.parent = parent;
-    }
-
-    @Override
-    public void setRoot(Component root) {
-        this.root = root;
-    }
-
-    @Override
-    public InformationEvaluation getInformation() {
-        return this.root.getInformation();
-    }
+    
 }
