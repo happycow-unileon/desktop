@@ -5,9 +5,6 @@
  */
 package es.unileon.happycow;
 
-import es.unileon.happycow.model.FarmTest;
-import es.unileon.happycow.model.InformationEvaluationTest;
-import es.unileon.happycow.model.UserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -16,9 +13,7 @@ import org.junit.runners.Suite;
  * @author dorian
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({FarmTest.class,
-                    InformationEvaluationTest.class,
-                    UserTest.class})
+@Suite.SuiteClasses({})
 public class TestSuiteHappycow {
     
 }

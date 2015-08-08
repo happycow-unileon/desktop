@@ -5,15 +5,10 @@
  */
 package es.unileon.happycow.database;
 
-import es.unileon.happycow.database.DataBaseOperations;
-import es.unileon.happycow.database.Database;
-import es.unileon.happycow.database.TypeDatabase;
 import es.unileon.happycow.database.concreteDatabase.Oracle;
 import es.unileon.happycow.database.concreteDatabase.SQLite;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
