@@ -27,7 +27,6 @@ public class SQLite extends DefaultDatabase {
         if (conection == null) {
             System.out.println("* Starting...");
             
-
             //cargamos el driver
             try {
                 Class.forName("org.sqlite.JDBC"); //Load driver

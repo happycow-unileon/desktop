@@ -1,7 +1,5 @@
 package es.unileon.happycow.handler;
 
-import java.io.Serializable;
-
 /**
  *
  * @author dorian
@@ -12,7 +10,6 @@ public class IdFarm implements IdHandler {
     private int idFarm;
 
     public IdFarm(int idFarm) {
-        // this.idUser=Database.getInstance().getUser().getId();
         this.idFarm = idFarm;
     }
 

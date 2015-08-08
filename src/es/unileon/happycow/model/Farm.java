@@ -1,8 +1,7 @@
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.database.*;
+
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,11 +23,13 @@ public class Farm implements Serializable{
     private IdHandler idUser;
     private String otherData;
     private boolean enabled;
-    private LinkedList<InterfaceEvaluationModel> list;
+    private LinkedList<InformationEvaluation> list;
+    
+    private boolean listLoaded;
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, String otherData, LinkedList<InterfaceEvaluationModel> list, boolean enabled) {
+            IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list, boolean enabled) {
         this.idFarm = idFarm;
         this.farmName = farmName;
         this.address = address;
@@ -36,6 +37,12 @@ public class Farm implements Serializable{
         this.dniFarmer = dniFarmer;
         this.cowNumber = cowNumber;
         this.idUser = idUser;
+        if(list==null){
+            listLoaded=false;
+            list=new LinkedList<>();
+        }else{
+            listLoaded=true;
+        }
         this.list = list;
         this.otherData = otherData;
         this.farmIdentifier = farmIdentifier;
@@ -44,7 +51,7 @@ public class Farm implements Serializable{
     
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, String otherData, LinkedList<InterfaceEvaluationModel> list) {
+            IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list) {
         this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, list, true);
     }
 
@@ -62,8 +69,8 @@ public class Farm implements Serializable{
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, LinkedList<InterfaceEvaluationModel> list) {
-        this(idFarm, farmName, address, farmerName, farmIdentifier, dniFarmer, cowNumber, idUser, "", list, true);
+            IdHandler idUser, LinkedList<InformationEvaluation> list) {
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", list, true);
     }
     
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
@@ -80,8 +87,8 @@ public class Farm implements Serializable{
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, LinkedList<InterfaceEvaluationModel> list, boolean enabled) {
-        this(idFarm, farmName, address, farmerName, farmIdentifier, dniFarmer, cowNumber, idUser, "", list, enabled);
+            IdHandler idUser, LinkedList<InformationEvaluation> list, boolean enabled) {
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", list, enabled);
     }
 
     public boolean isEnabled() {
@@ -152,9 +159,13 @@ public class Farm implements Serializable{
         this.otherData = otherData;
     }
 
-    public void addEvaluation(InterfaceEvaluationModel evaluation) {
-        if(list==null){
-            list=new LinkedList<>();
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void addEvaluation(InformationEvaluation evaluation) {
+        if(!listLoaded){
+            getListEvaluation();
         }
         if (!getListEvaluation().contains(evaluation)) {
             list.add(evaluation);
@@ -162,28 +173,28 @@ public class Farm implements Serializable{
     }
 
     public void removeEvaluation(IdHandler evaluation) {
-        InterfaceEvaluationModel target = null;
-        if (list == null) {
+        InformationEvaluation target = null;
+        if (!listLoaded) {
             getListEvaluation();
         }
-        for (Iterator<InterfaceEvaluationModel> it = list.iterator(); it.hasNext() && target == null;) {
-            InterfaceEvaluationModel eval = it.next();
-            if (eval.getIdHandler().compareTo(evaluation) == 0) {
+        for (Iterator<InformationEvaluation> it = list.iterator(); it.hasNext() && target == null;) {
+            InformationEvaluation eval = it.next();
+            if (eval.getIdEvaluation().compareTo(evaluation) == 0) {
                 target = eval;
             }
         }
         list.remove(target);
     }
 
-    public InterfaceEvaluationModel getEvaluation(IdHandler evaluation) {
+    public InformationEvaluation getEvaluation(IdHandler evaluation) {
         int target = -1;
-        if (list == null) {
+        if (!listLoaded) {
             getListEvaluation();
         }
         int index = 0;
-        for (Iterator<InterfaceEvaluationModel> it = list.iterator(); it.hasNext() && target < -1;) {
-            InterfaceEvaluationModel eval = it.next();
-            if (eval.getIdHandler().compareTo(evaluation) == 0) {
+        for (Iterator<InformationEvaluation> it = list.iterator(); it.hasNext() && target <= -1;) {
+            InformationEvaluation eval = it.next();
+            if (eval.getIdEvaluation().compareTo(evaluation) == 0) {
                 target = index;
             }
             index++;
@@ -195,10 +206,12 @@ public class Farm implements Serializable{
         }
     }
 
-    public LinkedList<InterfaceEvaluationModel> getListEvaluation() {
-        if (list == null) {
-           list = Database.getInstance().getListEvaluations(idFarm);
+    public LinkedList<InformationEvaluation> getListEvaluation() {
+        if (!listLoaded) {
+            //TODO
+           //list = Database.getInstance().getListEvaluations(idFarm);
         }
+        listLoaded=true;
         return list;
     }
 

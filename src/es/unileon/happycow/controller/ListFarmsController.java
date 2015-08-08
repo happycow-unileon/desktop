@@ -1,7 +1,8 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.database.*;
-import es.unileon.happycow.gui.PanelListFarms;
+import es.unileon.happycow.application.JFrameController;
+import es.unileon.happycow.application.Window;
+import es.unileon.happycow.gui.panels.PanelListFarms;
 import es.unileon.happycow.handler.IdHandler;
 
 /**
@@ -16,7 +17,8 @@ public class ListFarmsController implements ButtonFarmInterfaceController{
     /**
      * Controlador concreto
      */
-    private final JFrameController fatherController;
+
+    private JFrameController fatherController;
 
     /**
      * Constructor que recibe el panel que controla
@@ -24,28 +26,27 @@ public class ListFarmsController implements ButtonFarmInterfaceController{
      */
     public ListFarmsController(PanelListFarms panel) {
         this.panel = panel;
-        this.fatherController = JFrameController.getInstance();
     }
     
     /**
      * Salida
      */
     public void exit(){
-        fatherController.login();
+        fatherController.setState(Window.LOGIN);
     }
     
     /**
      * Nueva granja
      */
     public void newFarm(){
-        fatherController.newFarm(null);
+        fatherController.setState(Window.NEW_FARM);
     }
     
     /**
      * Ir a la lista de granjas inahibilitadas para habilitar
      */
     public void enableFarm(){
-        fatherController.enableFarm();
+//        fatherController.enableFarm();
     }
     
     /**
@@ -53,12 +54,17 @@ public class ListFarmsController implements ButtonFarmInterfaceController{
      */
     public void exportExcel(){
         //llama al padre y le da toda la lista de granjas
-        fatherController.excel(Database.getInstance().getListFarms());
+//        fatherController.excel(Database.getInstance().getListFarms());
     }
 
     @Override
     public void execute(IdHandler id) {
-        fatherController.manageFarm(id);
+//        fatherController.manageFarm(id);
+    }
+
+    @Override
+    public void setFrameController(JFrameController controller) {
+        fatherController=controller;
     }
     
 }

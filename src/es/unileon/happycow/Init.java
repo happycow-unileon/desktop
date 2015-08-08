@@ -1,13 +1,10 @@
 package es.unileon.happycow;
 
-import es.unileon.happycow.controller.JFrameController;
-import es.unileon.happycow.database.*;
-import es.unileon.happycow.gui.JFrameApplication;
-import es.unileon.happycow.handler.IdEvaluation;
-import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.handler.IdUser;
-import java.io.File;
-import java.util.List;
+import es.unileon.happycow.application.JFrame;
+import es.unileon.happycow.database.DataBaseOperations;
+import es.unileon.happycow.database.Database;
+
+
 
 /**
  * Clase usada para iniciar el programa en pruebas, sin el splashscreen
@@ -37,15 +34,7 @@ public class Init {
                 //abro la base de datos
                 DataBaseOperations db=Database.getInstance();
                 db.openDB();
-                
-                //le digo al jframe que comienza la fiesta
-                JFrameApplication.start();
-                //le digo al controller más de lo mismo
-                JFrameController.getInstance().startApplication();
-                //pongo el jframe visible y el pack para que se situe y tenga tamaño
-                JFrameApplication.getInstance().setVisible(true);
-                JFrameApplication.getInstance().setLocationRelativeTo(null);
-                JFrameApplication.getInstance().pack();
+                new JFrame();
             }
         });
     }

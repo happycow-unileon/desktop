@@ -1,7 +1,8 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.database.*;
-import es.unileon.happycow.gui.PanelNewFarm;
+import es.unileon.happycow.gui.panels.PanelNewFarm;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
@@ -11,9 +12,9 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class NewFarmController implements InterfaceController{
+public class NewFarmController implements IController{
     private final PanelNewFarm panel;
-    private final JFrameController father;
+    private JFrameController father;
     private final IdHandler idFarm;
 
     public NewFarmController(PanelNewFarm panel) {
@@ -23,12 +24,12 @@ public class NewFarmController implements InterfaceController{
 
     public NewFarmController(PanelNewFarm panel, IdHandler idFarm) {
         this.panel = panel;
-        this.father = JFrameController.getInstance();
         this.idFarm = idFarm;
     }
     
     public void returnWindow(){
-        father.comeBack();
+        //TODO
+//        father.comeBack();
     }
     
     private boolean controlFarm(){
@@ -89,7 +90,7 @@ public class NewFarmController implements InterfaceController{
                             "Error", JOptionPane.WARNING_MESSAGE);
                   
                 }else{
-                    father.seeListFarm();
+//                    father.seeListFarm();
                 }
             }else{
                 if(!Database.getInstance().newFarm(farm)){
@@ -97,9 +98,14 @@ public class NewFarmController implements InterfaceController{
                             "Errores al guardar la granja, inténtelo de nuevo",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
-                    father.seeListFarm();
+//                    father.seeListFarm();
                 }
             }
         }
+    }
+
+    @Override
+    public void setFrameController(JFrameController controller) {
+        this.father=controller;
     }
 }

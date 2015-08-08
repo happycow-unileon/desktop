@@ -3,18 +3,19 @@ package es.unileon.happycow.model.composite;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.handler.*;
 import es.unileon.happycow.model.InformationEvaluation;
-import es.unileon.happycow.model.iterator.Iterator;
-import es.unileon.happycow.model.table.Entity;
+import es.unileon.happycow.model.composite.iterator.Iterator;
+import es.unileon.happycow.model.composite.table.Entity;
 
 public class Valoration implements Component {
 
     public static final Entity TYPE = Entity.VALORATION;
+
     private IdHandler _idHandler;
     private float _weighing;
     private float nota;
     private Component parent;
     private Component root;
-    
+
     public Valoration(IdHandler idHandler, float nota) {
         _idHandler = idHandler;
         this.nota = nota;
@@ -33,14 +34,14 @@ public class Valoration implements Component {
         return parent.getParent().getId();
     }
 
-    public IdHandler getIdEvaluation(){
+    public IdHandler getIdEvaluation() {
         return this.root.getInformation().getIdEvaluation();
     }
-    
-    public IdHandler getIdCriterion(){
+
+    public IdHandler getIdCriterion() {
         return this.parent.getId();
     }
-    
+
     public float getNota() {
         return nota;
     }
@@ -92,30 +93,30 @@ public class Valoration implements Component {
     public void setWeighing(float weighing) {
         this._weighing = weighing;
     }
-    
-    @Override
-        public Component getParent(){
-            return parent;
-        }
-        
-        @Override
-        public Component getRoot(){
-            return root;
-        }
 
-        @Override
-        public void setParent(Component parent){
-            this.parent=parent;
-        }
-        
-        @Override
-        public void setRoot(Component root){
-            this.root=root;
-        }
-        
-        @Override
-        public InformationEvaluation getInformation(){
-            return this.root.getInformation();
-        }
-        
+    @Override
+    public Component getParent() {
+        return parent;
+    }
+
+    @Override
+    public Component getRoot() {
+        return root;
+    }
+
+    @Override
+    public void setParent(Component parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public void setRoot(Component root) {
+        this.root = root;
+    }
+
+    @Override
+    public InformationEvaluation getInformation() {
+        return this.root.getInformation();
+    }
+
 }

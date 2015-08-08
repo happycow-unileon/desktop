@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.unileon.happycow.model;
 
 import es.unileon.happycow.handler.IdFarm;
@@ -7,7 +12,7 @@ import java.sql.Date;
 
 /**
  *
- * @author qadir
+ * @author dorian
  */
 public class InformationEvaluation implements Serializable{
     private IdHandler idEvaluation;
@@ -123,5 +128,20 @@ public class InformationEvaluation implements Serializable{
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof InformationEvaluation){
+            InformationEvaluation other=(InformationEvaluation)obj;
+            return other.getIdEvaluation().compareTo(idEvaluation)==0;
+        }else{
+            return super.equals(obj);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return idEvaluation.toString().hashCode();
     }
 }

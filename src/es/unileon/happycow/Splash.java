@@ -1,9 +1,5 @@
 package es.unileon.happycow;
 
-import es.unileon.happycow.controller.JFrameController;
-import es.unileon.happycow.database.DataBaseOperations;
-import es.unileon.happycow.database.Database;
-import es.unileon.happycow.gui.JFrameApplication;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -57,21 +53,21 @@ public class Splash{
                  * hasta que se haya terminado de cargar y se termina con el splashscreen
                  * Aquí le ponemos lo que tengamos en Init
                  */
-                actualizarProgreso("Idiomas...", 10);
-                actualizarProgreso("Preparando la base de datos....", 35);
-                //abro la base de datos
-                DataBaseOperations db=Database.getInstance();
-                db.openDB();
-                actualizarProgreso("Preparando ventanas...", 65);
-                JFrameApplication.getInstance();
-                actualizarProgreso("Finalizando...", 100);
-                dormir();
-                
-                //inicios
-                JFrameApplication.start();
-                JFrameController.getInstance().login();
-                JFrameApplication.getInstance().setVisible(true);
-                JFrameApplication.getInstance().pack();
+//                actualizarProgreso("Idiomas...", 10);
+//                actualizarProgreso("Preparando la base de datos....", 35);
+//                //abro la base de datos
+//                DataBaseOperations db=Database.getInstance();
+//                db.openDB();
+//                actualizarProgreso("Preparando ventanas...", 65);
+//                JFrameApplication.getInstance();
+//                actualizarProgreso("Finalizando...", 100);
+//                dormir();
+//                
+//                //inicios
+//                JFrameApplication.start();
+//                JFrameController.getInstance().login();
+//                JFrameApplication.getInstance().setVisible(true);
+//                JFrameApplication.getInstance().pack();
             }
         });
     }

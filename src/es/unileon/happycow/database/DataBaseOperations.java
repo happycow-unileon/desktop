@@ -6,7 +6,7 @@ import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
-import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
+import es.unileon.happycow.model.facade.IEvaluationModel;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -17,7 +17,6 @@ import java.util.List;
  * @author dorian
  */
 public interface DataBaseOperations {
-    //public DataBaseOperations getInstance();
     
     /**
      * Limpia la base de datos para hacer el backup
@@ -32,7 +31,7 @@ public interface DataBaseOperations {
     public void commit();
 
     
-    public boolean saveEvaluationBackup(InterfaceEvaluationModel evaluation);
+    public boolean saveEvaluationBackup(IEvaluationModel evaluation);
 
     /**
      * Operaciones que se necesite para abrir/conectar la base de datos
@@ -92,7 +91,7 @@ public interface DataBaseOperations {
      * @param idFarm el identificador de la granja
      * @return lista de evaluaciones (interface, instanciados con evaluationModel)
      */
-    public LinkedList<InterfaceEvaluationModel> getListEvaluations(IdHandler idFarm);
+    public LinkedList<IEvaluationModel> getListEvaluations(IdHandler idFarm);
 
     /**
      * Devuelve una evaluacion con todas sus valoraciones (al contrario que las demás,
@@ -100,7 +99,7 @@ public interface DataBaseOperations {
      * @param id identificador de la evaluación
      * @return 
      */
-    public InterfaceEvaluationModel getEvaluation(IdHandler id);
+    public IEvaluationModel getEvaluation(IdHandler id);
 
     /**
      * Devuelve la granja especificada
@@ -171,7 +170,7 @@ public interface DataBaseOperations {
      * datos
      * @return 
      */
-    public boolean saveEvaluation(InterfaceEvaluationModel evaluation);
+    public boolean saveEvaluation(IEvaluationModel evaluation);
 
     /**
      * Guarda los datos de una evaluación ya existente
@@ -179,7 +178,7 @@ public interface DataBaseOperations {
      * datos
      * @return 
      */
-    public boolean saveModifiedEvaluation(InterfaceEvaluationModel evaluation);
+    public boolean saveModifiedEvaluation(IEvaluationModel evaluation);
 
     /**
      * Guarda una nueva granja
@@ -282,7 +281,7 @@ public interface DataBaseOperations {
      * @param idFarm
      * @return 
      */
-    public LinkedList<InterfaceEvaluationModel> getListEvaluations(IdHandler idUser, IdHandler idFarm);
+    public LinkedList<IEvaluationModel> getListEvaluations(IdHandler idUser, IdHandler idFarm);
     
     /**
      * Devuelve todo el contenido de la tabla granjas, devolviendo una lista de

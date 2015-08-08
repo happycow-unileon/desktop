@@ -1,16 +1,18 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.database.concreteDatabase.DefaultDatabase;
-import es.unileon.happycow.gui.PanelPassword;
+import es.unileon.happycow.gui.panels.PanelPassword;
 import es.unileon.happycow.model.User;
 
 /**
  *
  * @author dorian
  */
-public class PasswordController implements InterfaceController{
+public class PasswordController implements IController{
     private final PanelPassword panel;
+    private JFrameController parentController;
 
     public PasswordController(PanelPassword panel) {
         this.panel = panel;
@@ -27,7 +29,8 @@ public class PasswordController implements InterfaceController{
                         DefaultDatabase.encript(panel.getNewPassword()))){
                     message="Error cambiando la contraseña";
                 }else{
-                    JFrameController.getInstance().comeBack();
+                    //TODO
+//                    JFrameController.getInstance().comeBack();
                 }
             }else{
                 message="La contraseña actual no es correcta";
@@ -40,6 +43,12 @@ public class PasswordController implements InterfaceController{
     }
     
     public void cancel(){
-        JFrameController.getInstance().comeBack();
+        //TODO
+        //JFrameController.getInstance().comeBack();
+    }
+
+    @Override
+    public void setFrameController(JFrameController controller) {
+        this.parentController=controller;
     }
 }

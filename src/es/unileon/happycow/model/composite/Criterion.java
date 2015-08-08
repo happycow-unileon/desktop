@@ -1,16 +1,10 @@
 package es.unileon.happycow.model.composite;
 
 import es.unileon.happycow.handler.*;
-import es.unileon.happycow.model.table.Entity;
+import es.unileon.happycow.model.composite.table.Entity;
 
 public class Criterion extends Composite implements Cloneable {
 
-    public static final Entity TYPE = Entity.CRITERION;
-
-    /**
-     * Identifier of the criterion
-     */
-//    private final IdHandler idCriterion;
     /**
      * Category of the criterion
      */
@@ -57,7 +51,7 @@ public class Criterion extends Composite implements Cloneable {
      * @param name the name
      */
     public Criterion(IdHandler idCriterion, IdHandler category, String description, String help, int weighing) {
-        super(idCriterion);
+        super(Entity.CRITERION, idCriterion);
         this.category = category;
         this.description = description;
         this.help = help;
@@ -100,15 +94,6 @@ public class Criterion extends Composite implements Cloneable {
     }
 
     /**
-     * Get the identifier
-     *
-     * @return the identifier
-     */
-    public IdHandler getIdCriterion() {
-        return this.getId();
-    }
-
-    /**
      * Get the name
      *
      * @return the name
@@ -121,15 +106,9 @@ public class Criterion extends Composite implements Cloneable {
     public String toString() {
         return super.toString();
     }
-
-    @Override
-    public Entity getLevel() {
-        return TYPE;
-    }
-
+    
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 }

@@ -7,7 +7,7 @@ import es.unileon.happycow.model.*;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
-import es.unileon.happycow.model.facade.InterfaceEvaluationModel;
+import es.unileon.happycow.model.facade.IEvaluationModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,8 +42,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     protected CriterionPrototype criterions;
     protected boolean criterionInitialized;
 
-//    protected Farm actualFarm;
-
     protected enum TIPOSQL {
 
         CONSULTA, MODIFICACION
@@ -52,7 +50,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     public DefaultDatabase() {
         criterions = new CriterionPrototype();
         criterionInitialized = false;
-//        actualFarm = null;
     }
 
     @Override
@@ -110,7 +107,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     @Override
     public boolean closeDB() {
         try {
-            conection.close();
+            if (conection != null) {
+                conection.close();
+            }
             System.out.println("Base de datos cerrada");
             return true;
         } catch (SQLException e) {
@@ -191,7 +190,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 + "  CONSTRAINT PK_USUARIO PRIMARY KEY (NOMBREUSUARIO));");
         try {
             sql.executeUpdate();
-            
+
             //tablas con los datos de los códigos y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FARM ("
                     + "  IDGRANJA NUMBER(38, 0),"
@@ -210,7 +209,6 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     + "  CONSTRAINT KEY_FARM_IDGRANJA UNIQUE (IDGRANJA));");
 
             sql.executeUpdate();
-            
 
             //tablas con registro de los tipos de codigos usados y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS EVALUATION ("
@@ -267,43 +265,43 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     + "PONDERACION FLOAT(126),  "
                     + "CONSTRAINT PK_PONDERACIONCRITERIO PRIMARY KEY (IDEVALUATION, NOMBRECRITERIO))");
             sql.executeUpdate();
-            
+
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ( "
                     + "IDEVALUATION NUMBER(38, 0), "
                     + "FILE BLOB, "
                     + "FILENAME NVARCHAR2(100), "
                     + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION, FILENAME))");
             /**
-             * TODO !!!
-             * Se ha quitado la constrain porque cuando la evaluación todavía no se ha guardado
-             * al guardar el fichero no tiene el id e incumple la foreign key
-             *  + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION)  "
-                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);
-             */ 
+             * TODO !!! Se ha quitado la constrain porque cuando la evaluación
+             * todavía no se ha guardado al guardar el fichero no tiene el id e
+             * incumple la foreign key + "CONSTRAINT FK_FILES_EVALUATION FOREIGN
+             * KEY (IDEVALUATION) " + "REFERENCES EVALUATION(IDEVALUATION) ON
+             * DELETE CASCADE);
+             */
 
             sql.executeUpdate();
 
             System.out.println("* Tables created");
             try {
-                sql=conection.prepareStatement("SELECT COUNT(*) FROM CRITERION");
-                result=sql.executeQuery();
-                
-                if(result.next()){
-                    int number=result.getInt(1);
-                    
-                    if(number<=0){
+                sql = conection.prepareStatement("SELECT COUNT(*) FROM CRITERION");
+                result = sql.executeQuery();
+
+                if (result.next()) {
+                    int number = result.getInt(1);
+
+                    if (number <= 0) {
                         InsertCriterion fill = new InsertCriterion();
-                        LinkedList<String> sentences=fill.execute();
-                        System.out.println("Sentencias de criterios recogida: "+sentences.size());
-                        if(sentences!=null){
+                        LinkedList<String> sentences = fill.execute();
+                        System.out.println("Sentencias de criterios recogida: " + sentences.size());
+                        if (sentences != null) {
                             for (String sentence : sentences) {
                                 sql = conection.prepareStatement(sentence);
                                 sql.executeUpdate();
                             }
-                        }else{
+                        } else {
                             System.out.println("No tenemos los criterios");
                         }
-                    }else{
+                    } else {
                         System.out.println("Error, metiendo los criterios ya están metidos");
                     }
                 }
@@ -750,9 +748,9 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             }
 
             for (Farm farm : lista) {
-                LinkedList<InterfaceEvaluationModel> listado = getListEvaluations(farm.getIdFarm());
-                for (InterfaceEvaluationModel interfaceEvaluationModel : listado) {
-                    farm.addEvaluation(interfaceEvaluationModel);
+                LinkedList<IEvaluationModel> listado = getListEvaluations(farm.getIdFarm());
+                for (IEvaluationModel interfaceEvaluationModel : listado) {
+//                    farm.addEvaluation(interfaceEvaluationModel);
                 }
             }
 
@@ -782,11 +780,11 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 String otrosDatos = result.getString("otrosdatos");
                 IdHandler id = new IdFarm(idFarm);
 
-                LinkedList<InterfaceEvaluationModel> listEvaluations = new LinkedList<>();
-                Farm farmDisabled = new Farm(id, nameFarm, farmerIdentifier, address,
-                        nameFarmer, dniFarmer, cowNumber, user.getId(),
-                        otrosDatos, listEvaluations);
-                list.add(farmDisabled);
+                LinkedList<IEvaluationModel> listEvaluations = new LinkedList<>();
+//                Farm farmDisabled = new Farm(id, nameFarm, farmerIdentifier, address,
+//                        nameFarmer, dniFarmer, cowNumber, user.getId(),
+//                        otrosDatos, listEvaluations);
+//                list.add(farmDisabled);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DefaultDatabase.class.getName()).log(Level.SEVERE, null, ex);
@@ -845,13 +843,13 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 
     //evaluaciones
     @Override
-    public LinkedList<InterfaceEvaluationModel> getListEvaluations(IdHandler idFarm) {
+    public LinkedList<IEvaluationModel> getListEvaluations(IdHandler idFarm) {
         return getListEvaluations(user.getId(), idFarm);
     }
 
     @Override
-    public LinkedList<InterfaceEvaluationModel> getListEvaluations(IdHandler idUser, IdHandler idFarm) {
-        LinkedList<InterfaceEvaluationModel> lista = null;
+    public LinkedList<IEvaluationModel> getListEvaluations(IdHandler idUser, IdHandler idFarm) {
+        LinkedList<IEvaluationModel> lista = null;
         try {
             sql = conection.prepareStatement("SELECT * FROM EVALUATION WHERE USUARIO=? AND IDGRANJA=?");
             sql.setString(1, idUser.toString());
@@ -860,16 +858,16 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             executeSQL(sql, TIPOSQL.CONSULTA);
             lista = new LinkedList<>();
             while (result.next()) {
-                lista.add(new EvaluationModel(false,
-                        new InformationEvaluation(
-                                (IdHandler) new IdEvaluation(result.getInt("IDEVALUATION")),
-                                idFarm, result.getFloat("NOTA"),
-                                result.getFloat("ALIMENTACION"),
-                                result.getFloat("SALUD"),
-                                result.getFloat("COMFORT"),
-                                result.getFloat("COMPORTAMIENTO"),
-                                result.getDate("FECHA"),
-                                result.getInt("NUMEROVACAS"))));
+//                lista.add(new EvaluationModel(false,
+//                        new InformationEvaluation(
+//                                (IdHandler) new IdEvaluation(result.getInt("IDEVALUATION")),
+//                                idFarm, result.getFloat("NOTA"),
+//                                result.getFloat("ALIMENTACION"),
+//                                result.getFloat("SALUD"),
+//                                result.getFloat("COMFORT"),
+//                                result.getFloat("COMPORTAMIENTO"),
+//                                result.getDate("FECHA"),
+//                                result.getInt("NUMEROVACAS"))));
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -878,13 +876,13 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     }
 
     @Override
-    public InterfaceEvaluationModel getEvaluation(IdHandler id) {
+    public IEvaluationModel getEvaluation(IdHandler id) {
         return getEvaluation(id, user);
     }
 
-    public InterfaceEvaluationModel getEvaluation(IdHandler id, User user) {
+    public IEvaluationModel getEvaluation(IdHandler id, User user) {
         InformationEvaluation information = null;
-        InterfaceEvaluationModel evaluation = null;
+        IEvaluationModel evaluation = null;
         try {
             sql = conection.prepareStatement(
                     "SELECT "
@@ -917,7 +915,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     information = new InformationEvaluation(
                             id, idFarm, user.getId(), nota, alimentacion,
                             salud, comfort, comportamiento, fecha, numberCow);
-                    evaluation = new EvaluationModel(true, information);
+//                    evaluation = new EvaluationModel(true, information);
                     firstTime = false;
                 }
 
@@ -972,7 +970,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     }
 
     @Override
-    public boolean saveEvaluation(InterfaceEvaluationModel evaluation) {
+    public boolean saveEvaluation(IEvaluationModel evaluation) {
         boolean resultSave = false;
         try {
             startTransaccion();
@@ -1041,7 +1039,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     }
 
     @Override
-    public boolean saveModifiedEvaluation(InterfaceEvaluationModel evaluation) {
+    public boolean saveModifiedEvaluation(IEvaluationModel evaluation) {
         boolean resultSave = true;
         try {
             startTransaccion();
@@ -1066,7 +1064,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                     + "(IDVALORATION, NOMBRECRITERIO,IDEVALUATION,NOTA,PONDERACION)"
                     + " VALUES(?,?,?,?,?)");
             sql.setInt(1, Integer.parseInt(valoration.getId().toString()));
-            sql.setString(2, criterion.getIdCriterion().toString());
+//            sql.setString(2, criterion.getIdCriterion().toString());
             sql.setInt(3, idEvaluation);
             sql.setFloat(4, valoration.getNota());
             sql.setFloat(5, valoration.getWeighing());
@@ -1341,8 +1339,8 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                         result.getInt("COMPORTAMIENTO"),
                         result.getDate("FECHA"),
                         result.getInt("NUMEROVACAS"));
-                EvaluationModel mo = new EvaluationModel(false, info);
-                model.add(mo);
+//                EvaluationModel mo = new EvaluationModel(false, info);
+//                model.add(mo);
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -1471,7 +1469,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
      * @return
      */
     @Override
-    public boolean saveEvaluationBackup(InterfaceEvaluationModel evaluation) {
+    public boolean saveEvaluationBackup(IEvaluationModel evaluation) {
         boolean resultSave = false;
         try {
             LinkedList<PonderationDB> ponderationCriterion = new LinkedList<>();
@@ -1506,100 +1504,98 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
         return resultSave;
     }
-    
-    
-    
+
     //funciones de los adjuntos para evaluaciones
     @Override
     public boolean saveFile(IdHandler handler, File file) {
         boolean correcto = true;
-        
+
         try {
             sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
 
-            byte[] arr = getByteArray(file); 
+            byte[] arr = getByteArray(file);
             sql.setString(1, handler.toString());
-            sql.setBytes(2,arr);
+            sql.setBytes(2, arr);
 //            sql.setString(3, getFileExtension(file));
             sql.setString(3, file.getName());
             executeSQL(sql, TIPOSQL.MODIFICACION);
-           
+
         } catch (Exception ex) {
-             correcto = false;
+            correcto = false;
             ex.printStackTrace();
         }
-        
+
         return correcto;
-        
+
     }
-    
+
     private boolean saveFile(IdHandler handler, byte[] arr, String name) {
         boolean correcto = true;
-        
+
         try {
             sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
 
             sql.setString(1, handler.toString());
-            sql.setBytes(2,arr);
+            sql.setBytes(2, arr);
 //            sql.setString(3, getFileExtension(file));
             sql.setString(3, name);
             executeSQL(sql, TIPOSQL.MODIFICACION);
-           
+
         } catch (Exception ex) {
-             correcto = false;
+            correcto = false;
             ex.printStackTrace();
         }
-        
+
         return correcto;
-        
+
     }
-    
-    @Override    
+
+    @Override
     public List<String> getFileNames(IdHandler idHandler) {
         List<String> fileNamesList = new ArrayList<>();
         try {
             sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
-            sql.setString(1,idHandler.toString());
-            
+            sql.setString(1, idHandler.toString());
+
             executeSQL(sql, TIPOSQL.CONSULTA);
             while (result.next()) {
                 fileNamesList.add(result.getString("FILENAME"));
             }
-            
+
             System.out.println(fileNamesList.size());
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
-        
+
         return fileNamesList;
-        
-    } 
-    
+
+    }
+
     //Metodo que devuelve null si no se ha encontrado el fichero para una evaluacion
     @Override
     public byte[] getFile(IdHandler idHandler, String name) {
         byte[] fileBytes = null;
         boolean found = false;
         try {
-            
+
             sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=? AND FILENAME=?");
-            sql.setString(1,idHandler.toString());
-            sql.setString(2,name);
-            
+            sql.setString(1, idHandler.toString());
+            sql.setString(2, name);
+
             executeSQL(sql, TIPOSQL.CONSULTA);
-            
+
             while (result.next() && !found) {
                 fileBytes = result.getBytes("FILE");
                 found = true;
             }
-            
+
         } catch (Exception ex) {
-            
+
         }
-        
+
         return fileBytes;
     }
-    
+
     // Metodos auxiliares para los blobs
     private byte[] getByteArray(String url) {
 
@@ -1613,7 +1609,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(bFile);
             fileInputStream.close();
-            
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -1625,13 +1621,13 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     private byte[] getByteArray(File file) {
 
         FileInputStream fileInputStream = null;
-        
+
         byte[] bFile = new byte[(int) file.length()];
         try {
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(bFile);
             fileInputStream.close();
-            
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -1639,23 +1635,23 @@ public abstract class DefaultDatabase implements DataBaseOperations {
         }
         return bFile;
     }
-    
+
     private FileInputStream getFileStream(String url) {
         FileInputStream fileInputStream = null;
         try {
             File file = new File(url);
             fileInputStream = new FileInputStream(file);
         } catch (FileNotFoundException ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
-        
+
         return fileInputStream;
- 
+
     }
-    
+
     @Override
     public void saveFileToTheSystem(byte[] arr, File file) {
-    
+
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -1673,7 +1669,7 @@ public abstract class DefaultDatabase implements DataBaseOperations {
             }
         }
     }
-    
+
 //    private String getFileExtension(File file) {
 //        String fileName = file.getName();
 //        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
@@ -1682,32 +1678,31 @@ public abstract class DefaultDatabase implements DataBaseOperations {
 //            return "";
 //        }
 //    }
-    
     @Override
-    public LinkedList<FilesDB> getAllFiles(){
-        LinkedList<FilesDB> list=new LinkedList<>();
+    public LinkedList<FilesDB> getAllFiles() {
+        LinkedList<FilesDB> list = new LinkedList<>();
         byte[] fileBytes = null;
         try {
-            
+
             sql = conection.prepareStatement("SELECT * FROM FILES");
             executeSQL(sql, TIPOSQL.CONSULTA);
-            
+
             while (result.next()) {
                 fileBytes = result.getBytes("FILE");
-                int idEvaluation=result.getInt("IDEVALUATION");
-                String name=result.getString("FILENAME");
+                int idEvaluation = result.getInt("IDEVALUATION");
+                String name = result.getString("FILENAME");
                 list.add(new FilesDB(idEvaluation, name, fileBytes));
             }
-            
+
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
-        
+
         return list;
     }
-    
-    public boolean saveFiles(LinkedList<FilesDB> list){
-        for(FilesDB file: list){
+
+    public boolean saveFiles(LinkedList<FilesDB> list) {
+        for (FilesDB file : list) {
             saveFile(new IdEvaluation(file.getId()), file.getFile(), file.getFilename());
         }
         return true;
