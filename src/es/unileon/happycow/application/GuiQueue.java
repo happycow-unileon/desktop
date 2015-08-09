@@ -1,6 +1,6 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.gui.IWindow;
+import es.unileon.happycow.application.windows.IWindow;
 import es.unileon.happycow.handler.IdHandler;
 import java.util.Iterator;
 import java.util.LinkedList;

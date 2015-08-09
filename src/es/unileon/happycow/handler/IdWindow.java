@@ -1,6 +1,6 @@
 package es.unileon.happycow.handler;
 
-import es.unileon.happycow.gui.Window;
+import es.unileon.happycow.application.windows.Window;
 
 /**
  *

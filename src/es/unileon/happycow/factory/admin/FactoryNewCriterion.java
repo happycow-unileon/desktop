@@ -3,7 +3,7 @@ package es.unileon.happycow.factory.admin;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.NewCriterionController;
 import es.unileon.happycow.factory.Factory;
-import es.unileon.happycow.gui.panels.admin.NewCriterion;
+import es.unileon.happycow.gui.admin.NewCriterion;
 import java.util.HashMap;
 import javax.swing.JPanel;
 

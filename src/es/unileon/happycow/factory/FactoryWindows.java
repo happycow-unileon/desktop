@@ -1,15 +1,16 @@
 package es.unileon.happycow.factory;
 
-import es.unileon.happycow.gui.IWindow;
-import es.unileon.happycow.gui.Window;
+import es.unileon.happycow.application.windows.IWindow;
+import es.unileon.happycow.application.windows.Window;
 import es.unileon.happycow.factory.Factory;
 import es.unileon.happycow.factory.FactoryLogin;
 import es.unileon.happycow.factory.FactoryNewFarm;
 import es.unileon.happycow.factory.admin.FactoryAdmin;
-import es.unileon.happycow.gui.windows.Administrator;
-import es.unileon.happycow.gui.windows.ListFarm;
-import es.unileon.happycow.gui.windows.Login;
-import es.unileon.happycow.gui.windows.NewFarm;
+import es.unileon.happycow.application.windows.Administrator;
+import es.unileon.happycow.application.windows.BarOptions;
+import es.unileon.happycow.application.windows.ListFarm;
+import es.unileon.happycow.application.windows.Login;
+import es.unileon.happycow.application.windows.NewFarm;
 import java.util.HashMap;
 
 /**
@@ -37,6 +38,9 @@ public class FactoryWindows {
             case LIST_FARMS:
                 factory = new FactoryListFarm(parameters);
                 break;
+                
+            case BAR_OPTIONS:
+                factory=new FactoryOptionsBar(parameters);
         }
 
         if (factory == null) {
@@ -54,9 +58,15 @@ public class FactoryWindows {
                 
             case ADMINISTRATION:
                 window=new Administrator(factory);
-
+break;
+                
             case LIST_FARMS:
                 window=new ListFarm(factory);
+                break;
+                
+            case BAR_OPTIONS:
+                window=new BarOptions(factory);
+                break;
                  
             default:
                 break;

@@ -1,6 +1,6 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.gui.Window;
+import es.unileon.happycow.application.windows.Window;
 import es.unileon.happycow.database.Database;
 import java.util.HashMap;
 import java.util.Observable;
@@ -41,6 +41,10 @@ public class JFrameController extends Observable{
     public void comeBack(){
         action=ActionsFrame.BACK;
         notifyChanges();
+    }
+    
+    public void changeView(){
+        
     }
     
     /**

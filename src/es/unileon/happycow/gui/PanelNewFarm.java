@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.panels;
+package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.NewFarmController;
 import es.unileon.happycow.model.Farm;

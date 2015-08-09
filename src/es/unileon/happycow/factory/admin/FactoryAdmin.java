@@ -4,8 +4,8 @@ import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.AdminController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.factory.Factory;
-import es.unileon.happycow.gui.panels.admin.Administrator;
-import es.unileon.happycow.gui.panels.admin.RemoveAdmin;
+import es.unileon.happycow.gui.admin.Administrator;
+import es.unileon.happycow.gui.admin.RemoveAdmin;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
 import java.util.HashMap;
@@ -81,8 +81,8 @@ public class FactoryAdmin extends Factory{
             //create the specific panels (tabs) to the principal panel
             panel.addTab("Nuevo Usuario", createNewUser().getPanel());
             panel.addTab("Nuevo Criterio", createNewCriterion().getPanel());
-            panel.addTab("Eliminar Usuario", createRemove(RemoveAdmin.USER).getPanel());
-            panel.addTab("Eliminar Criterio", createRemove(RemoveAdmin.CRITERION).getPanel());
+            panel.addTab("Eliminar Usuario", createRemoveUser().getPanel());
+            panel.addTab("Eliminar Criterio", createRemoveCriterion().getPanel());
             panel.addTab("Backup", createBackup().getPanel());
 //            panel.addTab("Excel", createExcel().getPanel());
         }
@@ -116,7 +116,7 @@ public class FactoryAdmin extends Factory{
      * @return  the factory that create the new user's panel
      */
     private Factory createNewUser(){
-        FactoryNewUser factory=new FactoryNewUser(parameters);
+        Factory factory=new FactoryNewUser(parameters);
         factory.createElements();
         return factory;
     }
@@ -126,7 +126,7 @@ public class FactoryAdmin extends Factory{
      * @return  the factory that create the new criterion's panel
      */
     private Factory createNewCriterion(){
-        FactoryNewCriterion factory=new FactoryNewCriterion(parameters);
+        Factory factory=new FactoryNewCriterion(parameters);
         factory.createElements();
         return factory;
     }
@@ -136,8 +136,19 @@ public class FactoryAdmin extends Factory{
      * @param what specific what that should remove with an enumeration RemoveAdmin
      * @return the concrete factory
      */
-    private Factory createRemove(RemoveAdmin what){
-        FactoryRemove factory=new FactoryRemove(what,parameters);
+    private Factory createRemoveUser(){
+        Factory factory=new FactoryRemoveUser(parameters);
+        factory.createElements();
+        return factory;
+    }
+    
+    /**
+     * Create a tab that remove user or criterion, specific by an enumeration
+     * @param what specific what that should remove with an enumeration RemoveAdmin
+     * @return the concrete factory
+     */
+    private Factory createRemoveCriterion(){
+        Factory factory=new FactoryRemoveCriterion(parameters);
         factory.createElements();
         return factory;
     }
@@ -147,7 +158,7 @@ public class FactoryAdmin extends Factory{
      * @return  the factory that create the bakcup's panel
      */
     private Factory createBackup(){
-        FactoryBackup factory=new FactoryBackup(parameters);
+        Factory factory=new FactoryBackup(parameters);
         factory.createElements();
         return factory;
     }

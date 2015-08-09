@@ -2,7 +2,7 @@ package es.unileon.happycow.factory;
 
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.ListFarmsController;
-import es.unileon.happycow.gui.panels.PanelListFarms;
+import es.unileon.happycow.gui.PanelListFarms;
 import es.unileon.happycow.model.Farm;
 import java.util.HashMap;
 import java.util.LinkedList;

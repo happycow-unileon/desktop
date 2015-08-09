@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.panels;
+package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.LoginController;
 import java.awt.Color;

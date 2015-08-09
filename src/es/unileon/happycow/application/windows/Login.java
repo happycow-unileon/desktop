@@ -1,7 +1,5 @@
-package es.unileon.happycow.gui.windows;
+package es.unileon.happycow.application.windows;
 
-import es.unileon.happycow.gui.Window;
-import es.unileon.happycow.gui.IWindow;
 import es.unileon.happycow.factory.Factory;
 import es.unileon.happycow.handler.IdWindow;
 

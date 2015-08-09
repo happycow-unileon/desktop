@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.panels.admin;
+package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.NewUserController;
 import es.unileon.happycow.model.Rol;

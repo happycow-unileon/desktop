@@ -7,5 +7,5 @@ package es.unileon.happycow.application;
 public enum ActionsFrame {
     STATE,
     BACK,
-    
+    CHANGE_VIEW
 }

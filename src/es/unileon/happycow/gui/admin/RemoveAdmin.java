@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.panels.admin;
+package es.unileon.happycow.gui.admin;
 
 /**
  *

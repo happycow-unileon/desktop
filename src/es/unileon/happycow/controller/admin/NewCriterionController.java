@@ -2,7 +2,7 @@ package es.unileon.happycow.controller.admin;
 
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.database.Database;
-import es.unileon.happycow.gui.panels.admin.NewCriterion;
+import es.unileon.happycow.gui.admin.NewCriterion;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;

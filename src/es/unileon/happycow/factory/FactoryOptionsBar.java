@@ -1,26 +1,27 @@
+
 package es.unileon.happycow.factory;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.controller.LoginController;
-import es.unileon.happycow.gui.PanelLogin;
+import es.unileon.happycow.controller.BarOptionsController;
+import es.unileon.happycow.gui.PanelOptions;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
- * Create the panel and controller of the login window
+ *
  * @author dorian
  */
-public class FactoryLogin extends Factory {
+public class FactoryOptionsBar extends Factory {
     /**
      * Panel concreto
      */
-    private PanelLogin login;
+    private PanelOptions panel;
     /**
      * Controlador concreto
      */
-    private LoginController controller;
+    private BarOptionsController controller;
 
-    public FactoryLogin(HashMap<String, String> parameters) {
+    public FactoryOptionsBar(HashMap<String, String> parameters) {
         super(parameters);
     }
 
@@ -42,10 +43,10 @@ public class FactoryLogin extends Factory {
      */
     @Override
     public JPanel getPanel() {
-        if(login==null){
+        if(panel==null){
             createPanel();
         }
-        return login;
+        return panel;
     }
 
     /**
@@ -53,13 +54,13 @@ public class FactoryLogin extends Factory {
      */
     @Override
     public void createController() {
-        if(login==null){
+        if(panel==null){
             createPanel();
         }
         
         if(controller==null){
-            controller=new LoginController(login);
-            login.setController(controller);
+            controller=new BarOptionsController(panel);
+            panel.setController(controller);
         }
     }
 
@@ -68,14 +69,14 @@ public class FactoryLogin extends Factory {
      */
     @Override
     public void createPanel() {
-        if(login==null){
-            login=new PanelLogin();
+        if(panel==null){
+            panel=new PanelOptions();
         }
         
         //if the controller exists, set the controller to the panel
         if(controller!=null){
-            login.setController(controller);
+            panel.setController(controller);
         }
     }
-   
+    
 }

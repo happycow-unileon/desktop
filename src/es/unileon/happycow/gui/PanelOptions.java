@@ -1,29 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package es.unileon.happycow.application;
+package es.unileon.happycow.gui;
 
+import es.unileon.happycow.controller.BarOptionsController;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author dorian
  */
-public class Options extends javax.swing.JPanel {
-    private JFrameController controller;
-    private boolean view;
+public class PanelOptions extends javax.swing.JPanel {
+    private BarOptionsController controller;
+    
 
     /**
      * Creates new form Opciones
      */
-    public Options(JFrameController controller) {
-        this.controller=controller;
+    public PanelOptions() {
         initComponents();
         
+    }
+
+    public void setController(BarOptionsController controller) {
+        this.controller = controller;
     }
 
     private void initComponents() {
@@ -34,7 +32,6 @@ public class Options extends javax.swing.JPanel {
     }
     
     private void createComponents(){
-        view=true;
         buttonView = new javax.swing.JButton("Modo criterios", new javax.swing.ImageIcon
                         (getClass().getResource("/images/view.png")));
         buttonComeBack = new javax.swing.JButton("Volver", new javax.swing.ImageIcon
@@ -111,11 +108,11 @@ public class Options extends javax.swing.JPanel {
     }
 
     private void buttonCloseActionPerformed() {
-        controller.exit();
+        controller.close();
     }
 
     private void buttonUnloginActionPerformed() {
-//        controller.login();
+        controller.unlogin();
     }
 
     private void buttonComeBackActionPerformed() {
@@ -123,24 +120,17 @@ public class Options extends javax.swing.JPanel {
     }
 
     private void buttonViewActionPerformed() {
-//        JOptionPane.showMessageDialog(JFrameApplication.getInstance(), 
-//                "Paciencia, funcionalidad no implementada", 
-//                "No implementado", JOptionPane.INFORMATION_MESSAGE);
-        
-//        if(view){
-//            buttonView.setText("Modo Vacas");
-//        }else{
-//            buttonView.setText("Modo Criterios");
-//        }
-//        view=!view;
-//        controller.changeView();
+        controller.changeView();
     }
     
     private void changeContrasena(){
-//        controller.changePassword();
+        controller.changePassword();
     }
 
-
+    public void setButtonView(String text){
+        buttonView.setText(text);
+    }
+    
     private javax.swing.JButton buttonContrasena;
     private javax.swing.JButton buttonClose;
     private javax.swing.JButton buttonComeBack;

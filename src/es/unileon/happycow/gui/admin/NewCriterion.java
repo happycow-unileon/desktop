@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.panels.admin;
+package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.NewCriterionController;
 import es.unileon.happycow.handler.Category;

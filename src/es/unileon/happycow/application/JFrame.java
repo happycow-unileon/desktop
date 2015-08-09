@@ -1,8 +1,9 @@
 package es.unileon.happycow.application;
 
+import es.unileon.happycow.factory.Factory;
 import es.unileon.happycow.factory.FactoryWindows;
-import es.unileon.happycow.gui.IWindow;
-import es.unileon.happycow.gui.Window;
+import es.unileon.happycow.application.windows.IWindow;
+import es.unileon.happycow.application.windows.Window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -11,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JPanel;
 
 /**
  *
@@ -20,7 +22,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     private GuiQueue queue;
     private JFrameController controller;
-    private final Options menuBar;
+    private final JPanel menuBar;
 
     public JFrame() {
         controller = new JFrameController();
@@ -28,7 +30,12 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         queue = new GuiQueue(controller);
 
         initComponents();
-        menuBar = new Options(controller);
+        Factory factory=FactoryWindows.create(Window.BAR_OPTIONS, new HashMap<String, String>())
+                .getFactory();
+        factory.createElements();
+        menuBar = factory.getPanel();
+        factory.getController().setFrameController(controller);
+        
 //        helpSet = new HelpSet();
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -43,7 +50,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         changePanel(queue.peek());
 
         setLocationByPlatform(true);
-        //setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -59,8 +65,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         if (factory.getType() != Window.LOGIN) {
             this.add(menuBar, BorderLayout.NORTH);
         }
-//        this.pack();
-        //ajusta de nuevo el tamaño del jframe
+        
         pack();
         Dimension size = getSize();
         setSize((int) size.getWidth() + 20, (int) size.getHeight() + 20);

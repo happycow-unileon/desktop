@@ -1,7 +1,7 @@
-package es.unileon.happycow.gui.panels.admin;
+package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.AdminController;
-import es.unileon.happycow.controller.admin.RemoveController;
+import es.unileon.happycow.controller.admin.RemoveUserController;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -10,11 +10,9 @@ import javax.swing.JButton;
  *
  * @author dorian
  */
-public class Remove extends javax.swing.JPanel implements InterfaceTabs{
-    private RemoveController controller;
+public class RemoveUser extends javax.swing.JPanel implements InterfaceTabs{
+    private RemoveUserController controller;
     
-    
-
     /**
      * Creates new form RemoveUser
      * @param title
@@ -22,8 +20,8 @@ public class Remove extends javax.swing.JPanel implements InterfaceTabs{
      * @param combo
      * @param controller
      */
-    public Remove(String title, String warning, LinkedList<String> combo, 
-            RemoveController controller) {
+    public RemoveUser(String title, String warning, LinkedList<String> combo, 
+            RemoveUserController controller) {
         initComponents();
         lblTitle.setText(title);
         lblWarning.setText(warning);
@@ -33,27 +31,27 @@ public class Remove extends javax.swing.JPanel implements InterfaceTabs{
         }
     }
     
-    public Remove(String title, String warning, LinkedList<String> combo) {
+    public RemoveUser(String title, String warning, LinkedList<String> combo) {
         this(title, warning, combo, null);
     }
 
-    public Remove(LinkedList<String> combo, RemoveController controller) {
+    public RemoveUser(LinkedList<String> combo, RemoveUserController controller) {
         this("", "", combo,controller);
     }
     
-    public Remove(LinkedList<String> combo) {
+    public RemoveUser(LinkedList<String> combo) {
         this("", "", combo,null);
     }
 
-    public Remove(String title, LinkedList<String> combo) {
+    public RemoveUser(String title, LinkedList<String> combo) {
         this(title, "", combo);
     }
     
-    public Remove(String title, LinkedList<String> combo, AdminController controller) {
+    public RemoveUser(String title, LinkedList<String> combo, AdminController controller) {
         this(title, "", combo);
     }
     
-    public void setController(RemoveController controller){
+    public void setController(RemoveUserController controller){
         this.controller=controller;
     }
     
@@ -198,7 +196,7 @@ public class Remove extends javax.swing.JPanel implements InterfaceTabs{
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblWarning;
 
-    //TODO
+    @Override
     public void updateInformation() {
         controller.update();
     }

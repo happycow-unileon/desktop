@@ -3,7 +3,7 @@ package es.unileon.happycow.factory.admin;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.BackupController;
 import es.unileon.happycow.factory.Factory;
-import es.unileon.happycow.gui.panels.admin.Backup;
+import es.unileon.happycow.gui.admin.Backup;
 import java.util.HashMap;
 import javax.swing.JPanel;
 

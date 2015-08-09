@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui;
+package es.unileon.happycow.application.windows;
 
 /**
  *
@@ -13,5 +13,7 @@ public enum Window {
     EXCEL,
     FARM,
     NEW_FARM,
-    ADMINISTRATION
+    ADMINISTRATION,
+    PASSWORD,
+    BAR_OPTIONS
 }

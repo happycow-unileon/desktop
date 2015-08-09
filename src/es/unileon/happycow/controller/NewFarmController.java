@@ -2,7 +2,7 @@ package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.database.*;
-import es.unileon.happycow.gui.panels.PanelNewFarm;
+import es.unileon.happycow.gui.PanelNewFarm;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;

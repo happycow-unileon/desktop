@@ -2,7 +2,7 @@ package es.unileon.happycow.controller.admin;
 
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.database.Database;
-import es.unileon.happycow.gui.panels.admin.NewUser;
+import es.unileon.happycow.gui.admin.NewUser;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import es.unileon.happycow.model.User;

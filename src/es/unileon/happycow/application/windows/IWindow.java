@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui;
+package es.unileon.happycow.application.windows;
 
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.factory.Factory;

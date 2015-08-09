@@ -6,7 +6,7 @@
 package es.unileon.happycow.controller.admin;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.gui.panels.admin.InterfaceTabs;
+import es.unileon.happycow.gui.admin.InterfaceTabs;
 import java.util.LinkedList;
 
 /**

@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller.admin;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.gui.panels.admin.Backup;
+import es.unileon.happycow.gui.admin.Backup;
 import java.io.File;
 
 /**
