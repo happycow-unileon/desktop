@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
-import es.unileon.happycow.application.Window;
+import es.unileon.happycow.gui.Window;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.panels.PanelLogin;
 
@@ -9,16 +9,12 @@ import es.unileon.happycow.gui.panels.PanelLogin;
  *
  * @author dorian
  */
-public class LoginController implements IController {
-
+public class LoginController extends IController {
     /**
      * Panel concreto
      */
     private final PanelLogin login;
-    /**
-     * Controlador concreto del jframe
-     */
-    private JFrameController controller;
+    
 
     public LoginController(PanelLogin login) {
         this.login = login;
@@ -48,4 +44,5 @@ public class LoginController implements IController {
     public void setFrameController(JFrameController controller) {
         this.controller = controller;
     }
+
 }

@@ -4,6 +4,7 @@ import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.gui.panels.PanelListFarms;
 import es.unileon.happycow.model.Farm;
+import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 
@@ -31,7 +32,8 @@ public class FactoryListFarm extends Factory{
      * 
      * @param list list of farms to show
      */
-    public FactoryListFarm(LinkedList<Farm> list) {
+    public FactoryListFarm(LinkedList<Farm> list,HashMap<String, String> parameters) {
+        super(parameters);
         this.list=list;
     }
     

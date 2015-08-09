@@ -4,6 +4,7 @@ import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.NewFarmController;
 import es.unileon.happycow.gui.panels.PanelNewFarm;
 import es.unileon.happycow.model.Farm;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -31,8 +32,10 @@ public class FactoryNewFarm extends Factory{
      * @param farm the farm to modify or use. If null,
      * a new farm is created
      */
-    public FactoryNewFarm(Farm farm) {
-        this.farm=farm;
+    public FactoryNewFarm(HashMap<String, String> parameters) {
+        super(parameters);
+        //TODO
+        this.farm=null;
     }
 
     /**

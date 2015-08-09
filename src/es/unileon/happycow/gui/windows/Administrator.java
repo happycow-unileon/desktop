@@ -9,13 +9,13 @@ import es.unileon.happycow.handler.IdWindow;
  *
  * @author dorian
  */
-public class Login extends IWindow{
-    public static Window TYPE=Window.LOGIN;
+public class Administrator extends IWindow{
+    public static Window TYPE=Window.ADMINISTRATION;
 
-    public Login(Factory factory) {
-        super("Login",true, true, new IdWindow(TYPE, false), factory);
+    public Administrator(Factory factory) {
+        super("Administración",true, true, new IdWindow(TYPE, false), factory);
     } 
-
+    
     @Override
     public Window getType() {
         return TYPE;

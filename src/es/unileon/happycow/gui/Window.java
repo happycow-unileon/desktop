@@ -1,4 +1,4 @@
-package es.unileon.happycow.application;
+package es.unileon.happycow.gui;
 
 /**
  *

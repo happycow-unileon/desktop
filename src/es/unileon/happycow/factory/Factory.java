@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.unileon.happycow.factory;
 
 import es.unileon.happycow.controller.IController;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -13,6 +9,16 @@ import javax.swing.JPanel;
  * @author dorian
  */
 public abstract class Factory {
+    protected HashMap<String,String> parameters;
+
+    public Factory(HashMap<String, String> parameters) {
+        this.parameters = parameters;
+    }
+    
+    public HashMap<String, String> getParameters() {
+        return parameters;
+    }
+    
      /**
      * Return the controller created
      * @return the controller

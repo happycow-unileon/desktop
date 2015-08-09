@@ -1,5 +1,6 @@
 package es.unileon.happycow.application;
 
+import es.unileon.happycow.gui.Window;
 import es.unileon.happycow.database.Database;
 import java.util.HashMap;
 import java.util.Observable;
@@ -19,7 +20,12 @@ public class JFrameController extends Observable{
 
     public void setState(Window state) {
         this.state = state;
+        setChanged();
         notifyObservers();
+    }
+
+    public Window getState() {
+        return state;
     }
     
     /**
@@ -37,5 +43,9 @@ public class JFrameController extends Observable{
     
     public void clearParameters(){
         parameters.clear();
+    }
+
+    public HashMap<String, String> getParameters() {
+        return parameters;
     }
 }

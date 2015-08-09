@@ -3,6 +3,7 @@ package es.unileon.happycow.factory;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.LoginController;
 import es.unileon.happycow.gui.panels.PanelLogin;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -18,6 +19,10 @@ public class FactoryLogin extends Factory {
      * Controlador concreto
      */
     private LoginController controller;
+
+    public FactoryLogin(HashMap<String, String> parameters) {
+        super(parameters);
+    }
 
     /**
      * 

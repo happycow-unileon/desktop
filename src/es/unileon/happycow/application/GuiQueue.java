@@ -1,5 +1,6 @@
 package es.unileon.happycow.application;
 
+import es.unileon.happycow.gui.IWindow;
 import es.unileon.happycow.handler.IdHandler;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,13 +21,18 @@ public class GuiQueue{
     public void addWindow(IWindow window){
         if(window.isUnique() && contains(window.getId())){
             returnTo(window.getId());
+            queue.peek().getController().onResume(window.getFactory().getParameters());
+            
         }else if(!queue.isEmpty() && !queue.peek().isBack()){
             queue.pop();
             queue.push(window);
             window.getController().setFrameController(controller);
+            window.onCreate();
+            
         }else{
             queue.push(window);
             window.getController().setFrameController(controller);
+            window.onCreate();
         }
     }
     

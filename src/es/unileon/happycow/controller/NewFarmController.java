@@ -12,9 +12,8 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class NewFarmController implements IController{
+public class NewFarmController extends IController{
     private final PanelNewFarm panel;
-    private JFrameController father;
     private final IdHandler idFarm;
 
     public NewFarmController(PanelNewFarm panel) {
@@ -102,10 +101,5 @@ public class NewFarmController implements IController{
                 }
             }
         }
-    }
-
-    @Override
-    public void setFrameController(JFrameController controller) {
-        this.father=controller;
     }
 }

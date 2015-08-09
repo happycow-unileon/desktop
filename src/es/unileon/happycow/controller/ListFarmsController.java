@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
-import es.unileon.happycow.application.Window;
+import es.unileon.happycow.gui.Window;
 import es.unileon.happycow.gui.panels.PanelListFarms;
 import es.unileon.happycow.handler.IdHandler;
 
@@ -9,7 +9,7 @@ import es.unileon.happycow.handler.IdHandler;
  *
  * @author dorian
  */
-public class ListFarmsController implements ButtonFarmInterfaceController{
+public class ListFarmsController extends ButtonFarmInterfaceController{
     /**
      * Panel concreto
      */

@@ -1,10 +1,14 @@
 package es.unileon.happycow.application;
 
+import es.unileon.happycow.factory.FactoryWindows;
+import es.unileon.happycow.gui.IWindow;
+import es.unileon.happycow.gui.Window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,6 +24,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     public JFrame() {
         controller = new JFrameController();
+        controller.addObserver(this);
         queue = new GuiQueue(controller);
         
         initComponents();
@@ -33,7 +38,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         } );
         
         //inicializo el login
-        queue.addWindow(FactoryWindows.create(Window.LOGIN));
+        queue.addWindow(FactoryWindows.create(Window.LOGIN, new HashMap<String, String>()));
         //seteo el estado
         changePanel(queue.peek());
         
@@ -63,10 +68,18 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        Window newState=controller.getState();
+        Window actualState=queue.peek().getType();
+        
+        if(newState!=actualState){
+            IWindow newWindow=FactoryWindows.create(newState, controller.getParameters());
+            queue.addWindow(newWindow);
+            changePanel(queue.peek());
+        }
         //ir al queue y establecer el nuevo estado del jframe
         //él llama al factory para crear el windows
         //posteriormente establece el cambio de panel
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private void initComponents() {

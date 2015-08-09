@@ -13,9 +13,6 @@ import org.junit.runners.Suite;
  * @author dorian
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({es.unileon.happycow.database.concreteDatabase.DefaultDatabaseTest.class,
-                    es.unileon.happycow.database.concreteDatabase.InsertCriterionTest.class,
-                    es.unileon.happycow.database.concreteDatabase.OracleTest.class,
-                    es.unileon.happycow.database.concreteDatabase.SQLiteTest.class})
+@Suite.SuiteClasses({})
 public class TestSuiteConcreteDatabase {
 }

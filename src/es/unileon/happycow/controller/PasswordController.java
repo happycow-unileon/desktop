@@ -10,9 +10,8 @@ import es.unileon.happycow.model.User;
  *
  * @author dorian
  */
-public class PasswordController implements IController{
+public class PasswordController extends IController{
     private final PanelPassword panel;
-    private JFrameController parentController;
 
     public PasswordController(PanelPassword panel) {
         this.panel = panel;
@@ -47,8 +46,4 @@ public class PasswordController implements IController{
         //JFrameController.getInstance().comeBack();
     }
 
-    @Override
-    public void setFrameController(JFrameController controller) {
-        this.parentController=controller;
-    }
 }
