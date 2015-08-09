@@ -2,14 +2,13 @@ package es.unileon.happycow.factory;
 
 import es.unileon.happycow.application.windows.IWindow;
 import es.unileon.happycow.application.windows.Window;
-import es.unileon.happycow.factory.Factory;
-import es.unileon.happycow.factory.FactoryLogin;
-import es.unileon.happycow.factory.FactoryNewFarm;
 import es.unileon.happycow.factory.admin.FactoryAdmin;
 import es.unileon.happycow.application.windows.Administrator;
 import es.unileon.happycow.application.windows.BarOptions;
+import es.unileon.happycow.application.windows.EnableFarm;
 import es.unileon.happycow.application.windows.ListFarm;
 import es.unileon.happycow.application.windows.Login;
+import es.unileon.happycow.application.windows.ManageFarm;
 import es.unileon.happycow.application.windows.NewFarm;
 import java.util.HashMap;
 
@@ -19,7 +18,7 @@ import java.util.HashMap;
  */
 public class FactoryWindows {
 
-    public static IWindow create(Window type, HashMap<String,String> parameters) {
+    public static IWindow create(Window type, HashMap<String, String> parameters) {
         IWindow window = null;
         Factory factory = null;
         switch (type) {
@@ -30,17 +29,26 @@ public class FactoryWindows {
             case NEW_FARM:
                 factory = new FactoryNewFarm(parameters);
                 break;
-                
+
             case ADMINISTRATION:
                 factory = new FactoryAdmin(parameters);
                 break;
-                
+
             case LIST_FARMS:
                 factory = new FactoryListFarm(parameters);
                 break;
-                
+
             case BAR_OPTIONS:
-                factory=new FactoryOptionsBar(parameters);
+                factory = new FactoryOptionsBar(parameters);
+                break;
+                
+            case MANAGE_FARM:
+                factory = new FactoryManageFarm(parameters);
+                break;
+                
+            case ENABLE_FARM:
+                factory=new FactoryEnableFarm(parameters);
+                break;
         }
 
         if (factory == null) {
@@ -55,23 +63,31 @@ public class FactoryWindows {
             case NEW_FARM:
                 window = new NewFarm(factory);
                 break;
-                
+
             case ADMINISTRATION:
-                window=new Administrator(factory);
-break;
-                
+                window = new Administrator(factory);
+                break;
+
             case LIST_FARMS:
-                window=new ListFarm(factory);
+                window = new ListFarm(factory);
+                break;
+
+            case BAR_OPTIONS:
+                window = new BarOptions(factory);
                 break;
                 
-            case BAR_OPTIONS:
-                window=new BarOptions(factory);
+            case MANAGE_FARM:
+                window= new ManageFarm(factory);
                 break;
-                 
+                
+            case ENABLE_FARM:
+                window=new EnableFarm(factory);
+                break;
+
             default:
                 break;
         }
-        
+
         return window;
     }
 }

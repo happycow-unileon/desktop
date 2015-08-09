@@ -36,9 +36,9 @@ public class PanelOptions extends javax.swing.JPanel {
                         (getClass().getResource("/images/view.png")));
         buttonComeBack = new javax.swing.JButton("Volver", new javax.swing.ImageIcon
                         (getClass().getResource("/images/back.png")));
-        buttonUnlogin = new javax.swing.JButton("Desloguearse",new javax.swing.ImageIcon
+        buttonUnlogin = new javax.swing.JButton("Cerrar sesión",new javax.swing.ImageIcon
                         (getClass().getResource("/images/out.png")));
-        buttonClose = new javax.swing.JButton("Cerrar",new javax.swing.ImageIcon
+        buttonClose = new javax.swing.JButton("Salir",new javax.swing.ImageIcon
                         (getClass().getResource("/images/unchecked.png")));
         buttonContrasena= new javax.swing.JButton("Cambiar Contraseña",new javax.swing.ImageIcon
                         (getClass().getResource("/images/key.png")));

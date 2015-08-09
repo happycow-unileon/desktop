@@ -95,8 +95,8 @@ public abstract class IWindow {
     public void onResume(HashMap<String,String> parameters){
         getController().onResume(parameters);
     };
-    public void onCreate(){
-        getController().onCreate();
+    public void onCreate(HashMap<String,String> parameters){
+        getController().onCreate(parameters);
     };
     public void onDestroy(){
         getController().onDestroy();

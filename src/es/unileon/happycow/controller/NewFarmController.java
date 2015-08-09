@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.application.JFrameController;
+import es.unileon.happycow.application.windows.Window;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelNewFarm;
 import es.unileon.happycow.handler.IdFarm;
@@ -27,8 +27,7 @@ public class NewFarmController extends IController{
     }
     
     public void returnWindow(){
-        //TODO
-//        father.comeBack();
+        controller.comeBack();
     }
     
     private boolean controlFarm(){
@@ -89,7 +88,7 @@ public class NewFarmController extends IController{
                             "Error", JOptionPane.WARNING_MESSAGE);
                   
                 }else{
-//                    father.seeListFarm();
+                    controller.setState(Window.LIST_FARMS);
                 }
             }else{
                 if(!Database.getInstance().newFarm(farm)){
@@ -97,7 +96,7 @@ public class NewFarmController extends IController{
                             "Errores al guardar la granja, inténtelo de nuevo",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
-//                    father.seeListFarm();
+                    controller.setState(Window.LIST_FARMS);
                 }
             }
         }

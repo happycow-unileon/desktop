@@ -2,6 +2,7 @@ package es.unileon.happycow.application;
 
 import es.unileon.happycow.application.windows.IWindow;
 import es.unileon.happycow.handler.IdHandler;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -19,20 +20,21 @@ public class GuiQueue{
     }
     
     public void addWindow(IWindow window){
+        HashMap<String,String> parameters=window.getFactory().getParameters();
         if(window.isUnique() && contains(window.getId())){
             returnTo(window.getId());
-            queue.peek().getController().onResume(window.getFactory().getParameters());
+            queue.peek().getController().onResume(parameters);
             
         }else if(!queue.isEmpty() && !queue.peek().isBack()){
             queue.pop();
             queue.push(window);
             window.getController().setFrameController(controller);
-            window.onCreate();
+            window.onCreate(parameters);
             
         }else{
             queue.push(window);
             window.getController().setFrameController(controller);
-            window.onCreate();
+            window.onCreate(parameters);
         }
     }
     

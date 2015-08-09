@@ -18,6 +18,6 @@ public abstract class IController {
     };
     
     public void onResume(HashMap<String,String> parameters){};
-    public void onCreate(){};
+    public void onCreate(HashMap<String,String> parameters){onResume(parameters);};
     public void onDestroy(){};
 }

@@ -11,9 +11,11 @@ public enum Window {
     EVALUATION,
     REPORT,
     EXCEL,
-    FARM,
     NEW_FARM,
     ADMINISTRATION,
     PASSWORD,
-    BAR_OPTIONS
+    BAR_OPTIONS,
+    ENABLE_FARM,
+    MANAGE_FARM,
+    EDIT_FARM
 }

@@ -6,7 +6,7 @@ import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.LinkedList;
+import java.util.List;
 import javax.swing.BoxLayout;
 
 /**
@@ -20,30 +20,11 @@ public class PanelListFarms extends javax.swing.JPanel {
     private ListFarmsController controller;
 
     /**
-     * Creates new form PanelListFarmsManagement
-     * @param list listado de granjas
-     */
-    public PanelListFarms(LinkedList<Farm> list) {
-        this(list, null);
-    }
-
-    /**
      * Constructor
      */
     public PanelListFarms() {
-        this(new LinkedList<Farm>(), null);
-    }
-    
-    /**
-     * Constructor
-     * @param list listado de granjas
-     * @param controller el controlador
-     */
-    public PanelListFarms(LinkedList<Farm> list, ListFarmsController controller){
         initComponents();
-        this.controller=controller;
-        //a the list
-        addList(list);
+        this.controller=null;
     }
     
     /**
@@ -73,7 +54,7 @@ public class PanelListFarms extends javax.swing.JPanel {
      * Change the farm's list
      * @param list new farm's list
      */
-    public void changeList(LinkedList<Farm> list){
+    public void changeList(List<Farm> list){
         //remove all components
         panelList.removeAll();
         //add the new list
@@ -84,7 +65,7 @@ public class PanelListFarms extends javax.swing.JPanel {
      * add the list of farms to the panel
      * @param list farm's list
      */
-    private void addList(LinkedList<Farm> list){
+    private void addList(List<Farm> list){
         //if not null...
         if(list!=null){
             //for every farm
@@ -153,7 +134,6 @@ public class PanelListFarms extends javax.swing.JPanel {
         scrollFarms = new javax.swing.JScrollPane();
         panelList = new javax.swing.JPanel();
         buttonNewFarm = new javax.swing.JButton("Nueva granja");
-        buttonExit = new javax.swing.JButton("Cerrar sesión");
         buttonHelp = new javax.swing.JButton(new javax.swing.ImageIcon(
                 getClass().getResource("/images/help.png")));
         buttonEnable = new javax.swing.JButton("Habilitar granja deshabilitada");
@@ -189,14 +169,6 @@ public class PanelListFarms extends javax.swing.JPanel {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonNewFarmActionPerformed();
-            }
-        });
-
-        //button exit
-        buttonExit.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExitActionPerformed();
             }
         });
         
@@ -254,15 +226,6 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonNewFarm, gridBagConstraints);
         
-        //button exit
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(buttonExit, gridBagConstraints);
-        
         
         //button help
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -275,7 +238,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         //button excel
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -299,13 +262,6 @@ public class PanelListFarms extends javax.swing.JPanel {
     }
 
     /**
-     * Event of exit
-     */
-    private void buttonExitActionPerformed() {
-        controller.exit();
-    }
-
-    /**
      * Event of enable a disabled farm
      */
     private void buttonEnableActionPerformed() {
@@ -319,10 +275,6 @@ public class PanelListFarms extends javax.swing.JPanel {
         controller.exportExcel();
     }
 
-    /**
-     * button exit
-     */
-    private javax.swing.JButton buttonExit;
     /**
      * button help
      */

@@ -1,11 +1,9 @@
 package es.unileon.happycow.factory;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.controller.ListFarmsController;
-import es.unileon.happycow.gui.PanelListFarms;
-import es.unileon.happycow.model.Farm;
+import es.unileon.happycow.controller.ManageFarmController;
+import es.unileon.happycow.gui.PanelManageFarm;
 import java.util.HashMap;
-import java.util.LinkedList;
 import javax.swing.JPanel;
 
 /**
@@ -13,15 +11,15 @@ import javax.swing.JPanel;
  * farms is showed (enabled and disabled farms)
  * @author dorian
  */
-public class FactoryListFarm extends Factory{
+public class FactoryManageFarm extends Factory{
     /**
      * Concrete panel
      */
-    private PanelListFarms listPanel;
+    private PanelManageFarm panel;
     /**
      * Concrete controller
      */
-    private ListFarmsController controller;
+    private ManageFarmController controller;
 
     
     /**
@@ -29,7 +27,7 @@ public class FactoryListFarm extends Factory{
      * @param parameters
      * @param list list of farms to show
      */
-    public FactoryListFarm(HashMap<String, String> parameters) {
+    public FactoryManageFarm(HashMap<String, String> parameters) {
         super(parameters);
     }
     
@@ -53,10 +51,10 @@ public class FactoryListFarm extends Factory{
      */
     @Override
     public JPanel getPanel() {
-        if(listPanel==null){
+        if(panel==null){
             createPanel();
         }
-        return listPanel;
+        return panel;
     }
 
     /**
@@ -64,14 +62,14 @@ public class FactoryListFarm extends Factory{
      */
     @Override
     public void createController() {
-        if(listPanel==null){
+        if(panel==null){
             createPanel();
         }
         
         if(controller==null){
-            controller=new ListFarmsController(listPanel);
+            controller=new ManageFarmController(panel);
             //set the new controller to the panel
-            listPanel.setController(controller);
+            panel.setController(controller);
         }
     }
 
@@ -81,13 +79,13 @@ public class FactoryListFarm extends Factory{
      */
     @Override
     public void createPanel() {
-        if(listPanel==null){
-                listPanel=new PanelListFarms();
+        if(panel==null){
+                panel=new PanelManageFarm();
         }
         
         //if controller exists, set the controller to the panel
         if(controller!=null){
-            listPanel.setController(controller);
+            panel.setController(controller);
         }
     }
     

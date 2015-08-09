@@ -2,8 +2,12 @@ package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.PanelListFarms;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.model.Farm;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -14,11 +18,6 @@ public class ListFarmsController extends ButtonFarmInterfaceController{
      * Panel concreto
      */
     private final PanelListFarms panel;
-    /**
-     * Controlador concreto
-     */
-
-    private JFrameController fatherController;
 
     /**
      * Constructor que recibe el panel que controla
@@ -32,21 +31,21 @@ public class ListFarmsController extends ButtonFarmInterfaceController{
      * Salida
      */
     public void exit(){
-        fatherController.setState(Window.LOGIN);
+        controller.setState(Window.LOGIN);
     }
     
     /**
      * Nueva granja
      */
     public void newFarm(){
-        fatherController.setState(Window.NEW_FARM);
+        controller.setState(Window.NEW_FARM);
     }
     
     /**
      * Ir a la lista de granjas inahibilitadas para habilitar
      */
     public void enableFarm(){
-//        fatherController.enableFarm();
+        controller.setState(Window.ENABLE_FARM);
     }
     
     /**
@@ -59,12 +58,26 @@ public class ListFarmsController extends ButtonFarmInterfaceController{
 
     @Override
     public void execute(IdHandler id) {
+        controller.clearParameters();
+        controller.addParameter("id", id.toString());
+        controller.setState(Window.MANAGE_FARM);
 //        fatherController.manageFarm(id);
     }
 
     @Override
     public void setFrameController(JFrameController controller) {
-        fatherController=controller;
+        this.controller=controller;
+    }
+
+    @Override
+    public void onResume(HashMap<String, String> parameters) {
+        List<Farm> list=Database.getInstance().getListFarms();
+        panel.changeList(list);
+    }
+
+    @Override
+    public void onCreate(HashMap<String, String> parameters) {
+        onResume(parameters);
     }
     
 }
