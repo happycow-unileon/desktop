@@ -10,6 +10,7 @@ import java.util.Observable;
  * @author dorian
  */
 public class JFrameController extends Observable{
+    private ActionsFrame action;
     private Window state;
     private HashMap<String,String> parameters;
 
@@ -18,14 +19,28 @@ public class JFrameController extends Observable{
         parameters=new HashMap<>();
     }
 
-    public void setState(Window state) {
-        this.state = state;
+    public ActionsFrame getAction() {
+        return action;
+    }
+    
+    private void notifyChanges(){
         setChanged();
         notifyObservers();
     }
 
+    public void setState(Window state) {
+        this.state = state;
+        action=ActionsFrame.STATE;
+        notifyChanges();
+    }
+
     public Window getState() {
         return state;
+    }
+    
+    public void comeBack(){
+        action=ActionsFrame.BACK;
+        notifyChanges();
     }
     
     /**

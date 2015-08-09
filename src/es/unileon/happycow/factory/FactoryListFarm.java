@@ -32,9 +32,9 @@ public class FactoryListFarm extends Factory{
      * 
      * @param list list of farms to show
      */
-    public FactoryListFarm(LinkedList<Farm> list,HashMap<String, String> parameters) {
+    public FactoryListFarm(HashMap<String, String> parameters) {
         super(parameters);
-        this.list=list;
+        this.list=new LinkedList<>();
     }
     
     

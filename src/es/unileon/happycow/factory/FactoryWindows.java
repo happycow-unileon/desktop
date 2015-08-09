@@ -7,6 +7,7 @@ import es.unileon.happycow.factory.FactoryLogin;
 import es.unileon.happycow.factory.FactoryNewFarm;
 import es.unileon.happycow.factory.admin.FactoryAdmin;
 import es.unileon.happycow.gui.windows.Administrator;
+import es.unileon.happycow.gui.windows.ListFarm;
 import es.unileon.happycow.gui.windows.Login;
 import es.unileon.happycow.gui.windows.NewFarm;
 import java.util.HashMap;
@@ -32,6 +33,10 @@ public class FactoryWindows {
             case ADMINISTRATION:
                 factory = new FactoryAdmin(parameters);
                 break;
+                
+            case LIST_FARMS:
+                factory = new FactoryListFarm(parameters);
+                break;
         }
 
         if (factory == null) {
@@ -50,6 +55,9 @@ public class FactoryWindows {
             case ADMINISTRATION:
                 window=new Administrator(factory);
 
+            case LIST_FARMS:
+                window=new ListFarm(factory);
+                 
             default:
                 break;
         }
