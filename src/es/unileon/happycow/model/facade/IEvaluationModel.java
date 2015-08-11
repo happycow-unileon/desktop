@@ -8,9 +8,9 @@ package es.unileon.happycow.model.facade;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.InformationEvaluation;
-import es.unileon.happycow.model.composite.Criterion;
-import es.unileon.happycow.model.composite.EvaluationCategory;
-import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.model.composite2.Criterion;
+import es.unileon.happycow.model.composite2.EvaluationCategory;
+import es.unileon.happycow.model.composite2.Valoration;
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -60,12 +60,17 @@ public interface IEvaluationModel extends Serializable{
      */
     public boolean add(EvaluationCategory categoria);
     
+    
+    
+    
     /**
      * Borra del arbol dado un handler
      * @param idHandler
      * @return 
      */
     public boolean remove(IdHandler idHandler);
+    
+    
 
     /**
      * Anhade una ponderacion dado un handler
@@ -82,6 +87,9 @@ public interface IEvaluationModel extends Serializable{
      * @return 
      */
     public float getWeighing(IdHandler idHandler);
+    
+    
+    
 
     /**
      * Get a list of valorations filtered by a category
@@ -98,6 +106,8 @@ public interface IEvaluationModel extends Serializable{
      */
     public LinkedList<Valoration> listOfCategory(Category category);
 
+    
+    
     /**
      * Get a list of valorations filtered by a criterion
      *
@@ -127,9 +137,23 @@ public interface IEvaluationModel extends Serializable{
      */
     public IdHandler getIdHandler();
     
-    public Criterion getCriterion(IdHandler id);
-    
     public InformationEvaluation getInformation();
     
-    public Valoration getValoration(IdHandler id);
+    //TODO
+    /**
+     * Devolver una lista de evaluaciones por paquetes (vacas) --> esta interfaz debería
+     * ser implementados por todos los modelos puesto que lo han de tratar procedimientos
+     * 
+     * Hay distintas implementaciones, todas ellas tratan el mismo árbol (con lo que
+     * se puede mover de un modelo a otro y que sería el modelo propiamente dicho)
+     * pero ofrecen distintos métodos de acuerdo a distintos enfoques, como puede
+     * ser el enfoque por criterios, o el enfoque por vacas, o incluso un tercer enfoque
+     * (a saber cuál sería)
+     * 
+     * Con ello, el controlador usa un modelo en concreto, junto con su panel concreto
+     * (pattern abstract factory? para instanciar (como el modelo de ventanas y demás)
+     * y el cambio entre unos y otros es tan sencillo como traspasar el árbol.
+     * No tan sencillo es pasar la información entre ventanas tal cual está pensado,
+     * para ello... consultar con la almohada.
+     */
 }

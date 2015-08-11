@@ -4,8 +4,8 @@ import es.unileon.happycow.database.*;
 import es.unileon.happycow.database.prototype.CriterionPrototype;
 import es.unileon.happycow.handler.*;
 import es.unileon.happycow.model.*;
-import es.unileon.happycow.model.composite.Criterion;
-import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.model.composite2.Criterion;
+import es.unileon.happycow.model.composite2.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
 import es.unileon.happycow.model.facade.IEvaluationModel;
 import java.io.File;
@@ -775,16 +775,16 @@ public abstract class DefaultDatabase implements DataBaseOperations {
                 String dniFarmer = result.getString("dniganadero");
                 int cowNumber = result.getInt("numerovacas");
                 //datos añadidos y necesarios
-                String farmerIdentifier = result.getString("identificadorGranja");
+                String farmIdentifier = result.getString("identificadorGranja");
                 //datos no necesarios para instanciar la granja
                 String otrosDatos = result.getString("otrosdatos");
                 IdHandler id = new IdFarm(idFarm);
 
                 LinkedList<IEvaluationModel> listEvaluations = new LinkedList<>();
-//                Farm farmDisabled = new Farm(id, nameFarm, farmerIdentifier, address,
-//                        nameFarmer, dniFarmer, cowNumber, user.getId(),
-//                        otrosDatos, listEvaluations);
-//                list.add(farmDisabled);
+                Farm farmDisabled = new Farm(id, nameFarm, farmIdentifier, address, 
+                        nameFarmer, dniFarmer, cowNumber, user.getId(), otrosDatos); //, listEvaluations);
+                        
+                list.add(farmDisabled);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DefaultDatabase.class.getName()).log(Level.SEVERE, null, ex);

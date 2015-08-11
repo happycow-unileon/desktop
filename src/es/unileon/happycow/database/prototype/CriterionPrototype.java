@@ -1,6 +1,6 @@
 package es.unileon.happycow.database.prototype;
 
-import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite2.Criterion;
 import java.util.HashMap;
 import java.util.LinkedList;
 

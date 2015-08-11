@@ -1,9 +1,9 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.factory.Factory;
-import es.unileon.happycow.factory.FactoryWindows;
-import es.unileon.happycow.application.windows.IWindow;
-import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.windows.factory.IFactory;
+import es.unileon.happycow.windows.factory.FactoryWindows;
+import es.unileon.happycow.windows.IWindow;
+import es.unileon.happycow.windows.Window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -30,7 +30,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         queue = new GuiQueue(controller);
 
         initComponents();
-        Factory factory=FactoryWindows.create(Window.BAR_OPTIONS, new HashMap<String, String>())
+        IFactory factory=FactoryWindows.create(Window.BAR_OPTIONS, new HashMap<String, String>())
                 .getFactory();
         factory.createElements();
         menuBar = factory.getPanel();

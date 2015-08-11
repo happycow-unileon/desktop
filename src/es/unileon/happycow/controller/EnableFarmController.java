@@ -1,9 +1,10 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelEnableFarm;
 import es.unileon.happycow.handler.IdHandler;
+import java.util.HashMap;
 
 /**
  *
@@ -27,6 +28,11 @@ public class EnableFarmController extends ButtonFarmInterfaceController{
     public void execute(IdHandler id) {
         //habilitar en la base de datos el id seleccionado
         Database.getInstance().enableFarm(id);
+        panel.changeList(Database.getInstance().getDisabledFarms());
+    }
+
+    @Override
+    public void onResume(HashMap<String, String> parameters) {
         panel.changeList(Database.getInstance().getDisabledFarms());
     }
     

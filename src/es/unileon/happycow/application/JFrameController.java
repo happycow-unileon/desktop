@@ -1,6 +1,6 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.Database;
 import java.util.HashMap;
 import java.util.Observable;

@@ -31,9 +31,9 @@ public class PanelListFarms extends javax.swing.JPanel {
      * Set the welcome's message or similar
      * @param welcome 
      */
-    public void setWelcome(String welcome){
-        labelWelcome.setText(welcome);
-    }
+//    public void setWelcome(String welcome){
+//        labelWelcome.setText(welcome);
+//    }
     
     /**
      * set the controller
@@ -130,7 +130,7 @@ public class PanelListFarms extends javax.swing.JPanel {
      * Create the components
      */
     private void createComponents(){
-        labelWelcome = new javax.swing.JLabel("Bienvenido");
+//        labelWelcome = new javax.swing.JLabel("Bienvenido");
         scrollFarms = new javax.swing.JScrollPane();
         panelList = new javax.swing.JPanel();
         buttonNewFarm = new javax.swing.JButton("Nueva granja");
@@ -197,14 +197,14 @@ public class PanelListFarms extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
         
         //label welcome
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.9;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(labelWelcome, gridBagConstraints);
+//        gridBagConstraints = new java.awt.GridBagConstraints();
+//        gridBagConstraints.gridx = 0;
+//        gridBagConstraints.gridy = 0;
+//        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+//        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+//        gridBagConstraints.weightx = 0.9;
+//        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+//        add(labelWelcome, gridBagConstraints);
         
         // scroll farm
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -217,9 +217,18 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(scrollFarms, gridBagConstraints);
         
-        //button new farm
+        //button enable
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(buttonEnable, gridBagConstraints);
+        
+        //button new farm
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 0.1;
@@ -245,13 +254,13 @@ public class PanelListFarms extends javax.swing.JPanel {
         add(buttonExcel, gridBagConstraints);
         
         //button enable farm
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(buttonEnable, gridBagConstraints);
+//        gridBagConstraints = new java.awt.GridBagConstraints();
+//        gridBagConstraints.gridx = 2;
+//        gridBagConstraints.gridy = 2;
+//        gridBagConstraints.gridwidth = 2;
+//        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
+//        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+//        add(buttonEnable, gridBagConstraints);
     }
     
     /**
@@ -290,7 +299,7 @@ public class PanelListFarms extends javax.swing.JPanel {
     /**
      * label welcome
      */
-    private javax.swing.JLabel labelWelcome;
+//    private javax.swing.JLabel labelWelcome;
     /**
      * panel of farm's list
      */

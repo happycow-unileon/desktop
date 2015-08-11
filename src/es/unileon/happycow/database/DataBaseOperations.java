@@ -1,10 +1,10 @@
 package es.unileon.happycow.database;
 
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
-import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.model.composite2.Valoration;
 import es.unileon.happycow.model.facade.EvaluationModel;
 import es.unileon.happycow.model.facade.IEvaluationModel;
 import java.io.File;

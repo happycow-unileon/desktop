@@ -6,7 +6,7 @@ import es.unileon.happycow.gui.admin.NewCriterion;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite2.Criterion;
 
 /**
  *

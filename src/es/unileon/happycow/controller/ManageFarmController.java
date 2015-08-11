@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelManageFarm;
 import es.unileon.happycow.handler.IdFarm;
@@ -72,6 +72,9 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
      * Hace una nueva evaluación de esta granja
      */
     public void newEvaluation(){
+        controller.clearParameters();
+        controller.addParameter("idFarm", idFarm.toString());
+        controller.setState(Window.EVALUATION);
 //        fatherController.evaluation(idFarm, null);
     }
     

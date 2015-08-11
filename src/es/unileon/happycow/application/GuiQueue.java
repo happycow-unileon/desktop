@@ -1,6 +1,6 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.application.windows.IWindow;
+import es.unileon.happycow.windows.IWindow;
 import es.unileon.happycow.handler.IdHandler;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,13 +42,15 @@ public class GuiQueue{
         return queue.peek();
     }
     
-    public IWindow pop(){
+    private IWindow pop(){
         return queue.pop();
     }
     
     public IWindow back(){
         pop();
-        return peek();
+        IWindow result=peek();
+        result.onResume(new HashMap<String, String>());
+        return result;
     }
     
     public boolean contains(IdHandler id){
@@ -71,6 +73,9 @@ public class GuiQueue{
             }else{
                 queue.pop();
             }
+        }
+        if(window!=null){
+            window.onResume(new HashMap<String, String>());
         }
         return window;
     }

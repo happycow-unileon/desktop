@@ -1,0 +1,39 @@
+package es.unileon.happycow.gui.evaluation;
+
+import es.unileon.happycow.controller.evaluation.EvaluationCriterionController;
+import es.unileon.happycow.handler.Category;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+
+/**
+ *
+ * @author dorian
+ */
+public interface InterfaceEvaluationCriterionPanel {
+    public void setNumberCow(int number);
+    public String getCriterion();
+    public String getValoration();
+    public void addValoration(String valoration);
+    public void addCriterion(String criterion);
+    public void removeCriterion(String criterion);
+    public void removeValorations();
+    public void setController(EvaluationCriterionController controller);
+    public Category getSelectedCategory();
+    public void setModelValoration(DefaultListModel list);
+    public void setModelCriterion(DefaultListModel list);
+    public void setPonderationCriterion(float ponderation);
+    public void setPonderationCategory(float ponderation);
+    
+    public void addFilePanel(String file);
+    public void setListFiles(List<String> list);
+    
+    public void setHelp(String help);
+    public void deshabilitarValoraciones();
+    public void habilitarValoraciones();
+    
+    public void setComboCriterion(Category cat, LinkedList<String> list);
+    
+    public void setCriterion(Category cat, LinkedList<String> list);
+    
+}

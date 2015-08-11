@@ -30,6 +30,7 @@ public class Farm implements Serializable{
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list, boolean enabled) {
+        
         this.idFarm = idFarm;
         this.farmName = farmName;
         this.address = address;

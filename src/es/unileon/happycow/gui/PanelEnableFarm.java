@@ -106,13 +106,6 @@ public class PanelEnableFarm extends javax.swing.JPanel {
     }
     
     /**
-     * evento de salida
-     */
-    private void buttonExitActionPerformed() {
-        controller.comeBack();
-    }
-    
-    /**
      * Botón de ayuda
      */
     private void buttonHelpActionPerformed(){
@@ -136,7 +129,6 @@ public class PanelEnableFarm extends javax.swing.JPanel {
         labelMessage = new javax.swing.JLabel("Lista de granjas deshabilitadas");
         scrollFarms = new javax.swing.JScrollPane();
         panelList = new javax.swing.JPanel();
-        buttonExit = new javax.swing.JButton("Volver");
         buttonHelp = new javax.swing.JButton(new javax.swing.ImageIcon(
                 getClass().getResource("/images/help.png")));
     }
@@ -162,13 +154,6 @@ public class PanelEnableFarm extends javax.swing.JPanel {
     private void addEvents(){
 //        JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaHabilitarDeshabilitar");
 //        JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaHabilitarDeshabilitar");
-
-        buttonExit.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExitActionPerformed();
-            }
-        });
         
         
         buttonHelp.addActionListener(new java.awt.event.ActionListener() {
@@ -208,14 +193,6 @@ public class PanelEnableFarm extends javax.swing.JPanel {
         add(scrollFarms, gridBagConstraints);
         
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(buttonExit, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
@@ -223,12 +200,6 @@ public class PanelEnableFarm extends javax.swing.JPanel {
         add(buttonHelp, gridBagConstraints);
 
     }
-
-
-     /**
-     * botón de salida
-     */
-    private javax.swing.JButton buttonExit;
     /**
      * botón de ayuda
      */

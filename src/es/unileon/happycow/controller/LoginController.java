@@ -1,9 +1,10 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
-import es.unileon.happycow.application.windows.Window;
+import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.PanelLogin;
+import java.util.HashMap;
 
 /**
  *
@@ -45,4 +46,10 @@ public class LoginController extends IController {
         this.controller = controller;
     }
 
+    @Override
+    public void onResume(HashMap<String, String> parameters) {
+        login.clearAll();
+    }
+
+    
 }

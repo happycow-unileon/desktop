@@ -4,7 +4,7 @@ import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.admin.RemoveCriterion;
 import es.unileon.happycow.handler.IdCriterion;
-import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite2.Criterion;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 

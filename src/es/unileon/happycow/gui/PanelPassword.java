@@ -88,7 +88,8 @@ public class PanelPassword extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(lblNewPassword, gridBagConstraints);
+        add(lblOldPassword, gridBagConstraints);
+        
 
         lblRenewPassword.setText("Reintroduzca la nueva contraseña");
         lblRenewPassword.setFocusable(false);
@@ -106,7 +107,7 @@ public class PanelPassword extends javax.swing.JPanel {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(lblOldPassword, gridBagConstraints);
+        add(lblNewPassword, gridBagConstraints);
 
         textNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +126,7 @@ public class PanelPassword extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 20);
-        add(textNewPassword, gridBagConstraints);
+        add(textOldPassword, gridBagConstraints);
 
         textRenewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +164,7 @@ public class PanelPassword extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 20);
-        add(textOldPassword, gridBagConstraints);
+        add(textNewPassword, gridBagConstraints);
 
         buttonOk.setText("Cambiar");
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
