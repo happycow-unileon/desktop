@@ -2,7 +2,7 @@ package es.unileon.happycow.strategy;
 
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
-import es.unileon.happycow.model.composite2.Valoration;
+import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.util.LinkedList;
 

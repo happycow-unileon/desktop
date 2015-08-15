@@ -7,7 +7,7 @@ package es.unileon.happycow.database.prototype;
 
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
-import es.unileon.happycow.model.composite2.Criterion;
+import es.unileon.happycow.model.composite.Criterion;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;

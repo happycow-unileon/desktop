@@ -3,7 +3,7 @@
  */
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.IdHandler;
 import java.util.Iterator;
 import java.util.LinkedList;

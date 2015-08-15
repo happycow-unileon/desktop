@@ -1,12 +1,12 @@
 
 package es.unileon.happycow.strategy;
 
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
-import es.unileon.happycow.model.composite2.Criterion;
-import es.unileon.happycow.model.composite2.Valoration;
+import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.util.LinkedList;
 

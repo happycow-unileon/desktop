@@ -4,8 +4,8 @@
 package es.unileon.happycow.model.evaluation;
 
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.composite2.Component;
-import es.unileon.happycow.model.composite2.Criterion;
+import es.unileon.happycow.model.composite.Component;
+import es.unileon.happycow.model.composite.Criterion;
 
 /**
  *

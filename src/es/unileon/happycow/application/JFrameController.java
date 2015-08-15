@@ -1,6 +1,6 @@
 package es.unileon.happycow.application;
 
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.Window;
 import java.util.Observable;
 

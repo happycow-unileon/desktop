@@ -1,6 +1,6 @@
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.database2.DatabaseObject;
+import es.unileon.happycow.database.DatabaseObject;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import java.io.Serializable;

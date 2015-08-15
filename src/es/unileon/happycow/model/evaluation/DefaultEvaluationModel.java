@@ -1,18 +1,18 @@
 package es.unileon.happycow.model.evaluation;
 
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.InformationEvaluation;
-import es.unileon.happycow.model.composite2.Criterion;
-import es.unileon.happycow.model.composite2.EvaluationCategory;
-import es.unileon.happycow.model.composite2.Valoration;
-import es.unileon.happycow.model.composite2.Component;
-import es.unileon.happycow.model.composite2.CompositeException;
-import es.unileon.happycow.model.composite2.Evaluation;
-import es.unileon.happycow.model.composite2.iterator.IteratorException;
+import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite.EvaluationCategory;
+import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.model.composite.Component;
+import es.unileon.happycow.model.composite.CompositeException;
+import es.unileon.happycow.model.composite.Evaluation;
+import es.unileon.happycow.model.composite.iterator.IteratorException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;

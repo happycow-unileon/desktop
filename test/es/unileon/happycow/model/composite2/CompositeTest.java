@@ -1,5 +1,11 @@
 package es.unileon.happycow.model.composite2;
 
+import es.unileon.happycow.model.composite.EvaluationCategory;
+import es.unileon.happycow.model.composite.Component;
+import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite.CompositeException;
+import es.unileon.happycow.model.composite.Evaluation;
+import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdEvaluation;

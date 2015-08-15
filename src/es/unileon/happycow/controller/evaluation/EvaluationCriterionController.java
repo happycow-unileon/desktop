@@ -1,14 +1,14 @@
 package es.unileon.happycow.controller.evaluation;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.evaluation.InterfaceEvaluationCriterionPanel;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.composite2.Criterion;
-import es.unileon.happycow.model.composite2.Valoration;
+import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
 import es.unileon.happycow.strategy.EvaluationAlgorithm;
 import java.io.File;
@@ -192,7 +192,7 @@ public class EvaluationCriterionController extends IController {
         if (newEvaluation) {
             Database.getInstance().saveEvaluation(model);
         } else {
-            Database.getInstance().saveModifiedEvaluation(model);
+            Database.getInstance().updateEvaluation(model);
         }
         //TODO
 //        JFrameController.getInstance().report(new Report(model), model.getInformation().getIdFarm());

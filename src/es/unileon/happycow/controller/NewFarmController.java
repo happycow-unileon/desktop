@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.gui.PanelNewFarm;
 import es.unileon.happycow.handler.IdFarm;
