@@ -1,5 +1,6 @@
-package es.unileon.happycow.database.concreteDatabase;
+package es.unileon.happycow.database2.concreteDatabase;
 
+import es.unileon.happycow.database2.DatabaseObject;
 import es.unileon.happycow.model.Rol;
 import es.unileon.happycow.model.User;
 import java.io.File;
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class SQLite extends DefaultDatabase {
+public class SQLite extends DatabaseObject {
     private static final String stringConexion = "jdbc:sqlite::resource:database/database.sqlite";
     private static final String pathDatabase= "database/database.sqlite";
 

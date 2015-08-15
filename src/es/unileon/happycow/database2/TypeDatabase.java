@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package es.unileon.happycow.database;
+package es.unileon.happycow.database2;
 
 /**
  *

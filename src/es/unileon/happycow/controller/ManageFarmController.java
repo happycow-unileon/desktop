@@ -1,13 +1,12 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.Parameters;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.windows.Window;
-import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelManageFarm;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
-import java.util.HashMap;
 
 /**
  *

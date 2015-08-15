@@ -2,10 +2,9 @@ package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.application.Parameters;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.windows.Window;
-import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.PanelLogin;
-import java.util.HashMap;
 
 /**
  *

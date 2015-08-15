@@ -77,7 +77,9 @@ public class UserMapper implements EntityDB {
     }
     
     public static User restoreObject(ResultSet result) throws SQLException {
-        return new User(result.getString("NOMBREUSUARIO"), result.getString("CONTRASENIA"), result.getString("ROL"));
+        User one=new User(result.getString("NOMBREUSUARIO"), result.getString("CONTRASENIA"), result.getString("ROL"));
+        one.setPassword(result.getString("CONTRASENIA"));
+        return one;
     }
 
 }

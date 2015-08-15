@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.database.Database;
-import es.unileon.happycow.database.concreteDatabase.DefaultDatabase;
+import es.unileon.happycow.database2.Database;
+import es.unileon.happycow.database2.DatabaseObject;
 import es.unileon.happycow.gui.PanelPassword;
 import es.unileon.happycow.model.User;
 
@@ -19,7 +19,7 @@ public class PasswordController extends IController{
     public void changePassword(){
         String message="";
         if(panel.isPasswordMatch()){
-            String oldPassword=DefaultDatabase.encript(panel.getOldPassword());
+            String oldPassword=DatabaseObject.encript(panel.getOldPassword());
             User user=Database.getInstance().getUser();
             String userPassword=user.getPassword();
             if(oldPassword.compareTo(userPassword)==0){

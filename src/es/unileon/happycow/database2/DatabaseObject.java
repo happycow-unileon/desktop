@@ -1,12 +1,11 @@
 package es.unileon.happycow.database2;
 
+import es.unileon.happycow.database2.prototype.InsertCriterion;
 import es.unileon.happycow.database2.mapper.FarmMapper;
 import es.unileon.happycow.database2.mapper.EvaluationMapper;
 import es.unileon.happycow.database2.mapper.UserMapper;
 import es.unileon.happycow.database2.mapper.CriterionMapper;
-import es.unileon.happycow.database.*;
-import es.unileon.happycow.database.concreteDatabase.InsertCriterion;
-import es.unileon.happycow.database.prototype.CriterionPrototype;
+import es.unileon.happycow.database2.prototype.CriterionPrototype;
 import es.unileon.happycow.handler.*;
 import es.unileon.happycow.model.*;
 import es.unileon.happycow.model.composite2.Criterion;

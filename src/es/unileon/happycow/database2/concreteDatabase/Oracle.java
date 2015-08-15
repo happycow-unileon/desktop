@@ -1,5 +1,6 @@
-package es.unileon.happycow.database.concreteDatabase;
+package es.unileon.happycow.database2.concreteDatabase;
 
+import es.unileon.happycow.database2.DatabaseObject;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -9,7 +10,7 @@ import java.util.logging.Logger;
  *
  * @author dorian
  */
-public class Oracle extends DefaultDatabase {
+public class Oracle extends DatabaseObject {
 
 
     public Oracle() {

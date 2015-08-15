@@ -1,13 +1,10 @@
 package es.unileon.happycow.controller.admin;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.gui.admin.RemoveUser;
-import es.unileon.happycow.gui.admin.RemoveAdmin;
-import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.model.Rol;
 import es.unileon.happycow.model.User;
-import es.unileon.happycow.model.composite.Criterion;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 

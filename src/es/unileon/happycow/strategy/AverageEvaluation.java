@@ -1,7 +1,7 @@
 
 package es.unileon.happycow.strategy;
 
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;

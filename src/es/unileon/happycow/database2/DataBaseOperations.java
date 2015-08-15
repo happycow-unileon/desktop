@@ -1,6 +1,5 @@
 package es.unileon.happycow.database2;
 
-import es.unileon.happycow.database.*;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.Farm;

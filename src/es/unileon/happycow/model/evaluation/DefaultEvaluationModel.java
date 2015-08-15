@@ -1,6 +1,6 @@
 package es.unileon.happycow.model.evaluation;
 
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdEvaluation;

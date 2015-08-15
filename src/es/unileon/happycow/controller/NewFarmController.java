@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.windows.Window;
-import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelNewFarm;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
@@ -82,7 +82,7 @@ public class NewFarmController extends IController{
             }
 
             if(idFarm!=null){
-                if(!Database.getInstance().modifiedFarm(farm)){
+                if(!Database.getInstance().updateFarm(farm)){
                     JOptionPane.showMessageDialog(panel, 
                             "Errores al guardar la granja, inténtelo de nuevo",
                             "Error", JOptionPane.WARNING_MESSAGE);

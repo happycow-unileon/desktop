@@ -1,15 +1,13 @@
 package es.unileon.happycow.model;
 
 import es.unileon.happycow.handler.IdHandler;
-import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  *
  * @author dorian
  */
-public class Farm implements Serializable{
+public class Farm {
 
     private IdHandler idFarm;
     private String farmName;
@@ -21,13 +19,13 @@ public class Farm implements Serializable{
     private IdHandler idUser;
     private String otherData;
     private boolean enabled;
-    private LinkedList<InformationEvaluation> list;
+    private ListEvaluations list;
 
-    private boolean listLoaded;
+    
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list, boolean enabled) {
+            IdHandler idUser, String otherData, ListEvaluations list, boolean enabled) {
 
         this.idFarm = idFarm;
         this.farmName = farmName;
@@ -36,12 +34,6 @@ public class Farm implements Serializable{
         this.dniFarmer = dniFarmer;
         this.cowNumber = cowNumber;
         this.idUser = idUser;
-        if (list == null) {
-            listLoaded = false;
-            list = new LinkedList<>();
-        } else {
-            listLoaded = true;
-        }
         this.list = list;
         this.otherData = otherData;
         this.farmIdentifier = farmIdentifier;
@@ -50,43 +42,43 @@ public class Farm implements Serializable{
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list) {
+            IdHandler idUser, String otherData, ListEvaluations list) {
         this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, list, true);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser) {
-        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", null, true);
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", new ListEvaluations(idFarm), true);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, String otherData) {
-        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, null, true);
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, new ListEvaluations(idFarm), true);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, LinkedList<InformationEvaluation> list) {
+            IdHandler idUser, ListEvaluations list) {
         this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", list, true);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, boolean enabled) {
-        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", null, enabled);
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", new ListEvaluations(idFarm), enabled);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, String otherData, boolean enabled) {
-        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, null, enabled);
+        this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, otherData, new ListEvaluations(idFarm), enabled);
     }
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
-            IdHandler idUser, LinkedList<InformationEvaluation> list, boolean enabled) {
+            IdHandler idUser, ListEvaluations list, boolean enabled) {
         this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", list, enabled);
     }
 
@@ -163,55 +155,19 @@ public class Farm implements Serializable{
     }
 
     public void addEvaluation(InformationEvaluation evaluation) {
-        if (!listLoaded) {
-            getListEvaluation();
-        }
-        if (!getListEvaluation().contains(evaluation)) {
-            list.add(evaluation);
-        }
+        list.addEvaluation(evaluation);
     }
 
     public void removeEvaluation(IdHandler evaluation) {
-        InformationEvaluation target = null;
-        if (!listLoaded) {
-            getListEvaluation();
-        }
-        for (Iterator<InformationEvaluation> it = list.iterator(); it.hasNext() && target == null;) {
-            InformationEvaluation eval = it.next();
-            if (eval.getIdEvaluation().compareTo(evaluation) == 0) {
-                target = eval;
-            }
-        }
-        list.remove(target);
+        list.removeEvaluation(evaluation);
     }
 
     public InformationEvaluation getEvaluation(IdHandler evaluation) {
-        int target = -1;
-        if (!listLoaded) {
-            getListEvaluation();
-        }
-        int index = 0;
-        for (Iterator<InformationEvaluation> it = list.iterator(); it.hasNext() && target <= -1;) {
-            InformationEvaluation eval = it.next();
-            if (eval.getIdEvaluation().compareTo(evaluation) == 0) {
-                target = index;
-            }
-            index++;
-        }
-        if (target >= 0) {
-            return list.get(target);
-        } else {
-            return null;
-        }
+        return list.getEvaluation(evaluation);
     }
 
     public LinkedList<InformationEvaluation> getListEvaluation() {
-        if (!listLoaded) {
-            //TODO
-//            list = Database.getInstance().getListEvaluations(idFarm);
-        }
-        listLoaded = true;
-        return list;
+        return list.getListEvaluation();
     }
 
     public String getInformation() {
@@ -222,7 +178,7 @@ public class Farm implements Serializable{
                 + "Dirección: " + this.getAddress() + "<br>"
                 + "Número de vacas actual: " + this.getCowNumber() + "<br>"
                 + "Otros datos: " + this.getOtherData() + "<br>"
-                + "Número de evaluaciones: " + this.getListEvaluation().size() + "<br>"
+                + "Número de evaluaciones: " + list.size() + "<br>"
                 + "<br>";
     }
 
@@ -230,6 +186,4 @@ public class Farm implements Serializable{
     public String toString() {
         return "IdFarm = " + idFarm.toString() + " FarmIdentifier = " + farmIdentifier + " NombreGranja = " + farmName;
     }
-
-    
 }

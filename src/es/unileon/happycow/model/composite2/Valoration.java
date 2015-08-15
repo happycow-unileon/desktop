@@ -1,6 +1,6 @@
 package es.unileon.happycow.model.composite2;
 
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdValoration;
 

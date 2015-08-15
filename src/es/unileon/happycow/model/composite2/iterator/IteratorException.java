@@ -1,6 +1,5 @@
 package es.unileon.happycow.model.composite2.iterator;
 
-import es.unileon.happycow.model.composite.iterator.*;
 
 public class IteratorException extends Exception {
 	

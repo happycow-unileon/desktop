@@ -3,11 +3,10 @@ package es.unileon.happycow.windows.factory.admin;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.RemoveCriterionController;
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.RemoveCriterion;
 import es.unileon.happycow.model.composite2.Criterion;
-import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 

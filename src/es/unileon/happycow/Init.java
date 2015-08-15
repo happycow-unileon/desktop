@@ -1,8 +1,8 @@
 package es.unileon.happycow;
 
 import es.unileon.happycow.application.JFrame;
-import es.unileon.happycow.database.DataBaseOperations;
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.DataBaseOperations;
+import es.unileon.happycow.database2.Database;
 
 
 

@@ -1,6 +1,6 @@
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.database.concreteDatabase.DefaultDatabase;
+import es.unileon.happycow.database2.DatabaseObject;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import java.io.Serializable;
@@ -32,7 +32,7 @@ public class User implements Serializable {
     public User(IdHandler id, String passwd, Rol rol) {
         this.name = id.toString();
         this.idHandler = id;
-        this.password = DefaultDatabase.encript(passwd);
+        this.password = DatabaseObject.encript(passwd);
         this.rol = rol;
     }
 
@@ -49,10 +49,11 @@ public class User implements Serializable {
     }
 
     /**
+     * set encrypted
      * @param password
      */
     public void setPassword(String password) {
-        this.password = DefaultDatabase.encript(password);
+        this.password = password;
     }
 
     public String getStringRol() {

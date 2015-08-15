@@ -3,7 +3,7 @@ package es.unileon.happycow.windows.factory.admin;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.RemoveUserController;
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.RemoveUser;
 import es.unileon.happycow.model.User;

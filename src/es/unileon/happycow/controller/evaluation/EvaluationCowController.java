@@ -1,23 +1,16 @@
 package es.unileon.happycow.controller.evaluation;
 
 import es.unileon.happycow.controller.IController;
-import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database2.Database;
 import es.unileon.happycow.gui.evaluation.InterfaceEvaluationCriterionPanel;
 import es.unileon.happycow.gui.evaluation.PanelCriterionEvaluation;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.composite2.Valoration;
-import es.unileon.happycow.model.evaluation.DefaultEvaluationModel;
-import java.io.File;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
 
 /**
  *
