@@ -1,5 +1,6 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelEnableFarm;
@@ -32,7 +33,7 @@ public class EnableFarmController extends ButtonFarmInterfaceController{
     }
 
     @Override
-    public void onResume(HashMap<String, String> parameters) {
+    public void onResume(Parameters parameters) {
         panel.changeList(Database.getInstance().getDisabledFarms());
     }
     

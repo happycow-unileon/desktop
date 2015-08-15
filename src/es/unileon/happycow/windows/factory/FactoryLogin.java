@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.LoginController;
 import es.unileon.happycow.gui.PanelLogin;
@@ -20,7 +21,7 @@ public class FactoryLogin extends IFactory {
      */
     private LoginController controller;
 
-    public FactoryLogin(HashMap<String, String> parameters) {
+    public FactoryLogin(Parameters parameters) {
         super(parameters);
     }
 

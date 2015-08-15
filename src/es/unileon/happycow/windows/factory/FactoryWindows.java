@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.windows.IWindow;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.windows.factory.admin.FactoryAdmin;
@@ -20,7 +21,7 @@ import java.util.HashMap;
  */
 public class FactoryWindows {
 
-    public static IWindow create(Window type, HashMap<String, String> parameters) {
+    public static IWindow create(Window type, Parameters parameters) {
         IWindow window = null;
         IFactory factory = null;
         switch (type) {

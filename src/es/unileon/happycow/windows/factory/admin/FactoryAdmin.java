@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.AdminController;
 import es.unileon.happycow.database.Database;
@@ -27,7 +28,7 @@ public class FactoryAdmin extends IFactory{
      */
     private Administrator panel;
 
-    public FactoryAdmin(HashMap<String, String> parameters) {
+    public FactoryAdmin(Parameters parameters) {
         super(parameters);
     }
     

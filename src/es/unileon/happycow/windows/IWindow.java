@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdHandler;
@@ -92,10 +93,10 @@ public abstract class IWindow {
         return id.toString().hashCode();
     }
     
-    public void onResume(HashMap<String,String> parameters){
+    public void onResume(Parameters parameters){
         getController().onResume(parameters);
     };
-    public void onCreate(HashMap<String,String> parameters){
+    public void onCreate(Parameters parameters){
         getController().onCreate(parameters);
     };
     public void onDestroy(){

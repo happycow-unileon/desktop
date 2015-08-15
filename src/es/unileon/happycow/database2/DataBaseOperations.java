@@ -1,5 +1,6 @@
-package es.unileon.happycow.database;
+package es.unileon.happycow.database2;
 
+import es.unileon.happycow.database.*;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.Farm;
@@ -113,7 +114,7 @@ public interface DataBaseOperations {
      * @param id
      * @return 
      */
-    public int getNumberCow(IdHandler id, IdHandler evaluation);
+    public int getNumberCowEvaluation(IdHandler evaluation);
     
     public int getNumberCow(IdHandler id);
 
@@ -125,7 +126,7 @@ public interface DataBaseOperations {
     public boolean newUser(User user);
     
     
-    public boolean changePassword(IdHandler user, String password);
+    public boolean updateUser(User user);
     
     /**
      * Elimina un usuario concreto
@@ -199,7 +200,7 @@ public interface DataBaseOperations {
      * @param farm la granja a guardar que ya existe
      * @return 
      */
-    public boolean modifiedFarm(Farm farm);
+    public boolean updateFarm(Farm farm);
 
     /**
      * Deshabilita la granja especificada

@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -9,13 +9,13 @@ import javax.swing.JPanel;
  * @author dorian
  */
 public abstract class IFactory {
-    protected HashMap<String,String> parameters;
+    protected Parameters parameters;
 
-    public IFactory(HashMap<String, String> parameters) {
+    public IFactory(Parameters parameters) {
         this.parameters = parameters;
     }
     
-    public HashMap<String, String> getParameters() {
+    public Parameters getParameters() {
         return parameters;
     }
     

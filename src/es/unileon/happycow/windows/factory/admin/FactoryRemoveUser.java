@@ -1,12 +1,12 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.RemoveUserController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.RemoveUser;
 import es.unileon.happycow.model.User;
-import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 
@@ -19,7 +19,7 @@ public class FactoryRemoveUser extends IFactory {
     private RemoveUser panel;
     private RemoveUserController controller;
 
-    public FactoryRemoveUser(HashMap<String, String> parameters) {
+    public FactoryRemoveUser(Parameters parameters) {
         super(parameters);
     }
 

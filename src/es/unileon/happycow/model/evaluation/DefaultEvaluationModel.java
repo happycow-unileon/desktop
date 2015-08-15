@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package es.unileon.happycow.model.facade;
+package es.unileon.happycow.model.evaluation;
 
+import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
+import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.composite2.Criterion;
@@ -25,9 +22,33 @@ import java.util.logging.Logger;
  *
  * @author dorian
  */
-public class EvaluationModel implements IEvaluationModel {
+public class DefaultEvaluationModel implements IEvaluationModel {
 
-    private Evaluation evaluation;
+    protected Evaluation evaluation;
+    
+    /**
+     * Indica si la evaluación está actualizada con todos sus datos (valoraciones)
+     */
+    private boolean updated;
+    
+    public DefaultEvaluationModel(IdHandler idFarm){
+        InformationEvaluation info=new InformationEvaluation(
+                new IdEvaluation(Database.getInstance().nextIdEvaluation()), idFarm, 
+                Database.getInstance().getNumberCow(idFarm));
+        
+        this.updated=true;
+        try {
+            
+            evaluation = new Evaluation(info);
+            evaluation.setParent(null);
+            evaluation.add(new EvaluationCategory(new IdCategory(Category.BEHAVIOUR)));
+            evaluation.add(new EvaluationCategory(new IdCategory(Category.FOOD)));
+            evaluation.add(new EvaluationCategory(new IdCategory(Category.HEALTH)));
+            evaluation.add(new EvaluationCategory(new IdCategory(Category.HOUSE)));
+        } catch (CompositeException ex) {
+            Logger.getLogger(DefaultEvaluationModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public boolean add(IdHandler categoria, IdHandler criterio, Valoration valoration) {
@@ -120,8 +141,7 @@ public class EvaluationModel implements IEvaluationModel {
         Component aux = evaluation.search(idHandler);
 
         if (aux != null) {
-            Valoration v = (Valoration) aux;
-            v.setWeighing(weighing);
+            aux.setWeighing(weighing);
             return true;
         }
 
@@ -207,21 +227,14 @@ public class EvaluationModel implements IEvaluationModel {
         return evaluation.getId();
     }
 
-//    @Override
-//    public Criterion getCriterion(IdHandler id) {
-//        Component c = evaluation.search(id);
-//        return (c == null) ? null : (Criterion) c;
-//    }
-
     @Override
     public InformationEvaluation getInformation() {
         return evaluation.getInformation();
     }
 
-//    @Override
-//    public Valoration getValoration(IdHandler id) {
-//        Component c = evaluation.search(id);
-//        return (c == null) ? null : (Valoration) c;
-//    }
+    @Override
+    public Evaluation getComposite() {
+        return evaluation;
+    }
 
 }

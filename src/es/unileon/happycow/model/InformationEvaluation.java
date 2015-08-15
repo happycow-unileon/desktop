@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.unileon.happycow.model;
 
 import es.unileon.happycow.handler.IdFarm;
@@ -14,7 +9,8 @@ import java.sql.Date;
  *
  * @author dorian
  */
-public class InformationEvaluation implements Serializable{
+public class InformationEvaluation implements Serializable {
+
     private IdHandler idEvaluation;
     private IdHandler idFarm;
     private IdHandler idUser;
@@ -25,43 +21,43 @@ public class InformationEvaluation implements Serializable{
     private float comportamiento;
     private Date fecha;
     private int numberCows;
-    
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler idUser, 
-            float nota, float alimentacion, float salud, float comfort, 
+
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler idUser,
+            float nota, float alimentacion, float salud, float comfort,
             float comportamiento, Date fecha, int number) {
         this.idEvaluation = idEvaluation;
-        this.idUser=idUser;
+        this.idUser = idUser;
         this.nota = nota;
         this.alimentacion = alimentacion;
         this.salud = salud;
         this.comfort = comfort;
         this.comportamiento = comportamiento;
         this.fecha = fecha;
-        this.idFarm=idFarm;
-        this.numberCows=number;
+        this.idFarm = idFarm;
+        this.numberCows = number;
     }
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, 
-            float nota, float alimentacion, float salud, float comfort, 
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
+            float nota, float alimentacion, float salud, float comfort,
             float comportamiento, Date fecha, int number) {
-        this(idEvaluation, idFarm, 
-                ((IdFarm)idFarm).getIdUser(), nota, alimentacion,
+        this(idEvaluation, idFarm,
+                ((IdFarm) idFarm).getIdUser(), nota, alimentacion,
                 salud, comfort, comportamiento, fecha, number);
     }
-    
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, 
-            int alimentacion, int salud, int comfort, int comportamiento, 
+
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
+            int alimentacion, int salud, int comfort, int comportamiento,
             Date fecha, int number) {
-        this(idEvaluation, idFarm, 
-                (alimentacion + salud + comfort + comportamiento)/4, 
-                alimentacion, salud, comfort, comportamiento, fecha,number);
+        this(idEvaluation, idFarm,
+                (alimentacion + salud + comfort + comportamiento) / 4,
+                alimentacion, salud, comfort, comportamiento, fecha, number);
     }
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, 
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
             Date fecha, int number) {
-        this(idEvaluation, idFarm, 0, 0, 0, 0, fecha,number);
+        this(idEvaluation, idFarm, 0, 0, 0, 0, fecha, number);
     }
-    
+
     public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, int number) {
         this(idEvaluation, idFarm, 0, 0, 0, 0, new Date(new java.util.Date().getTime()), number);
     }
@@ -85,7 +81,7 @@ public class InformationEvaluation implements Serializable{
     public IdHandler getIdUser() {
         return idUser;
     }
-    
+
     public void setNota(float nota) {
         this.nota = nota;
     }
@@ -132,10 +128,10 @@ public class InformationEvaluation implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof InformationEvaluation){
-            InformationEvaluation other=(InformationEvaluation)obj;
-            return other.getIdEvaluation().compareTo(idEvaluation)==0;
-        }else{
+        if (obj instanceof InformationEvaluation) {
+            InformationEvaluation other = (InformationEvaluation) obj;
+            return other.getIdEvaluation().compareTo(idEvaluation) == 0;
+        } else {
             return super.equals(obj);
         }
     }

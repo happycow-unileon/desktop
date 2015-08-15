@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.BackupController;
 import es.unileon.happycow.windows.factory.IFactory;
@@ -15,7 +16,7 @@ public class FactoryBackup extends IFactory{
     private Backup panel;
     private BackupController controller;
 
-    public FactoryBackup(HashMap<String, String> parameters) {
+    public FactoryBackup(Parameters parameters) {
         super(parameters);
     }
 

@@ -1,6 +1,7 @@
 
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.BarOptionsController;
 import es.unileon.happycow.gui.PanelOptions;
@@ -21,7 +22,7 @@ public class FactoryOptionsBar extends IFactory {
      */
     private BarOptionsController controller;
 
-    public FactoryOptionsBar(HashMap<String, String> parameters) {
+    public FactoryOptionsBar(Parameters parameters) {
         super(parameters);
     }
 

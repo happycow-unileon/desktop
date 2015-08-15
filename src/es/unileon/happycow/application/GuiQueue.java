@@ -20,7 +20,7 @@ public class GuiQueue{
     }
     
     public void addWindow(IWindow window){
-        HashMap<String,String> parameters=window.getFactory().getParameters();
+        Parameters parameters=window.getFactory().getParameters();
         if(window.isUnique() && contains(window.getId())){
             returnTo(window.getId());
             queue.peek().getController().onResume(parameters);
@@ -49,7 +49,7 @@ public class GuiQueue{
     public IWindow back(){
         pop();
         IWindow result=peek();
-        result.onResume(new HashMap<String, String>());
+        result.onResume(new Parameters());
         return result;
     }
     
@@ -75,7 +75,7 @@ public class GuiQueue{
             }
         }
         if(window!=null){
-            window.onResume(new HashMap<String, String>());
+            window.onResume(new Parameters());
         }
         return window;
     }

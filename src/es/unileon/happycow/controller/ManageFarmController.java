@@ -1,5 +1,6 @@
 package es.unileon.happycow.controller;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.*;
 import es.unileon.happycow.gui.PanelManageFarm;
@@ -13,6 +14,7 @@ import java.util.HashMap;
  * @author dorian
  */
 public class ManageFarmController extends ButtonFarmInterfaceController {
+
     /**
      * Panel concreto
      */
@@ -24,26 +26,28 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
 
     /**
      * Constructor
+     *
      * @param panel panel que controla
      */
     public ManageFarmController(PanelManageFarm panel) {
         this.panel = panel;
-        this.idFarm=null;
+        this.idFarm = null;
     }
-    
-    public void removeEvaluation(IdHandler id){
+
+    public void removeEvaluation(IdHandler id) {
         Database.getInstance().removeEvaluation(id);
     }
-    
-    public void report(IdHandler id){
+
+    public void report(IdHandler id) {
 //        fatherController.report(new Report(Database.getInstance().getEvaluation(id)), idFarm);
     }
-    
+
     /**
      * Selecciona una evaluación y la modifica
-     * @param id 
+     *
+     * @param id
      */
-    public void evaluationSelected(IdHandler id){
+    public void evaluationSelected(IdHandler id) {
         //llama al padre y le indica la evaluación seleccionada
         controller.clearParameters();
         controller.addParameter("idFarm", idFarm.toString());
@@ -51,37 +55,38 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
         controller.setState(Window.EVALUATION);
 //        fatherController.evaluation(idFarm, id);
     }
-    
+
     /**
      * Deshabilita la granja
      */
-    public void disableFarm(){
-        if(Database.getInstance().disableFarm(idFarm)){
+    public void disableFarm() {
+        if (Database.getInstance().disableFarm(idFarm)) {
             returnWindow();
         }
     }
-    
+
     /**
      * Vuelve a la página anterior
      */
-    public void returnWindow(){
+    public void returnWindow() {
         controller.setState(Window.LIST_FARMS);
     }
-    
+
     /**
      * Hace una nueva evaluación de esta granja
      */
-    public void newEvaluation(){
+    public void newEvaluation() {
         controller.clearParameters();
+        controller.addParameter("isNew", true);
         controller.addParameter("idFarm", idFarm.toString());
         controller.setState(Window.EVALUATION);
 //        fatherController.evaluation(idFarm, null);
     }
-    
+
     /**
      * Pasa a la ventana de excel con esta granja y sus evaluaciones marcadas
      */
-    public void excel(){
+    public void excel() {
 //        LinkedList<Farm> list=new LinkedList<>();
 //        list.add(Database.getInstance().getFarm(idFarm));
 //        fatherController.excel(list);
@@ -94,13 +99,15 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
     }
 
     @Override
-    public void onResume(HashMap<String, String> parameters) {
-        String id=parameters.get("id");
-        idFarm=new IdFarm(Integer.parseInt(id));
-        Farm farm=Database.getInstance().getFarm(idFarm);
-        panel.setFarm(farm);
+    public void onResume(Parameters parameters) {
+        String id = parameters.getString("id");
+        if (id != null) {
+            idFarm = new IdFarm(Integer.parseInt(id));
+        }
+        if (idFarm != null) {
+            Farm farm = Database.getInstance().getFarm(idFarm);
+            panel.setFarm(farm);
+        }
     }
-    
-    
-    
+
 }

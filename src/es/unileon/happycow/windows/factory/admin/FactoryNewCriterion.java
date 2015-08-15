@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.NewCriterionController;
 import es.unileon.happycow.windows.factory.IFactory;
@@ -16,7 +17,7 @@ public class FactoryNewCriterion extends IFactory{
     private NewCriterion panel;
     private NewCriterionController controller;
 
-    public FactoryNewCriterion(HashMap<String, String> parameters) {
+    public FactoryNewCriterion(Parameters parameters) {
         super(parameters);
     }
 

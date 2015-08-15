@@ -30,7 +30,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         queue = new GuiQueue(controller);
 
         initComponents();
-        IFactory factory=FactoryWindows.create(Window.BAR_OPTIONS, new HashMap<String, String>())
+        IFactory factory=FactoryWindows.create(Window.BAR_OPTIONS, new Parameters())
                 .getFactory();
         factory.createElements();
         menuBar = factory.getPanel();
@@ -45,7 +45,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         });
 
         //inicializo el login
-        queue.addWindow(FactoryWindows.create(Window.LOGIN, new HashMap<String, String>()));
+        queue.addWindow(FactoryWindows.create(Window.LOGIN, new Parameters()));
         //seteo el estado
         changePanel(queue.peek());
 

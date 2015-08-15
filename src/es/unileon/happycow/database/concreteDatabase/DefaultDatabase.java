@@ -6,8 +6,8 @@ import es.unileon.happycow.handler.*;
 import es.unileon.happycow.model.*;
 import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.composite2.Valoration;
-import es.unileon.happycow.model.facade.EvaluationModel;
-import es.unileon.happycow.model.facade.IEvaluationModel;
+import es.unileon.happycow.model.evaluation.DefaultEvaluationModel;
+import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -1321,8 +1321,8 @@ public abstract class DefaultDatabase implements DataBaseOperations {
     }
 
     @Override
-    public LinkedList<EvaluationModel> getAllEvaluations() {
-        LinkedList<EvaluationModel> model = new LinkedList<>();
+    public LinkedList<DefaultEvaluationModel> getAllEvaluations() {
+        LinkedList<DefaultEvaluationModel> model = new LinkedList<>();
         try {
             sql = conection.prepareStatement("SELECT * FROM EVALUATION");
             executeSQL(sql, TIPOSQL.CONSULTA);

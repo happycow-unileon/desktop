@@ -1,9 +1,9 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.windows.factory.evaluation.FactoryEvaluationCow;
 import es.unileon.happycow.windows.factory.evaluation.FactoryEvaluationCriterion;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -22,9 +22,9 @@ public class FactoryEvaluation extends IFactory {
      *
      * @param parameters
      */
-    public FactoryEvaluation(HashMap<String, String> parameters) {
+    public FactoryEvaluation(Parameters parameters) {
         super(parameters);
-        String mode = parameters.get("mode");
+        String mode = parameters.getString("mode");
         mode=(mode==null)? "":mode;
         switch (mode) {
             case "CRITERION":

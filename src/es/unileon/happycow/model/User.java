@@ -10,73 +10,59 @@ import java.io.Serializable;
  *
  * @author amdiaz8
  */
-public class User implements Serializable{
+public class User implements Serializable {
+
     private String name;
     private String password;
     private IdHandler idHandler;
     private Rol rol;
 
     public User(String name, String passwd, Rol rol) {
-        this(new IdUser(name), passwd, rol, false);
+        this(new IdUser(name), passwd, rol);
     }
     
-    public User(String name, String passwd, Rol rol, boolean encripted) {
-        this(new IdUser(name), passwd, rol, encripted);
+    public User(String name, String passwd, String rol) {
+        this(new IdUser(name), passwd, rol);
     }
-    
-    public User(String name, String passwd, String rol){
-        this(name, passwd, Rol.valueOf(rol), false);
+
+    public User(IdHandler id, String passwd, String rol) {
+        this(id, passwd, Rol.valueOf(rol));
     }
-    
-    public User(String name, String passwd, String rol, boolean encripted){
-        this(name, passwd, Rol.valueOf(rol), encripted);
+
+    public User(IdHandler id, String passwd, Rol rol) {
+        this.name = id.toString();
+        this.idHandler = id;
+        this.password = DefaultDatabase.encript(passwd);
+        this.rol = rol;
     }
-    
-    public User(IdHandler id, String passwd, String rol){
-        this(id, passwd, Rol.valueOf(rol), false);
-    }
-    
-    public User(IdHandler id, String passwd, String rol, boolean encripted){
-        this(id, passwd, Rol.valueOf(rol), encripted);
-    }
-    
-    
-    public User(IdHandler id, String passwd, Rol rol){
-        this(id, passwd, rol, false);
-    }
-    
-    public User(IdHandler id, String passwd, Rol rol, boolean encripted){
-        this.name=id.toString();
-        this.idHandler=id;
-        if(!encripted){
-            this.password=DefaultDatabase.encript(passwd);
-        }else{
-            this.password=passwd;
-        }
-        this.rol=rol;
-    }
-   
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
-    
-    public String getPassword(){
+
+    public String getPassword() {
         return this.password;
     }
 
     public Rol getRol() {
         return rol;
     }
-    
-    public String getStringRol(){
+
+    /**
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = DefaultDatabase.encript(password);
+    }
+
+    public String getStringRol() {
         return rol.toString();
     }
-    
+
 //    public PreferredView getPreferredView(){
 //        return this.preferredView;
 //    }
-    
-    public IdHandler getId(){
+    public IdHandler getId() {
         return this.idHandler;
     }
 
@@ -84,6 +70,5 @@ public class User implements Serializable{
     public String toString() {
         return name + " " + password + " " + rol.toString();
     }
-    
-    
+
 }

@@ -23,8 +23,8 @@ public class PasswordController extends IController{
             User user=Database.getInstance().getUser();
             String userPassword=user.getPassword();
             if(oldPassword.compareTo(userPassword)==0){
-                if(!Database.getInstance().changePassword(user.getId(), 
-                        DefaultDatabase.encript(panel.getNewPassword()))){
+                user.setPassword(panel.getNewPassword());
+                if(!Database.getInstance().updateUser(user)){
                     message="Error cambiando la contraseña";
                 }else{
                     controller.comeBack();

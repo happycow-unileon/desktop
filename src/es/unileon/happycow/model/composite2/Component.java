@@ -48,7 +48,7 @@ public abstract class Component implements Aggregate {
     }
 
     public void setWeighing(float weighing) {
-        this.weighing = weighing;
+        this.weighing=weighing;
     }
 
     public Component getParent() {

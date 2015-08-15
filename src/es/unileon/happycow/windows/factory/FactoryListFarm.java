@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.gui.PanelListFarms;
@@ -29,7 +30,7 @@ public class FactoryListFarm extends IFactory{
      * @param parameters
      * @param list list of farms to show
      */
-    public FactoryListFarm(HashMap<String, String> parameters) {
+    public FactoryListFarm(Parameters parameters) {
         super(parameters);
     }
     

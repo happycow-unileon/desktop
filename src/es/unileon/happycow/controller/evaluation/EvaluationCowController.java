@@ -11,7 +11,7 @@ import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.composite2.Criterion;
 import es.unileon.happycow.model.composite2.Valoration;
-import es.unileon.happycow.model.facade.EvaluationModel;
+import es.unileon.happycow.model.evaluation.DefaultEvaluationModel;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;

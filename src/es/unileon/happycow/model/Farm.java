@@ -1,11 +1,9 @@
 package es.unileon.happycow.model;
 
-
 import es.unileon.happycow.handler.IdHandler;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 
 /**
  *
@@ -24,13 +22,13 @@ public class Farm implements Serializable{
     private String otherData;
     private boolean enabled;
     private LinkedList<InformationEvaluation> list;
-    
+
     private boolean listLoaded;
 
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list, boolean enabled) {
-        
+
         this.idFarm = idFarm;
         this.farmName = farmName;
         this.address = address;
@@ -38,18 +36,18 @@ public class Farm implements Serializable{
         this.dniFarmer = dniFarmer;
         this.cowNumber = cowNumber;
         this.idUser = idUser;
-        if(list==null){
-            listLoaded=false;
-            list=new LinkedList<>();
-        }else{
-            listLoaded=true;
+        if (list == null) {
+            listLoaded = false;
+            list = new LinkedList<>();
+        } else {
+            listLoaded = true;
         }
         this.list = list;
         this.otherData = otherData;
         this.farmIdentifier = farmIdentifier;
-        this.enabled=enabled;
+        this.enabled = enabled;
     }
-    
+
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, String otherData, LinkedList<InformationEvaluation> list) {
@@ -73,7 +71,7 @@ public class Farm implements Serializable{
             IdHandler idUser, LinkedList<InformationEvaluation> list) {
         this(idFarm, farmName, farmIdentifier, address, farmerName, dniFarmer, cowNumber, idUser, "", list, true);
     }
-    
+
     public Farm(IdHandler idFarm, String farmName, String farmIdentifier,
             String address, String farmerName, String dniFarmer, int cowNumber,
             IdHandler idUser, boolean enabled) {
@@ -165,7 +163,7 @@ public class Farm implements Serializable{
     }
 
     public void addEvaluation(InformationEvaluation evaluation) {
-        if(!listLoaded){
+        if (!listLoaded) {
             getListEvaluation();
         }
         if (!getListEvaluation().contains(evaluation)) {
@@ -210,9 +208,9 @@ public class Farm implements Serializable{
     public LinkedList<InformationEvaluation> getListEvaluation() {
         if (!listLoaded) {
             //TODO
-           //list = Database.getInstance().getListEvaluations(idFarm);
+//            list = Database.getInstance().getListEvaluations(idFarm);
         }
-        listLoaded=true;
+        listLoaded = true;
         return list;
     }
 
@@ -227,9 +225,11 @@ public class Farm implements Serializable{
                 + "Número de evaluaciones: " + this.getListEvaluation().size() + "<br>"
                 + "<br>";
     }
-    
+
     @Override
-    public String toString(){
-        return "IdFarm = "+idFarm.toString() + " FarmIdentifier = "+ farmIdentifier +  " NombreGranja = "+farmName;
+    public String toString() {
+        return "IdFarm = " + idFarm.toString() + " FarmIdentifier = " + farmIdentifier + " NombreGranja = " + farmName;
     }
+
+    
 }

@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.NewUserController;
 import es.unileon.happycow.windows.factory.IFactory;
@@ -15,7 +16,7 @@ public class FactoryNewUser extends IFactory {
     private NewUser panel;
     private NewUserController controller;
 
-    public FactoryNewUser(HashMap<String, String> parameters) {
+    public FactoryNewUser(Parameters parameters) {
         super(parameters);
     }
 

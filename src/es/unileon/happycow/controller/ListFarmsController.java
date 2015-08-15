@@ -1,6 +1,7 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.PanelListFarms;
@@ -70,14 +71,9 @@ public class ListFarmsController extends ButtonFarmInterfaceController{
     }
 
     @Override
-    public void onResume(HashMap<String, String> parameters) {
+    public void onResume(Parameters parameters) {
         List<Farm> list=Database.getInstance().getListFarms();
         panel.changeList(list);
-    }
-
-    @Override
-    public void onCreate(HashMap<String, String> parameters) {
-        onResume(parameters);
     }
     
 }

@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory.admin;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.admin.RemoveCriterionController;
 import es.unileon.happycow.database.Database;
@@ -19,7 +20,7 @@ public class FactoryRemoveCriterion extends IFactory {
     private RemoveCriterion panel;
     private RemoveCriterionController controller;
 
-    public FactoryRemoveCriterion(HashMap<String, String> parameters) {
+    public FactoryRemoveCriterion(Parameters parameters) {
         super(parameters);
     }
 

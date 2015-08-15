@@ -17,7 +17,7 @@ public class EvaluationCategory extends Composite {
         this(idHandler, 1);
     }
 
-    public EvaluationCategory(IdHandler idHandler, int weighing) {
+    public EvaluationCategory(IdHandler idHandler, float weighing) {
         super();
         this.entity = Entity.CATEGORY;
         id = idHandler;

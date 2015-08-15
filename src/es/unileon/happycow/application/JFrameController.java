@@ -12,11 +12,11 @@ import java.util.Observable;
 public class JFrameController extends Observable{
     private ActionsFrame action;
     private Window state;
-    private HashMap<String,String> parameters;
+    private Parameters parameters;
 
     public JFrameController() {
         state=Window.LOGIN;
-        parameters=new HashMap<>();
+        parameters=new Parameters();
     }
 
     public ActionsFrame getAction() {
@@ -57,14 +57,22 @@ public class JFrameController extends Observable{
     }
     
     public void addParameter(String key, String value){
-        parameters.put(key, value);
+        parameters.addParameter(key, value);
+    }
+    
+    public void addParameter(String key, Boolean value){
+        parameters.addParameter(key, value);
+    }
+    
+    public void addParameter(String key, Integer value){
+        parameters.addParameter(key, value);
     }
     
     public void clearParameters(){
-        parameters.clear();
+        parameters.clearParameters();
     }
 
-    public HashMap<String, String> getParameters() {
+    public Parameters getParameters() {
         return parameters;
     }
 }

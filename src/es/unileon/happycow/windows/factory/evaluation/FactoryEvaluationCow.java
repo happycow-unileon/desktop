@@ -3,9 +3,9 @@
  */
 package es.unileon.happycow.windows.factory.evaluation;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.windows.factory.IFactory;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 public class FactoryEvaluationCow extends IFactory{
 
-    public FactoryEvaluationCow(HashMap<String, String> parameters) {
+    public FactoryEvaluationCow(Parameters parameters) {
         super(parameters);
     }
 

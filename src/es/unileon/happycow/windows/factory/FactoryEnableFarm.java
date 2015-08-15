@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.EnableFarmController;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.gui.PanelEnableFarm;
@@ -20,7 +21,7 @@ public class FactoryEnableFarm extends IFactory {
      */
     private EnableFarmController controller;
 
-    public FactoryEnableFarm(HashMap<String, String> parameters) {
+    public FactoryEnableFarm(Parameters parameters) {
         super(parameters);
     }
 

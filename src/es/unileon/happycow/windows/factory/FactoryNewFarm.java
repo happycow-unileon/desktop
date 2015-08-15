@@ -1,5 +1,6 @@
 package es.unileon.happycow.windows.factory;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.NewFarmController;
 import es.unileon.happycow.gui.PanelNewFarm;
@@ -32,7 +33,7 @@ public class FactoryNewFarm extends IFactory{
      * @param farm the farm to modify or use. If null,
      * a new farm is created
      */
-    public FactoryNewFarm(HashMap<String, String> parameters) {
+    public FactoryNewFarm(Parameters parameters) {
         super(parameters);
         //TODO
         this.farm=null;

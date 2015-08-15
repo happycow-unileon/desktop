@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.application.JFrameController;
-import java.util.HashMap;
+import es.unileon.happycow.application.Parameters;
 
 /**
  *
@@ -17,7 +17,7 @@ public abstract class IController {
         this.controller = controller;
     };
     
-    public void onResume(HashMap<String,String> parameters){};
-    public void onCreate(HashMap<String,String> parameters){onResume(parameters);};
+    public void onResume(Parameters parameters){};
+    public void onCreate(Parameters parameters){onResume(parameters);};
     public void onDestroy(){};
 }

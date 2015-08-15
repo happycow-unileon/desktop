@@ -41,7 +41,11 @@ public class Valoration extends Component {
     }
 
     public void setNota(float nota) {
-        this.nota = nota;
+        this.nota=nota;
+    }
+    
+    public IdHandler getIdEvaluation(){
+        return getRoot().getId();
     }
     
     
