@@ -1,34 +1,53 @@
 package es.unileon.happycow.gui;
 
+import es.unileon.happycow.controller.EditFarmController;
 import es.unileon.happycow.controller.NewFarmController;
+import es.unileon.happycow.model.Farm;
 import java.awt.event.ActionEvent;
 
 /**
  *
  * @author dorian
  */
-public class PanelNewFarm extends javax.swing.JPanel {
+public class PanelEditFarm extends javax.swing.JPanel {
 
-    private NewFarmController controller;
+    private EditFarmController controller;
 
-    /**
-     * Creates new form PanelNewFarm
-     *
-     * @param controller
-     */
-    public PanelNewFarm(NewFarmController controller) {
+    public PanelEditFarm() {
+        this(null, null);
+    }
+
+    public PanelEditFarm(EditFarmController controller) {
+        this(controller, null);
+    }
+
+    public PanelEditFarm(EditFarmController controller, Farm farm) {
         this.controller = controller;
         initComponents();
+        if (farm != null) {
+            setFarm(farm);
+        }
 
-//            JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaNuevaGranjaAnhadir");
-//            JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaNuevaGranjaAnhadir");  
+//            JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaModificarDatosGranja");
+//            JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaModificarDatosGranja");
     }
 
-    public PanelNewFarm() {
-        this(null);
+    public PanelEditFarm(Farm farm) {
+        this(null, farm);
     }
 
-    public void setController(NewFarmController controller) {
+    public void setFarm(Farm farm) {
+        //pasar todos los datos de la granja al formulario
+        textAreaOtherData.setText(farm.getOtherData());
+        textIdFarm.setText(farm.getFarmIdentifier());
+        textIdFarmer.setText(farm.getDniFarmer());
+        textNameFarm.setText(farm.getFarmName());
+        textNameFarmer.setText(farm.getFarmerName());
+        textNumberCows.setText(String.valueOf(farm.getCowNumber()));
+        textaddressFarm.setText(farm.getAddress());
+    }
+
+    public void setController(EditFarmController controller) {
         this.controller = controller;
     }
 

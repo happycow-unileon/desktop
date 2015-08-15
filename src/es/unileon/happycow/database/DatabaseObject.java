@@ -762,7 +762,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     public LinkedList<Criterion> getListCriterion() {
         if (!isCriterionInitialized()) {
         try {
-            PreparedStatement sql = UserMapper.getAllObject(conection);
+            PreparedStatement sql = CriterionMapper.getAllObject(conection);
             executeSQL(sql, TIPOSQL.CONSULTA);
 
             while (resultSet.next()) {
@@ -790,19 +790,10 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     @Override
     public Criterion getCriterion(IdHandler id) {
-        Criterion cri = null;
-        try {
-            PreparedStatement sql = UserMapper.getObject(conection, id);
-            executeSQL(sql, TIPOSQL.CONSULTA);
-            if (resultSet.next()) {
-                cri = CriterionMapper.restoreObject(resultSet);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
+        if (criterions == null) {
+            getListCriterion();
         }
-        return cri;
+        return criterions.clone(id.toString());
     }
     
     

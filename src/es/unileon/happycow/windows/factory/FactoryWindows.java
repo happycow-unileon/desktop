@@ -6,6 +6,7 @@ import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.windows.factory.admin.FactoryAdmin;
 import es.unileon.happycow.windows.Administrator;
 import es.unileon.happycow.windows.BarOptions;
+import es.unileon.happycow.windows.EditFarm;
 import es.unileon.happycow.windows.EnableFarm;
 import es.unileon.happycow.windows.Evaluation;
 import es.unileon.happycow.windows.ListFarm;
@@ -60,6 +61,10 @@ public class FactoryWindows {
             case EVALUATION:
                 factory= new FactoryEvaluation(parameters);
                 break;
+                
+            case EDIT_FARM:
+                factory=new FactoryEditFarm(parameters);
+                break;
         }
 
         if (factory == null) {
@@ -101,6 +106,10 @@ public class FactoryWindows {
 
             case EVALUATION:
                 window=new Evaluation(factory);
+                break;
+                
+            case EDIT_FARM:
+                window=new EditFarm(factory);
                 break;
         }
 

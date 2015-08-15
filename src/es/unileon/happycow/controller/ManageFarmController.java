@@ -94,6 +94,9 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
     @Override
     public void execute(IdHandler id) {
         //abre la ventana de nueva granja con los datos actuales
+        controller.clearParameters();
+        controller.addParameter("id", Integer.parseInt(idFarm.toString()));
+        controller.setState(Window.EDIT_FARM);
 //        fatherController.newFarm(idFarm);
     }
 

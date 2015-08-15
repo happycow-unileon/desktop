@@ -1,9 +1,8 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.database.Database;
+import es.unileon.happycow.gui.PanelEditFarm;
 import es.unileon.happycow.windows.Window;
-import es.unileon.happycow.gui.PanelNewFarm;
-import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import javax.swing.JOptionPane;
@@ -12,15 +11,19 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class NewFarmController extends IController {
+public class EditFarmController extends IController {
 
-    private final PanelNewFarm panel;
+    private final PanelEditFarm panel;
+    private final IdHandler idFarm;
 
-    public NewFarmController(PanelNewFarm panel) {
-        //crear identificador de granja!!!
-        this.panel = panel;
+    public EditFarmController(PanelEditFarm panel) {
+        this(panel, null);
     }
 
+    public EditFarmController(PanelEditFarm panel, IdHandler idFarm) {
+        this.panel = panel;
+        this.idFarm = idFarm;
+    }
 
     public void returnWindow() {
         controller.comeBack();
@@ -61,17 +64,19 @@ public class NewFarmController extends IController {
     public void saveFarm() {
         Farm farm;
         if (controlFarm()) {
+            farm = Database.getInstance().getFarm(idFarm);
+            farm.setAddress(panel.getAddressFarm());
+            farm.setCowNumber(Integer.parseInt(panel.getNumberCows()));
+            farm.setDniFarmer(panel.getIdFarmer());
+            farm.setFarmName(panel.getNameFarm());
+            farm.setFarmerName(panel.getNameFarmer());
+            farm.setOtherData(panel.getOtherData());
 
-            IdHandler identificationfarm = new IdFarm(Database.getInstance().nextIdFarm());
-            farm = new Farm(identificationfarm, panel.getNameFarm(), panel.getIdFarm(),
-                    panel.getAddressFarm(), panel.getNameFarmer(),
-                    panel.getIdFarmer(), Integer.parseInt(panel.getNumberCows()),
-                    Database.getInstance().getUser().getId(), panel.getOtherData());
-
-            if (!Database.getInstance().newFarm(farm)) {
+            if (!Database.getInstance().updateFarm(farm)) {
                 JOptionPane.showMessageDialog(panel,
                         "Errores al guardar la granja, inténtelo de nuevo",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.WARNING_MESSAGE);
+
             } else {
                 controller.setState(Window.LIST_FARMS);
             }

@@ -6,8 +6,6 @@ import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.User;
 import es.unileon.happycow.model.composite.Evaluation;
-import es.unileon.happycow.model.composite.Valoration;
-import es.unileon.happycow.model.evaluation.DefaultEvaluationModel;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.io.File;
 import java.sql.SQLException;

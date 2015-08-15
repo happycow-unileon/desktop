@@ -3,6 +3,7 @@ package es.unileon.happycow.controller;
 import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.database.Database;
+import es.unileon.happycow.database.DatabaseObject;
 import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.gui.PanelLogin;
 
@@ -26,7 +27,7 @@ public class LoginController extends IController {
     }
 
     public void checkLogin(String user, String passwd) {
-        if (Database.getInstance().login(user, passwd)) {
+        if (Database.getInstance().login(user, DatabaseObject.encript(passwd))){
             //indicar al controlador general que se cambia de ventana
             switch (Database.getInstance().getUser().getRol()) {
                 case ADMINISTRADOR:
