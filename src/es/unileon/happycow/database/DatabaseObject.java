@@ -13,12 +13,17 @@ import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Evaluation;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -323,8 +328,6 @@ public abstract class DatabaseObject implements DataBaseOperations {
             return null;
         }
     }
-    
-    
 
     public boolean storeObject(EntityDB object) {
         boolean result = false;
@@ -380,35 +383,31 @@ public abstract class DatabaseObject implements DataBaseOperations {
         return result;
     }
 
-    
-    
     @Override
     public boolean login(String user, String passwd) {
-        User userobject=getUser(new IdUser(user));
-        boolean result=false;
-        if(userobject==null){
+        User userobject = getUser(new IdUser(user));
+        boolean result = false;
+        if (userobject == null) {
             JOptionPane.showMessageDialog(null,
-                        "El usuario no existe.", "Mal usuario",
-                        JOptionPane.ERROR_MESSAGE);
-        }else if(userobject.getPassword().compareTo(passwd)!=0){
+                    "El usuario no existe.", "Mal usuario",
+                    JOptionPane.ERROR_MESSAGE);
+        } else if (userobject.getPassword().compareTo(passwd) != 0) {
             JOptionPane.showMessageDialog(null,
-                            "Contraseña incorrecta.", "Contraseña incorrecta",
-                            JOptionPane.ERROR_MESSAGE);
-        }else{
-            this.user=userobject;
-            result=true;
+                    "Contraseña incorrecta.", "Contraseña incorrecta",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.user = userobject;
+            result = true;
         }
-        
+
         return result;
-        
+
     }
 
     @Override
     public void logout() {
         user = null;
     }
-
-  
 
     //usuarios
     @Override
@@ -472,8 +471,8 @@ public abstract class DatabaseObject implements DataBaseOperations {
      * @throws Exception cualquier error que pueda surgir en la conexión
      */
     protected boolean existUser(String usuario) throws Exception {
-        User userobject=getUser(new IdUser(usuario));
-        return userobject!=null;
+        User userobject = getUser(new IdUser(usuario));
+        return userobject != null;
     }
 
     @Override
@@ -481,8 +480,6 @@ public abstract class DatabaseObject implements DataBaseOperations {
         UserMapper map = new UserMapper(user);
         return updateObject(map);
     }
-    
-    
 
     //granjas
     @Override
@@ -628,8 +625,6 @@ public abstract class DatabaseObject implements DataBaseOperations {
         }
         return number;
     }
-    
-    
 
     //evaluaciones
     @Override
@@ -637,8 +632,8 @@ public abstract class DatabaseObject implements DataBaseOperations {
         //CREAR UNA CLASE LIST EVALUATIONS el cual controla también si es cargada o no
         LinkedList<InformationEvaluation> lista = null;
         try {
-            PreparedStatement sql=InformationEvaluationMapper.getListEvaluations(conection, idFarm);
-            
+            PreparedStatement sql = InformationEvaluationMapper.getListEvaluations(conection, idFarm);
+
             executeSQL(sql, TIPOSQL.CONSULTA);
             lista = new LinkedList<>();
             while (resultSet.next()) {
@@ -649,14 +644,13 @@ public abstract class DatabaseObject implements DataBaseOperations {
         }
         return lista;
     }
-    
+
     @Override
-    public InformationEvaluation getInformationEvaluation(IdHandler id){
+    public InformationEvaluation getInformationEvaluation(IdHandler id) {
 //        PreparedStatement sql=InformationEvaluationMapper
 //        return InformationEvaluationMapper.restoreObject(resultSet);
         return null;
     }
-
 
     @Override
     public Evaluation getEvaluation(IdHandler id) {
@@ -697,8 +691,6 @@ public abstract class DatabaseObject implements DataBaseOperations {
         return false;
     }
 
-    
-    
     //identificadores
     @Override
     public int nextIdFarm() {
@@ -739,16 +731,13 @@ public abstract class DatabaseObject implements DataBaseOperations {
         }
         return id;
     }
-    
-    
-    
 
     //criterios
     @Override
     public boolean newCriterion(Criterion criterion) {
         CriterionMapper map = new CriterionMapper(criterion);
-        boolean result= storeObject(map);
-        if(result){
+        boolean result = storeObject(map);
+        if (result) {
             criterions.add(criterion);
         }
         return result;
@@ -757,32 +746,32 @@ public abstract class DatabaseObject implements DataBaseOperations {
     protected boolean isCriterionInitialized() {
         return criterionInitialized;
     }
-    
+
     @Override
     public LinkedList<Criterion> getListCriterion() {
         if (!isCriterionInitialized()) {
-        try {
-            PreparedStatement sql = CriterionMapper.getAllObject(conection);
-            executeSQL(sql, TIPOSQL.CONSULTA);
+            try {
+                PreparedStatement sql = CriterionMapper.getAllObject(conection);
+                executeSQL(sql, TIPOSQL.CONSULTA);
 
-            while (resultSet.next()) {
-                criterions.add(CriterionMapper.restoreObject(resultSet));
+                while (resultSet.next()) {
+                    criterions.add(CriterionMapper.restoreObject(resultSet));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
-        }
         }
         return criterions.getList();
     }
 
     @Override
     public boolean removeCriterion(IdHandler idCriterion) {
-        Criterion cri=new Criterion(idCriterion, null);
-        CriterionMapper map=new CriterionMapper(cri);
-        boolean result=removeObject(map);
-        if(result){
+        Criterion cri = new Criterion(idCriterion, null);
+        CriterionMapper map = new CriterionMapper(cri);
+        boolean result = removeObject(map);
+        if (result) {
             criterions.remove(cri);
         }
         return result;
@@ -795,31 +784,116 @@ public abstract class DatabaseObject implements DataBaseOperations {
         }
         return criterions.clone(id.toString());
     }
-    
-    
-    
-    
 
     //funciones de los adjuntos para evaluaciones
     @Override
     public boolean saveFile(IdHandler handler, File file) {
-        return false;
+        byte[] arr = getByteArray(file);
+        return saveFile(handler, arr, file.getName());
+    }
+
+    private boolean saveFile(IdHandler handler, byte[] arr, String name) {
+        boolean result = true;
+
+        try {
+            PreparedStatement sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
+
+            sql.setString(1, handler.toString());
+            sql.setBytes(2, arr);
+            sql.setString(3, name);
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+
+        } catch (Exception ex) {
+            result = false;
+            ex.printStackTrace();
+        }
+
+        return result;
+
     }
 
     @Override
     public List<String> getFileNames(IdHandler idHandler) {
-        return null;
+        List<String> fileNamesList = new ArrayList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
+            sql.setString(1, idHandler.toString());
+
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            while (resultSet.next()) {
+                fileNamesList.add(resultSet.getString("FILENAME"));
+            }
+
+            System.out.println(fileNamesList.size());
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+
+        return fileNamesList;
     }
 
     //Metodo que devuelve null si no se ha encontrado el fichero para una evaluacion
     @Override
     public byte[] getFile(IdHandler idHandler, String name) {
-        return null;
+        byte[] fileBytes = null;
+        boolean found = false;
+        try {
+
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=? AND FILENAME=?");
+            sql.setString(1, idHandler.toString());
+            sql.setString(2, name);
+
+            executeSQL(sql, TIPOSQL.CONSULTA);
+
+            while (resultSet.next() && !found) {
+                fileBytes = resultSet.getBytes("FILE");
+                found = true;
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+        return fileBytes;
     }
 
     @Override
     public void saveFileToTheSystem(byte[] arr, File file) {
-
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(arr);
+            fos.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
-    
+
+    // Metodos auxiliares para los blobs
+    private byte[] getByteArray(File file) {
+
+        FileInputStream fileInputStream = null;
+
+        byte[] bFile = new byte[(int) file.length()];
+        try {
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bFile;
+    }
+
 }
