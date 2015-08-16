@@ -25,7 +25,7 @@ public class PanelEnableFarm extends javax.swing.JPanel {
     public void setController(EnableFarmController controller){
         this.controller=controller;
         for (Component component : panelList.getComponents()) {
-            ((PanelFarm)component).setController(controller);
+            ((PanelFarmDetails)component).setController(controller);
         }
     }
     
@@ -60,7 +60,7 @@ public class PanelEnableFarm extends javax.swing.JPanel {
             //por cada granja...
             for (Farm farm : list) {
                 //crea un nuevo panel con su controlador y lo añade a la lista
-                panelList.add(new PanelFarm(farm, controller, "Pulse para habilitar esta granja"));
+                panelList.add(new PanelFarmDetails(farm, controller, "Pulse para habilitar esta granja"));
             }
         }
     }
@@ -75,7 +75,7 @@ public class PanelEnableFarm extends javax.swing.JPanel {
         //mira en todos los componentes...
         for (int i = 0; i < panelList.getComponentCount() && target<0; i++) {
             //saca el panel
-            PanelFarm panelFarm = (PanelFarm)panelList.getComponent(i);
+            PanelFarmList panelFarm = (PanelFarmList)panelList.getComponent(i);
             //comprueba los id
             if (panelFarm.getId().compareTo(id)==0){
                 //si es cierto, guarda el índice, con lo que sale del for
@@ -98,7 +98,7 @@ public class PanelEnableFarm extends javax.swing.JPanel {
      */
     public void addFarm(Farm farm){
         //crea el panel
-        PanelFarm panel=new PanelFarm(farm, null);
+        PanelFarmList panel=new PanelFarmList(farm, null);
         //lo añade
         panelList.add(panel);
         //repinta el panel

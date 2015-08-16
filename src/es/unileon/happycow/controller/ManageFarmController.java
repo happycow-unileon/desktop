@@ -12,7 +12,7 @@ import es.unileon.happycow.model.Farm;
  *
  * @author dorian
  */
-public class ManageFarmController extends ButtonFarmInterfaceController {
+public class ManageFarmController extends ButtonFarmDetailsIController {
 
     /**
      * Panel concreto
@@ -77,7 +77,7 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
     public void newEvaluation() {
         controller.clearParameters();
         controller.addParameter("isNew", true);
-        controller.addParameter("idFarm", idFarm.toString());
+        controller.addParameter("id", idFarm.toString());
         controller.setState(Window.EVALUATION);
 //        fatherController.evaluation(idFarm, null);
     }
@@ -95,7 +95,7 @@ public class ManageFarmController extends ButtonFarmInterfaceController {
     public void execute(IdHandler id) {
         //abre la ventana de nueva granja con los datos actuales
         controller.clearParameters();
-        controller.addParameter("id", Integer.parseInt(idFarm.toString()));
+        controller.addParameter("id", idFarm.toString());
         controller.setState(Window.EDIT_FARM);
 //        fatherController.newFarm(idFarm);
     }

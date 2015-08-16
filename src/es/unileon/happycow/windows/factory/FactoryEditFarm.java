@@ -73,7 +73,8 @@ public class FactoryEditFarm extends IFactory {
 
         if (controller == null) {
             //create the controller with the farm
-            controller = new EditFarmController(panel, new IdFarm(parameters.getInteger("id")));
+            controller = new EditFarmController(panel, new IdFarm(
+                    Integer.parseInt(parameters.getString("id"))));
             panel.setController(controller);
         }
     }
@@ -84,7 +85,8 @@ public class FactoryEditFarm extends IFactory {
     @Override
     public void createPanel() {
         if (panel == null) {
-            Farm farm = Database.getInstance().getFarm(new IdFarm(parameters.getInteger("id")));
+            Farm farm = Database.getInstance().getFarm(new IdFarm(
+                    Integer.parseInt(parameters.getString("id"))));
             panel = new PanelEditFarm(farm);
         }
 

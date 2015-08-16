@@ -2,7 +2,6 @@ package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.ManageFarmController;
 import es.unileon.happycow.model.Farm;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.DefaultListModel;
@@ -136,7 +135,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
      * Creo los componentes
      */
     private void createComponents() {
-        panelInformation = new PanelFarm(null, null);
+        panelInformation = new PanelFarmDetails(null, null);
         panelButtons = new javax.swing.JPanel();
         buttonExcel = new javax.swing.JButton("Exportar a excel");
 
@@ -332,7 +331,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
     /**
      * panel de información de la granja
      */
-    private PanelFarm panelInformation;
+    private PanelFarmDetails panelInformation;
     /**
      * scroll del listado de evaluaciones
      */

@@ -10,7 +10,7 @@ import es.unileon.happycow.handler.IdHandler;
  *
  * @author dorian
  */
-public class EnableFarmController extends ButtonFarmInterfaceController{
+public class EnableFarmController extends ButtonFarmDetailsIController{
      /**
      * Panel concreto
      */

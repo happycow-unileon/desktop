@@ -1,6 +1,6 @@
 package es.unileon.happycow.gui;
 
-import es.unileon.happycow.controller.ButtonFarmInterfaceController;
+import es.unileon.happycow.controller.ButtonFarmDetailsIController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 
@@ -8,20 +8,20 @@ import es.unileon.happycow.model.Farm;
  *
  * @author dorian
  */
-public final class PanelFarm extends javax.swing.JPanel {
+public final class PanelFarmDetails extends javax.swing.JPanel {
     private IdHandler idFarm;
-    private ButtonFarmInterfaceController controller;
+    private ButtonFarmDetailsIController controller;
 
     /**
      * Creates new form PanelFarm
      * @param farm
      * @param controller
      */
-    public PanelFarm(Farm farm, ButtonFarmInterfaceController controller) {
+    public PanelFarmDetails(Farm farm, ButtonFarmDetailsIController controller) {
         this(farm, controller, "");
     }
     
-    public PanelFarm(Farm farm, ButtonFarmInterfaceController controller, String tooltip) {
+    public PanelFarmDetails(Farm farm, ButtonFarmDetailsIController controller, String tooltip) {
         initComponents();
         this.controller=controller;
         if(farm!=null){
@@ -65,7 +65,7 @@ public final class PanelFarm extends javax.swing.JPanel {
         buttonFarm.setText(name);
     }
     
-    public void setController(ButtonFarmInterfaceController controller){
+    public void setController(ButtonFarmDetailsIController controller){
         this.controller=controller;
     }
 
@@ -80,6 +80,7 @@ public final class PanelFarm extends javax.swing.JPanel {
     private void createComponents(){
         buttonFarm = new javax.swing.JButton();
         labelText = new javax.swing.JLabel();
+        
     }
     
     private void configureComponents(){
@@ -115,6 +116,8 @@ public final class PanelFarm extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(labelText, gridBagConstraints);
+        
+        
     }
     
     private void buttonFarmActionPerformed() {

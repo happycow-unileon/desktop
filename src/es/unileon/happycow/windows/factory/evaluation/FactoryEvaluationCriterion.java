@@ -54,7 +54,7 @@ public class FactoryEvaluationCriterion extends IFactory{
         }
         
         if(controller==null){
-            IdHandler farm=new IdFarm(Integer.parseInt(parameters.getString("idFarm")));
+            IdHandler farm=new IdFarm(Integer.parseInt(parameters.getString("id")));
             boolean isNew = parameters.getBoolean("isNew");
             
             EvaluationCriterionModel evaluation=new EvaluationCriterionModel(farm);

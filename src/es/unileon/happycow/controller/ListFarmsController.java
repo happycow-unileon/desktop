@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author dorian
  */
-public class ListFarmsController extends ButtonFarmInterfaceController{
+public class ListFarmsController extends ButtonListFarmIController{
     /**
      * Panel concreto
      */
@@ -73,6 +73,13 @@ public class ListFarmsController extends ButtonFarmInterfaceController{
     public void onResume(Parameters parameters) {
         List<Farm> list=Database.getInstance().getListFarms();
         panel.changeList(list);
+    }
+
+    @Override
+    public void edit(IdHandler id) {
+        controller.clearParameters();
+        controller.addParameter("id", id.toString());
+        controller.setState(Window.EDIT_FARM);
     }
     
 }

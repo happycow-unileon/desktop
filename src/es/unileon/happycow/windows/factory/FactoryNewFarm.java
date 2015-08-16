@@ -5,7 +5,6 @@ import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.NewFarmController;
 import es.unileon.happycow.gui.PanelNewFarm;
 import es.unileon.happycow.model.Farm;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -77,7 +76,7 @@ public class FactoryNewFarm extends IFactory{
             if(farm==null){
                 controller=new NewFarmController(panel);
             }else{
-                controller=new NewFarmController(panel, farm.getIdFarm());
+                controller=new NewFarmController(panel);
             }
             panel.setController(controller);
         }
@@ -94,7 +93,7 @@ public class FactoryNewFarm extends IFactory{
                 
             //if the farm exists, give the farm so it can get the data
             }else{
-                panel=new PanelNewFarm(farm);
+                panel=new PanelNewFarm();
             }
         }
         

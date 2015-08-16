@@ -1,10 +1,12 @@
 package es.unileon.happycow.gui;
 
-import es.unileon.happycow.controller.ButtonFarmInterfaceController;
+import es.unileon.happycow.controller.ButtonFarmDetailsIController;
+import es.unileon.happycow.controller.ButtonListFarmIController;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -28,14 +30,6 @@ public class PanelListFarms extends javax.swing.JPanel {
     }
     
     /**
-     * Set the welcome's message or similar
-     * @param welcome 
-     */
-//    public void setWelcome(String welcome){
-//        labelWelcome.setText(welcome);
-//    }
-    
-    /**
      * set the controller
      * @param controller the controller
      */
@@ -44,9 +38,9 @@ public class PanelListFarms extends javax.swing.JPanel {
         //for every component of the panel
         for (int i = 0; i < panelList.getComponentCount(); i++) {
             //get the panel of the farm
-            PanelFarm panelFarm = (PanelFarm)panelList.getComponent(i);
+            PanelFarmList panelFarm = (PanelFarmList)panelList.getComponent(i);
             //set the controller to the farm's panel
-            panelFarm.setController((ButtonFarmInterfaceController)controller);
+            panelFarm.setController((ButtonListFarmIController)controller);
         }
     }
     
@@ -71,7 +65,7 @@ public class PanelListFarms extends javax.swing.JPanel {
             //for every farm
             for (Farm farm : list) {
                 //create a new panel with its controller and add it to the list of the panel
-                panelList.add(new PanelFarm(farm, controller, "Pulse para gestionar la granja"));
+                panelList.add(new PanelFarmList(farm, controller, "Pulse para gestionar la granja"));
             }
         }
     }
@@ -86,7 +80,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         //looking in every component
         for (int i = 0; i < panelList.getComponentCount() && target<0; i++) {
             //get the panel
-            PanelFarm panelFarm = (PanelFarm)panelList.getComponent(i);
+            PanelFarmList panelFarm = (PanelFarmList)panelList.getComponent(i);
             //check the identifier
             if (panelFarm.getId().compareTo(id)==0){
                 //if is the farm, store the index
@@ -109,7 +103,7 @@ public class PanelListFarms extends javax.swing.JPanel {
      */
     public void addFarm(Farm farm){
         //create the panel
-        PanelFarm panel=new PanelFarm(farm, null);
+        PanelFarmList panel=new PanelFarmList(farm, null);
         //add it
         panelList.add(panel);
         //repaint the list panel
@@ -130,7 +124,6 @@ public class PanelListFarms extends javax.swing.JPanel {
      * Create the components
      */
     private void createComponents(){
-//        labelWelcome = new javax.swing.JLabel("Bienvenido");
         scrollFarms = new javax.swing.JScrollPane();
         panelList = new javax.swing.JPanel();
         buttonNewFarm = new javax.swing.JButton("Nueva granja");
@@ -138,6 +131,8 @@ public class PanelListFarms extends javax.swing.JPanel {
                 getClass().getResource("/images/help.png")));
         buttonEnable = new javax.swing.JButton("Habilitar granja deshabilitada");
         buttonExcel=new javax.swing.JButton("Exportar a excel");
+        
+        
     }
     
     /**
@@ -154,6 +149,9 @@ public class PanelListFarms extends javax.swing.JPanel {
         buttonHelp.setContentAreaFilled(false);
         buttonHelp.setFocusPainted(false);
         scrollFarms.setViewportView(panelList);
+        
+        
+        
     }
     
     /**
@@ -219,7 +217,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         
         //button enable
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 0.1;
@@ -228,7 +226,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         
         //button new farm
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 0.1;
@@ -246,21 +244,12 @@ public class PanelListFarms extends javax.swing.JPanel {
         
         //button excel
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonExcel, gridBagConstraints);
-        
-        //button enable farm
-//        gridBagConstraints = new java.awt.GridBagConstraints();
-//        gridBagConstraints.gridx = 2;
-//        gridBagConstraints.gridy = 2;
-//        gridBagConstraints.gridwidth = 2;
-//        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-//        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-//        add(buttonEnable, gridBagConstraints);
     }
     
     /**
@@ -297,10 +286,6 @@ public class PanelListFarms extends javax.swing.JPanel {
      */
     private javax.swing.JButton buttonEnable;
     /**
-     * label welcome
-     */
-//    private javax.swing.JLabel labelWelcome;
-    /**
      * panel of farm's list
      */
     private javax.swing.JPanel panelList;
@@ -312,4 +297,5 @@ public class PanelListFarms extends javax.swing.JPanel {
      * button to export excel
      */
     private javax.swing.JButton buttonExcel;
+    
 }
