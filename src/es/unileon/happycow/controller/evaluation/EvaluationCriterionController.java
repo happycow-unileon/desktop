@@ -209,6 +209,8 @@ public class EvaluationCriterionController extends IController {
 
 //        panel.setInformation(total, food, health, house, behaviour);
     }
+    
+    
 
     public void addFile() {
         JFileChooser fileChooser = new JFileChooser();

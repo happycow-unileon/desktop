@@ -1,12 +1,10 @@
 package es.unileon.happycow.gui;
 
-import es.unileon.happycow.controller.ButtonFarmDetailsIController;
 import es.unileon.happycow.controller.ButtonListFarmIController;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.BoxLayout;
