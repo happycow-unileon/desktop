@@ -46,15 +46,16 @@ public class PanelFile extends javax.swing.JPanel {
     private void createComponents(){
         name = new javax.swing.JLabel();
         
-        buttonDownload = new javax.swing.JButton("Descargar fichero", new javax.swing.ImageIcon
+        buttonDownload = new javax.swing.JButton(new javax.swing.ImageIcon
                         (getClass().getResource("/images/download.png")));
         
-        buttonRemove = new javax.swing.JButton("Borrar fichero", new javax.swing.ImageIcon
+        buttonRemove = new javax.swing.JButton(new javax.swing.ImageIcon
                         (getClass().getResource("/images/unchecked.png")));
     }
     
     private void configureComponents(){
-        
+        buttonDownload.setToolTipText("Descargar fichero");
+        buttonRemove.setToolTipText("Borrar fichero");
     }
     
     private void addEvents(){

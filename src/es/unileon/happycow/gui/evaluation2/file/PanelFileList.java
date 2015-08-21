@@ -5,6 +5,7 @@ package es.unileon.happycow.gui.evaluation2.file;
 
 import es.unileon.happycow.gui.evaluation2.EvaluationController;
 import es.unileon.happycow.handler.IdHandler;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -23,6 +24,8 @@ public class PanelFileList extends JPanel implements IFileButton {
     public PanelFileList() {
         super(null);
         initComponents();
+        
+        filePanels=new LinkedList<>();
     }
 
     public void addListFile(List<String> files) {
@@ -33,7 +36,7 @@ public class PanelFileList extends JPanel implements IFileButton {
 
     public void addFile(String file) {
         PanelFile panel = new PanelFile();
-        panel.setName(file);
+        panel.setFileName(file);
         panel.setController(this);
 
         filePanels.add(panel);
@@ -82,6 +85,7 @@ public class PanelFileList extends JPanel implements IFileButton {
 
     private void configureComponents() {
         list.setLayout(new GridLayout(0, 1));
+        scrollList.setViewportView(list);
     }
 
     private void addEvents() {
@@ -89,8 +93,8 @@ public class PanelFileList extends JPanel implements IFileButton {
     }
 
     private void addLayout() {
-        scrollList.add(list);
-        add(scrollList);
+        setLayout(new BorderLayout());
+        add(scrollList, BorderLayout.CENTER);
     }
 
     private JScrollPane scrollList;

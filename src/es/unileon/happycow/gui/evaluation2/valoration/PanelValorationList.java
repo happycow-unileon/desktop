@@ -6,6 +6,8 @@ package es.unileon.happycow.gui.evaluation2.valoration;
 import es.unileon.happycow.gui.evaluation2.EvaluationController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Valoration;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,6 +26,8 @@ public class PanelValorationList extends JPanel implements IValorationButton {
     public PanelValorationList() {
         super(null);
         initComponents();
+        
+        valorationPanels=new LinkedList<>();
     }
 
     public void addListValoration(List<Valoration> valorations) {
@@ -34,7 +38,7 @@ public class PanelValorationList extends JPanel implements IValorationButton {
 
     public void addValoration(Valoration val) {
         PanelValoration panel = new PanelValoration(val.getId());
-        panel.setName("Valoración: ".concat(Float.toString(val.getNota())));
+        panel.setTextValoration("Valoración: ".concat(Float.toString(val.getNota())));
         panel.setController(this);
 
         valorationPanels.add(panel);
@@ -84,6 +88,7 @@ public class PanelValorationList extends JPanel implements IValorationButton {
 
     private void configureComponents() {
         list.setLayout(new GridLayout(0, 1));
+        scrollList.setViewportView(list);
     }
 
     private void addEvents() {
@@ -91,8 +96,8 @@ public class PanelValorationList extends JPanel implements IValorationButton {
     }
 
     private void addLayout() {
-        scrollList.add(list);
-        add(scrollList);
+        setLayout(new BorderLayout());
+        add(scrollList, BorderLayout.CENTER);
     }
     
 

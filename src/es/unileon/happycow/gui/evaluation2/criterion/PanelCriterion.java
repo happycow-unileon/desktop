@@ -4,6 +4,9 @@
 package es.unileon.happycow.gui.evaluation2.criterion;
 
 import es.unileon.happycow.handler.IdHandler;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -30,31 +33,7 @@ public class PanelCriterion extends JPanel {
         this.controller = controller;
     }
     
-    private void initComponents(){
-        createComponents();
-        configureComponents();
-        addEvents();
-        addLayout();
-    }
-    
-    private void createComponents(){
-        buttonEvaluated=new JToggleButton();
-        buttonHelpCriterion= new JButton();
-        
-        title=new JLabel("Criterio");
-        ponderationLabel=new JLabel();
-        
-        ponderationText=new JTextField();
-    }
-    
-    private void configureComponents(){
-        setLayout(new java.awt.GridBagLayout());
-        
-        ponderationText.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        ponderationText.setToolTipText("Introduzca ponderación para el criterio");
-    }
-    
-    public void setCriterion(IdHandler id){
+     public void setCriterion(IdHandler id){
         this.criterion=id;
     }
 
@@ -78,6 +57,43 @@ public class PanelCriterion extends JPanel {
     
     public boolean getEvaluated(){
         return buttonEvaluated.isSelected();
+    }
+    
+    private void initComponents(){
+        createComponents();
+        configureComponents();
+        addEvents();
+        addLayout();
+    }
+    
+    private void createComponents(){
+        buttonEvaluated=new JToggleButton();
+        buttonHelpCriterion= new JButton("Descripción criterio");
+        
+        title=new JLabel("Criterio");
+        ponderationLabel=new JLabel("Ponderación del criterio");
+        
+        ponderationText=new JTextField("1.0");
+        
+        space=new JLabel();
+    }
+    
+    private void configureComponents(){
+        setLayout(new java.awt.GridBagLayout());
+        
+        ponderationText.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ponderationText.setToolTipText("Introduzca ponderación para el criterio");
+        
+        Font font=title.getFont().deriveFont(25.0f);
+//        font=font.deriveFont(Font.BOLD);
+        title.setFont(font);
+        
+        Insets in=ponderationText.getInsets();
+        in.left=15;
+        in.right=15;
+        in.top=0;
+        in.bottom=0;
+        ponderationText.setMargin(in);
     }
     
     private void addEvents(){
@@ -111,9 +127,9 @@ public class PanelCriterion extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(title, gridBagConstraints);
         
@@ -121,9 +137,9 @@ public class PanelCriterion extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(ponderationLabel, gridBagConstraints);
         
@@ -131,31 +147,31 @@ public class PanelCriterion extends JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0;
         gridBagConstraints.weightx = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         add(ponderationText, gridBagConstraints);
         
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(ponderationText, gridBagConstraints);
+//        gridBagConstraints = new java.awt.GridBagConstraints();
+//        gridBagConstraints.gridx = 1;
+//        gridBagConstraints.gridy = 1;
+//        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
+//        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+//        gridBagConstraints.gridwidth = 1;
+//        gridBagConstraints.weighty = 0.1;
+//        gridBagConstraints.weightx = 1;
+//        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+//        add(ponderationText, gridBagConstraints);
         
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(buttonHelpCriterion, gridBagConstraints);
         
@@ -163,11 +179,21 @@ public class PanelCriterion extends JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.weighty = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(buttonEvaluated, gridBagConstraints);
+        
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0,0,0,0);
+        add(space, gridBagConstraints);
         
     }
     
@@ -176,4 +202,6 @@ public class PanelCriterion extends JPanel {
     private JLabel title;
     private JLabel ponderationLabel;
     private JTextField ponderationText;
+    
+    private JLabel space;
 }

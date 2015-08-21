@@ -30,7 +30,7 @@ public class PanelValoration extends JPanel {
         this.controller = controller;
     }
 
-    public void setText(String text){
+    public void setTextValoration(String text){
         this.name.setText(text);
     }
     
@@ -52,15 +52,16 @@ public class PanelValoration extends JPanel {
     private void createComponents(){
         name = new javax.swing.JLabel();
         
-        buttonCopy = new javax.swing.JButton("Descargar fichero", new javax.swing.ImageIcon
+        buttonCopy = new javax.swing.JButton(new javax.swing.ImageIcon
                         (getClass().getResource("/images/copy.png")));
         
-        buttonRemove = new javax.swing.JButton("Borrar fichero", new javax.swing.ImageIcon
+        buttonRemove = new javax.swing.JButton(new javax.swing.ImageIcon
                         (getClass().getResource("/images/unchecked.png")));
     }
     
     private void configureComponents(){
-        
+        buttonCopy.setToolTipText("Copiar");
+        buttonRemove.setToolTipText("Eliminar");
     }
     
     private void addEvents(){
