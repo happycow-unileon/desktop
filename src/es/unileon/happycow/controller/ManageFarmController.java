@@ -50,6 +50,7 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         //llama al padre y le indica la evaluación seleccionada
         controller.clearParameters();
         controller.addParameter("idFarm", idFarm.toString());
+        controller.addParameter("isNew", false);
         controller.addParameter("idEvaluation", id.toString());
         controller.setState(Window.EVALUATION);
 //        fatherController.evaluation(idFarm, id);
@@ -77,9 +78,8 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
     public void newEvaluation() {
         controller.clearParameters();
         controller.addParameter("isNew", true);
-        controller.addParameter("id", idFarm.toString());
+        controller.addParameter("idFarm", idFarm.toString());
         controller.setState(Window.EVALUATION);
-//        fatherController.evaluation(idFarm, null);
     }
 
     /**

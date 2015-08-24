@@ -1,5 +1,6 @@
 package es.unileon.happycow.gui.evaluation;
 
+import es.unileon.happycow.gui.evaluation.*;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;

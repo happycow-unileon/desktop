@@ -52,7 +52,7 @@ public class UserTest {
     public void testGetPassword() {
         assertEquals("\_\M\�\;\Z\�\e\�\\�\'\޸\�\ϙ", veterinary.getPassword());
         assertEquals("\!\#\/\)\z\W\�\�\C\�\J\\J\�\\�", admin.getPassword());
-        assertEquals("password", new User("name", "password", Rol.VETERINARIO, true).getPassword());
+        assertEquals("password", new User("name", "password", Rol.VETERINARIO).getPassword());
         assertFalse("password".compareTo(
                 new User("name", "password", Rol.VETERINARIO, false)
                         .getPassword())==0);

@@ -60,21 +60,6 @@ public abstract class Composite extends Component {
         return list.size();
     }
 
-//    @Override
-//    public Component search(String id) {
-//        if (this.id.compareTo(id) == 0) {
-//            return this;
-//        } else {
-//            for (Iterator<Component> searching = list.iterator(); searching.hasNext();) {
-//                Component comp = (Component) searching.next();
-//                comp = comp.search(id);
-//                if (comp != null) {
-//                    return comp;
-//                }
-//            }
-//        }
-//        return null;
-//    }
     @Override
     public Component search(IdHandler id) {
         Component result = null;

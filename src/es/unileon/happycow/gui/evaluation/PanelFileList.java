@@ -1,43 +1,59 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation2.file;
+package es.unileon.happycow.gui.evaluation;
 
-import es.unileon.happycow.gui.evaluation2.EvaluationController;
+import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.japura.gui.TitlePanel;
 
 /**
  *
  * @author dorian
  */
-public class PanelFileList extends JPanel implements IFileButton {
-    private EvaluationController controller;
+public class PanelFileList extends TitlePanel {
+    private IEvaluationCriterionController controller;
     private LinkedList<PanelFile> filePanels;
 
-    public PanelFileList() {
-        super(null);
+    public PanelFileList(JComponent[] components) {
+        super("", components);
         initComponents();
         
         filePanels=new LinkedList<>();
     }
 
-    public void addListFile(List<String> files) {
+    public void setController(IEvaluationCriterionController controller) {
+        this.controller = controller;
+    }
+
+    public void addFileList(List<String> files) {
         for (String file : files) {
             addFile(file);
         }
+    }
+    
+    public void removeFileList(){
+        filePanels.clear();
+        list.removeAll();
+    }
+    
+    public void addComponentTitle(JComponent component){
+        this.add(component);
     }
 
     public void addFile(String file) {
         PanelFile panel = new PanelFile();
         panel.setFileName(file);
-        panel.setController(this);
+        panel.setController(controller);
 
         filePanels.add(panel);
         list.add(panel);
@@ -57,18 +73,18 @@ public class PanelFileList extends JPanel implements IFileButton {
         }
     }
     
-    @Override
-    public void download(IdHandler id) {
-        controller.downloadFile(id);
-    }
-
-    @Override
-    public void remove(IdHandler id) {
-        //remove in model
-        controller.removeFile(id);
-        //remove in gui
-        removeFile(id.toString());
-    }
+//    @Override
+//    public void downloadFile(IdHandler id) {
+//        controller.downloadFile(id);
+//    }
+//
+//    @Override
+//    public void removeFile(IdHandler id) {
+//        //remove in model
+//        controller.removeFile(id);
+//        //remove in gui
+//        removeFile(id.toString());
+//    }
     
 
     private void initComponents() {
@@ -84,8 +100,10 @@ public class PanelFileList extends JPanel implements IFileButton {
     }
 
     private void configureComponents() {
-        list.setLayout(new GridLayout(0, 1));
+        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
         scrollList.setViewportView(list);
+        scrollList.setBorder(null);
+        scrollList.setViewportBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
     }
 
     private void addEvents() {

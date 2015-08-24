@@ -1,10 +1,11 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation2.criterion;
+package es.unileon.happycow.gui.evaluation;
 
+import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -23,13 +24,13 @@ import javax.swing.JToggleButton;
  */
 public class PanelCriterion extends JPanel {
     private IdHandler criterion;
-    private ICriterionPanel controller;
+    private IEvaluationCriterionController controller;
 
     public PanelCriterion() {
         initComponents();
     }
 
-    public void setController(ICriterionPanel controller) {
+    public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
     
@@ -47,6 +48,10 @@ public class PanelCriterion extends JPanel {
     
     public void setPonderation(Float note){
         ponderationText.setText(Float.toString(note));
+    }
+    
+    public void setColorPonderation(Color color){
+        ponderationText.setForeground(color);
     }
     
     public void setEvaluated(boolean evaluated){
@@ -85,7 +90,6 @@ public class PanelCriterion extends JPanel {
         ponderationText.setToolTipText("Introduzca ponderación para el criterio");
         
         Font font=title.getFont().deriveFont(25.0f);
-//        font=font.deriveFont(Font.BOLD);
         title.setFont(font);
         
         Insets in=ponderationText.getInsets();

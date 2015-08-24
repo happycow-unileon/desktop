@@ -3,17 +3,13 @@
  */
 package es.unileon.happycow;
 
-import es.unileon.happycow.gui.evaluation2.criterion.PanelCriterion;
-import es.unileon.happycow.gui.evaluation2.file.PanelFileList;
-import es.unileon.happycow.gui.evaluation2.valoration.PanelValoration;
-import es.unileon.happycow.gui.evaluation2.valoration.PanelValorationList;
-import es.unileon.happycow.handler.IdCriterion;
-import es.unileon.happycow.handler.IdGeneric;
-import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
+import es.unileon.happycow.handler.Category;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 /**
  *
@@ -36,27 +32,13 @@ public class Test extends javax.swing.JFrame {
         
         
         
-        this.setMinimumSize(new Dimension(300, 300));
-        pack();
+        this.setMinimumSize(new Dimension(500, 500));
         
-        PanelCriterion a=new PanelCriterion();
-//        List<String> list=new LinkedList<>();
-//        list.add("prueba");
-//        list.add("asdf");
-//        list.add("lkjñlk");
-//        list.add("zxv");
-//        list.add("prueba");
-//        list.add("asdf");
-//        list.add("lkjñlk");
-//        list.add("zxv");
-//        list.add("prueba");
-//        list.add("asdf");
-//        list.add("lkjñlk");
-//        list.add("zxv");
-        a.setCriterion(new IdCriterion("criterio nombre"));
-        a.setNameCriterion("criterio nombre");
-        a.setEvaluated(false);
-        getContentPane().add(a);
+        
+        PanelEvaluationCriterion c=new PanelEvaluationCriterion();
+        setLayout(new GridLayout());
+        getContentPane().add(c);
+        pack();
     }
 
     /**

@@ -2,7 +2,6 @@ package es.unileon.happycow.application;
 
 import es.unileon.happycow.windows.IWindow;
 import es.unileon.happycow.handler.IdHandler;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 

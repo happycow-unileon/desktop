@@ -6,6 +6,7 @@ package es.unileon.happycow.model.evaluation;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.Criterion;
+import es.unileon.happycow.model.composite.Evaluation;
 
 /**
  *
@@ -17,6 +18,10 @@ public class EvaluationCriterionModel extends DefaultEvaluationModel{
         super(idFarm);
     }
     
+    public EvaluationCriterionModel(Evaluation evaluation){
+        super(evaluation);
+    }
+    
     public Criterion getCriterion(IdHandler id) {
          Component c=evaluation.search(id);
         if(c!=null){
@@ -26,4 +31,12 @@ public class EvaluationCriterionModel extends DefaultEvaluationModel{
         }
     }
     
+    
+    public void removeValoration(IdHandler criterion, IdHandler valoration){
+        
+    }
+    
+    public void removeValoration(IdHandler category, IdHandler criterion, IdHandler valoration){
+        
+    }
 }

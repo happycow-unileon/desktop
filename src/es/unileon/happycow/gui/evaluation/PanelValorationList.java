@@ -1,33 +1,44 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation2.valoration;
+package es.unileon.happycow.gui.evaluation;
 
-import es.unileon.happycow.gui.evaluation2.EvaluationController;
+import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Valoration;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.japura.gui.TitlePanel;
 
 /**
  *
  * @author dorian
  */
-public class PanelValorationList extends JPanel implements IValorationButton {
-    private EvaluationController controller;
+public class PanelValorationList extends TitlePanel{
+    private IEvaluationCriterionController controller;
     private LinkedList<PanelValoration> valorationPanels;
 
-    public PanelValorationList() {
-        super(null);
+    public PanelValorationList(JComponent[] components) {
+        super("", components);
         initComponents();
         
         valorationPanels=new LinkedList<>();
+    }
+
+    public void setController(IEvaluationCriterionController controller) {
+        this.controller = controller;
+    }
+    
+    public void setListValoration(List<Valoration> valorations){
+        valorationPanels.clear();
+        addListValoration(valorations);
     }
 
     public void addListValoration(List<Valoration> valorations) {
@@ -39,7 +50,7 @@ public class PanelValorationList extends JPanel implements IValorationButton {
     public void addValoration(Valoration val) {
         PanelValoration panel = new PanelValoration(val.getId());
         panel.setTextValoration("Valoración: ".concat(Float.toString(val.getNota())));
-        panel.setController(this);
+        panel.setController(controller);
 
         valorationPanels.add(panel);
         list.add(panel);
@@ -59,21 +70,6 @@ public class PanelValorationList extends JPanel implements IValorationButton {
         }
     }
 
-    @Override
-    public void remove(IdHandler id) {
-        //remove in model
-        controller.removeValoration(id);
-        //remove in gui
-        removeValoration(id);
-    }
-    
-    @Override
-    public void copy(IdHandler valoration) {
-        //copy in model, the model will come back to add the new valoration
-        controller.copyValoration(valoration);
-    }
-    
-
     private void initComponents() {
         createComponents();
         configureComponents();
@@ -87,8 +83,10 @@ public class PanelValorationList extends JPanel implements IValorationButton {
     }
 
     private void configureComponents() {
-        list.setLayout(new GridLayout(0, 1));
+        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
         scrollList.setViewportView(list);
+        scrollList.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        
     }
 
     private void addEvents() {

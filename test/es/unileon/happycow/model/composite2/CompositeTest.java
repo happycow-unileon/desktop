@@ -8,7 +8,6 @@ import es.unileon.happycow.model.composite.Evaluation;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
-import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdGeneric;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdValoration;
@@ -29,8 +28,8 @@ public class CompositeTest {
 
     @Before
     public void setUp() throws CompositeException {
-        IdHandler id = new IdEvaluation(1234);
-        evaluation = new Evaluation(id, null);
+        IdHandler id ;
+        evaluation = new Evaluation(1234, null);
         id = new IdCategory(Category.HEALTH);
         categoryHealth = new EvaluationCategory(id);
 

@@ -1,8 +1,9 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation2.valoration;
+package es.unileon.happycow.gui.evaluation;
 
+import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,7 +15,7 @@ import javax.swing.JPanel;
  */
 public class PanelValoration extends JPanel {
     
-    private IValorationButton controller;
+    private IEvaluationCriterionController controller;
     private IdHandler valoration;
     
     /**
@@ -26,7 +27,7 @@ public class PanelValoration extends JPanel {
         this.valoration=valoration;
     }
     
-    public void setController(IValorationButton controller) {
+    public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
 
@@ -62,20 +63,28 @@ public class PanelValoration extends JPanel {
     private void configureComponents(){
         buttonCopy.setToolTipText("Copiar");
         buttonRemove.setToolTipText("Eliminar");
+        
+        buttonRemove.setBorderPainted(false);
+        buttonRemove.setContentAreaFilled(false);
+        buttonRemove.setFocusPainted(false);
+        
+        buttonCopy.setBorderPainted(false);
+        buttonCopy.setContentAreaFilled(false);
+        buttonCopy.setFocusPainted(false);
     }
     
     private void addEvents(){
         buttonCopy.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.copy(valoration);
+                controller.copyValoration(valoration);
             }
         });
         
         buttonRemove.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.remove(valoration);
+                controller.removeValoration(valoration);
             }
         });
     }

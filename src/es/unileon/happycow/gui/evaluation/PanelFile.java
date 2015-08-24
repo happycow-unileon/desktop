@@ -1,8 +1,9 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation2.file;
+package es.unileon.happycow.gui.evaluation;
 
+import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdGeneric;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,7 +14,7 @@ import javax.swing.BoxLayout;
  */
 public class PanelFile extends javax.swing.JPanel {
 
-    private IFileButton controller;
+    private IEvaluationCriterionController controller;
     private String fileName;
     
     /**
@@ -28,7 +29,7 @@ public class PanelFile extends javax.swing.JPanel {
         this.name.setText(name);
     }
 
-    public void setController(IFileButton controller) {
+    public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
 
@@ -56,20 +57,28 @@ public class PanelFile extends javax.swing.JPanel {
     private void configureComponents(){
         buttonDownload.setToolTipText("Descargar fichero");
         buttonRemove.setToolTipText("Borrar fichero");
+        
+        buttonDownload.setBorderPainted(false);
+        buttonDownload.setContentAreaFilled(false);
+        buttonDownload.setFocusPainted(false);
+        
+        buttonRemove.setBorderPainted(false);
+        buttonRemove.setContentAreaFilled(false);
+        buttonRemove.setFocusPainted(false);
     }
     
     private void addEvents(){
         buttonDownload.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.download(new IdGeneric(fileName));
+                controller.downloadFile(new IdGeneric(fileName));
             }
         });
         
         buttonRemove.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.remove(new IdGeneric(fileName));
+                controller.removeFile(new IdGeneric(fileName));
             }
         });
     }

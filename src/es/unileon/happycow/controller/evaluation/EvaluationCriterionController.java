@@ -1,217 +1,177 @@
+/*
+ * 
+ */
 package es.unileon.happycow.controller.evaluation;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.database.Database;
-import es.unileon.happycow.gui.evaluation.InterfaceEvaluationCriterionPanel;
+import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
+import es.unileon.happycow.handler.IdEvaluation;
+import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
 import es.unileon.happycow.strategy.EvaluationAlgorithm;
+import java.awt.Color;
 import java.io.File;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.DefaultListModel;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 
 /**
  *
  * @author dorian
  */
-public class EvaluationCriterionController extends IController {
+public class EvaluationCriterionController extends IController implements IEvaluationCriterionController {
 
-    private InterfaceEvaluationCriterionPanel panel;
-    private final EvaluationCriterionModel model;
-    private final boolean newEvaluation;
-    
+    private EvaluationCriterionModel model;
+    private PanelEvaluationCriterion gui;
+
+    private Category actualCategory;
+    private IdHandler actualCriterion;
+
+    LinkedList<String>[] modelComboCriterion;
+
+    private boolean newEvaluation;
+    private int numberCows;
+
     /**
-     * Caso 1, evaluación completamente nuevo, me llega o evaluación o información
-     * Caso 2, evaluación a ver o modificar, me llega la evaluación entera
+     * Caso 1, evaluación completamente nuevo, me llega o evaluación o
+     * información Caso 2, evaluación a ver o modificar, me llega la evaluación
+     * entera
+     *
      * @param panel
-     * @param model 
-     * @param newEvaluation 
+     * @param model
+     * @param newEvaluation
      */
-    
-    public EvaluationCriterionController(InterfaceEvaluationCriterionPanel panel, EvaluationCriterionModel model, boolean newEvaluation){
-        this.newEvaluation=newEvaluation;
-        this.panel=panel;
-        this.model=model;
-        
-        setComboCriterion();
-        setNumberCows();
-        panel.deshabilitarValoraciones();
-        configurePanel();
+    public EvaluationCriterionController(PanelEvaluationCriterion panel) {
+        this.gui = panel;
+        actualCategory = Category.FOOD;
+        actualCriterion = null;
+
+        initComboCriterion();
+    }
+
+    @Override
+    public void onResume(Parameters parameters) {
+        super.onResume(parameters);
+
+        IdHandler farm = new IdFarm(Integer.parseInt(parameters.getString("idFarm")));
+        boolean isNew = parameters.getBoolean("isNew");
+
+        if (!isNew) {
+            //rellenar los datos de evaluación
+            IdHandler idEvaluation = new IdEvaluation(parameters.getInteger("idEvaluation"));
+            model=new EvaluationCriterionModel(Database.getInstance().getEvaluation(idEvaluation));
+        }else{
+            model=new EvaluationCriterionModel(farm);
+        }
+
         if (model != null) {
+            numberCows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
+            setNumberCows();
             addAll();
         }
+
+        //establezco la categoría
+        //cambio la lista del combo de criterios
+        gui.setComboCriterion(modelComboCriterion[actualCategory.ordinal()]);
+        //cambio la lista de criterios de la categoria
+        LinkedList<Criterion> list=model.getListCriterion(actualCategory);
+        LinkedList<String> listCriterions=new LinkedList<>();
+        for (Criterion cri : list) {
+            listCriterions.add(cri.getName());
+        }
+        gui.setCriterionList(listCriterions);
+
+        //pongo la ponderacion de la categoria y su color correcto
+        gui.setPonderationCategory(model.getWeighing(new IdCategory(actualCategory)));
+        gui.setColorPonderationCategory(Color.BLACK);
+
+        //si hay criterio establecido, establezco los datos
+        if (actualCriterion == null) {
+            gui.criterionInformationVisibility(false);
+            gui.setValorationList(new LinkedList<Valoration>());
+
+        } else {
+            gui.criterionInformationVisibility(true);
+
+            Criterion cri = model.getCriterion(actualCriterion);
+            float ponderation = cri.getWeighing();
+            boolean evaluated = gui.getCriterionEvaluated(actualCriterion);
+            gui.setCriterionInformation(actualCriterion.toString(), ponderation, evaluated);
+
+            gui.setValorationList(model.listOfCriterion(actualCriterion));
+        }
     }
-    
 
     private void addAll() {
-        for (Category category : Category.values()) {
-            LinkedList<String> criterios = new LinkedList<>();
-            for (Criterion criterion : model.getListCriterion(category)) {
-                criterios.add(criterion.getName());
-            }
-            panel.setCriterion(category, criterios);
-        }
 
-        List<String> list = Database.getInstance().getFileNames(model.getIdHandler());
-        panel.setListFiles(list);
-    }
-
-    private void configurePanel() {
-        panel.setPonderationCategory(model.getWeighing(new IdCategory(panel.getSelectedCategory())));
     }
 
     private void setNumberCows() {
-        int cows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
-        panel.setNumberCow(cows);
+        gui.setTitleValorations("(mínimo ".concat(Integer.toString(numberCows)).concat(")"));
     }
 
-    private void setComboCriterion() {
-        LinkedList<String> modelComboFood = new LinkedList<>();
-        LinkedList<String> modelComboHealth = new LinkedList<>();
-        LinkedList<String> modelComboBehaviour = new LinkedList<>();
-        LinkedList<String> modelComboHouse = new LinkedList<>();
+    /**
+     * Inicializo el contenido del combo de criterios que se añade
+     */
+    private void initComboCriterion() {
+        int categories = Category.getArrayString().length;
+        modelComboCriterion = new LinkedList[categories];
+        for (int i = 0; i < categories; i++) {
+            modelComboCriterion[i] = new LinkedList<>();
+        }
 
         LinkedList<Criterion> lista = Database.getInstance().getListCriterion();
         for (Criterion criterion : lista) {
             IdCategory id = (IdCategory) criterion.getCategory();
-            switch (id.getCategory()) {
-                case FOOD:
-                    modelComboFood.add(criterion.getName());
-                    break;
-                case HEALTH:
-                    modelComboHealth.add(criterion.getName());
-                    break;
-                case HOUSE:
-                    modelComboHouse.add(criterion.getName());
-                    break;
-                case BEHAVIOUR:
-                    modelComboBehaviour.add(criterion.getName());
-                    break;
-            }
-        }
-
-        panel.setComboCriterion(Category.FOOD, modelComboFood);
-        panel.setComboCriterion(Category.HEALTH, modelComboHealth);
-        panel.setComboCriterion(Category.HOUSE, modelComboHouse);
-        panel.setComboCriterion(Category.BEHAVIOUR, modelComboBehaviour);
-    }
-
-    public void addValoration(float valoration) {
-        String nombre = panel.getCriterion();
-        if (nombre != null) {
-            IdHandler criterion = new IdCriterion(nombre);
-            IdHandler category = new IdCategory(panel.getSelectedCategory());
-            Valoration val = new Valoration(valoration);
-            model.add(category, criterion, val);
+            modelComboCriterion[Category.getEnum(id.toString()).ordinal()]
+                    .add(criterion.getName());
         }
     }
 
-    public void addCriterion(String criterion) {
-        IdHandler category = new IdCategory(panel.getSelectedCategory());
-        Criterion cri = Database.getInstance().getCriterion(new IdCriterion(criterion));
-        model.add(category, cri);
-        panel.addCriterion(criterion);
-    }
+    /**
+     * Recibo la orden de descargar el fichero, hago lo necesario
+     *
+     * @param id
+     */
+    @Override
+    public void downloadFile(IdHandler id) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int seleccion = fileChooser.showSaveDialog(null);
 
-    public void removeCriterion(String criterion) {
-        model.remove(new IdCriterion(criterion));
-        panel.removeValorations();
-        panel.deshabilitarValoraciones();
-        panel.setHelp("");
-    }
-
-    public void removeValoration(String valoration) {
-        String cortes[] = valoration.split(":");
-        float nota = Integer.parseInt(cortes[cortes.length - 1].trim());
-        LinkedList<Valoration> val = model.listOfCriterion(new IdCriterion(panel.getCriterion()));
-        IdHandler idValoration = null;
-        for (Iterator<Valoration> it = val.iterator(); it.hasNext() && idValoration == null;) {
-            Valoration valoration1 = it.next();
-            if (valoration1.getNota() == nota) {
-                idValoration = valoration1.getId();
-            }
-        }
-        if (idValoration != null) {
-            model.remove(idValoration);
-            IdCriterion idCri = new IdCriterion(panel.getCriterion());
-            int i = 1;
-            DefaultListModel list = new DefaultListModel();
-            for (Valoration valo : model.listOfCriterion(idCri)) {
-                String element = "Vaca " + String.valueOf(i) + " - Valoración: " + String.valueOf((int) valo.getNota());
-                list.addElement(element);
-                i++;
-            }
-            panel.setModelValoration(list);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fileChooser.getSelectedFile();
+            File downloaded = new File(fichero.getPath() + File.separator + id.toString());
+//            System.out.println(downloaded.getAbsolutePath());
+            byte[] data = Database.getInstance().getFile(model.getIdHandler(), id.toString());
+            Database.getInstance().saveFileToTheSystem(data, downloaded);
         }
     }
 
-    public void CriterionSelected(String criterion) {
-        IdCriterion id = new IdCriterion(criterion);
-        DefaultListModel list = new DefaultListModel();
-        int i = 1;
-        for (Valoration val : model.listOfCriterion(id)) {
-            String element = "Vaca " + String.valueOf(i) + " - Valoración: " + String.valueOf((int) val.getNota());
-            list.addElement(element);
-            i++;
-        }
-        panel.setModelValoration(list);
-        panel.habilitarValoraciones();
-        panel.setHelp(model.getCriterion(id).getHelp());
-        panel.setPonderationCriterion(model.getWeighing(id));
+    /**
+     * Recibo la orden de borrar un fichero y lo borro en el modelo tengo que
+     * notificar a la vista que quite ese fichero de la lista
+     *
+     * @param id
+     */
+    @Override
+    public void removeFile(IdHandler id) {
+        //borrar fichero del modelo
+        //borro dicho fichero en la vista
+        gui.removeFile(id);
     }
 
-    public void changeCategory() {
-        IdHandler category = new IdCategory(panel.getSelectedCategory());
-        panel.setPonderationCategory(model.getWeighing(category));
-        if (panel.getCriterion() == null) {
-            panel.deshabilitarValoraciones();
-        }
-    }
-
-    public void setPonderationCategory(float ponderation) {
-        IdHandler category = new IdCategory(panel.getSelectedCategory());
-        model.setWeighing(category, ponderation);
-        panel.setPonderationCategory(ponderation);
-    }
-
-    public void setPonderationCriterion(float ponderation) {
-        IdHandler criterion = new IdCriterion(panel.getCriterion());
-        model.setWeighing(criterion, ponderation);
-        panel.setPonderationCriterion(ponderation);
-    }
-
-    public void saveValoration() {
-        if (newEvaluation) {
-            Database.getInstance().saveEvaluation(model);
-        } else {
-            Database.getInstance().updateEvaluation(model);
-        }
-        //TODO
-//        JFrameController.getInstance().report(new Report(model), model.getInformation().getIdFarm());
-    }
-
-    public void criterionSaved() {
-//        EvaluationAlgorithm calc = new AverageEvaluation(model);
-//        calc.calcular();
-//        String total = "Total: " + Float.toString(calc.getTotal()) + " * ";
-//        String food = "Alimentación: " + Float.toString(calc.getFood()) + " * ";
-//        String health = "Salud: " + Float.toString(calc.getHealth()) + " * ";
-//        String house = "Refugio: " + Float.toString(calc.getHouse()) + " * ";
-//        String behaviour = "Comportamiento: " + Float.toString(calc.getBehaviour()) + " * ";
-
-//        panel.setInformation(total, food, health, house, behaviour);
-    }
-    
-    
-
+    @Override
     public void addFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -219,20 +179,180 @@ public class EvaluationCriterionController extends IController {
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File fichero = fileChooser.getSelectedFile();
             Database.getInstance().saveFile(model.getIdHandler(), fichero);
-            panel.addFilePanel(fichero.getName());
+            //añado el fichero al gui
+            gui.addFile(fichero.getName());
         }
     }
 
-    public void downloadFile(String name) {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int seleccion = fileChooser.showSaveDialog(null);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File fichero = fileChooser.getSelectedFile();
-            File downloaded=new File(fichero.getPath()+File.separator+name);
-            System.out.println(downloaded.getAbsolutePath());
-            byte[] data=Database.getInstance().getFile(model.getIdHandler(), name);
-            Database.getInstance().saveFileToTheSystem(data, downloaded);
+    @Override
+    public void copyValoration(IdHandler id) {
+        //lo duplico en el modelo
+        Component valoration = model.getComposite().search(id);
+        Valoration toClone = (Valoration) valoration;
+        Valoration clone = new Valoration(toClone.getNota());
+        model.add(toClone.getIdCategory(), toClone.getIdCriterion(), clone);
+
+        //lo añado a la gui
+        gui.addValoration(clone);
+    }
+
+    @Override
+    public void removeValoration(IdHandler id) {
+        //elimino la valoracion del modelo
+        //pillo en que criterio y categoría está
+        IdHandler idCategory = new IdCategory(actualCategory);
+        IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
+        model.removeValoration(idCategory, idCriterion, id);
+
+        //y lo quito de la gui también
+        gui.removeValoration(id);
+    }
+
+    /**
+     * Me llega petición de añadir una nueva valoracion
+     */
+    @Override
+    public void addNewValoration() {
+        //lo añado al modelo
+        IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
+        Float note = gui.getSelectedValoration();
+        model.add(new IdCategory(actualCategory), idCriterion, new Valoration(note));
+        //notifico a la interfaz de que tiene que añadir una valoración a la lista
+        gui.addValoration(null);
+    }
+
+    @Override
+    public void criterionSelected() {
+        if (actualCriterion==null || gui.getSelectedCriterion().compareTo(actualCriterion.toString()) != 0) {
+            actualCriterion = new IdCriterion(gui.getSelectedCriterion());
+            //change the criterion information
+            Criterion cri = model.getCriterion(actualCriterion);
+            float note = cri.getWeighing();
+            boolean evaluated = gui.getCriterionEvaluated(actualCriterion);
+            gui.setCriterionInformation(cri.getName(), note, evaluated);
+            gui.setColorPonderationCriterion(Color.BLACK);
+
+            //change the list valorations
+            gui.setValorationList(model.listOfCriterion(actualCriterion));
         }
+    }
+
+    @Override
+    public void addCriterions() {
+        //añado la lista al modelo, y los voy añadiendo al gui
+        List<Object> list = gui.getCriterionsAddingSelected();
+        for (Object criterion : list) {
+            Criterion cri = Database.getInstance().getCriterion(new IdCriterion((String) criterion));
+            model.add(new IdCategory(actualCategory), cri);
+            gui.addCriterion(cri.getId());
+        }
+    }
+
+    @Override
+    public void removeCriterion(IdHandler idCriterion) {
+        //lo borro del modelo
+        model.remove(idCriterion);
+        //y lo quito del gui
+        gui.removeCriterion(idCriterion);
+    }
+
+    @Override
+    public void help(IdHandler id) {
+        //mostrar información
+    }
+
+    @Override
+    public void evaluated(IdHandler id) {
+        //es parte del gui, en el modelo no hace nada
+        boolean result = gui.getCriterionEvaluated(id);
+        gui.setCriterionEvaluated(actualCriterion, !result);
+    }
+
+    @Override
+    public void setPonderationCriterion(IdHandler id, String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(id, pon);
+            gui.setColorPonderationCriterion(Color.BLACK);
+        } else {
+            gui.setColorPonderationCriterion(Color.RED);
+        }
+    }
+
+    @Override
+    public void setCategoryPonderation(String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(new IdCategory(actualCategory), pon);
+            gui.setColorPonderationCategory(Color.BLACK);
+        } else {
+            gui.setColorPonderationCategory(Color.RED);
+        }
+    }
+
+    private boolean isFloatUnit(String ponderation) {
+        final String Digits = "(\\p{Digit}+)";
+        final String HexDigits = "(\\p{XDigit}+)";
+        // an exponent is 'e' or 'E' followed by an optionally 
+        // signed decimal integer.
+        final String Exp = "[eE][+-]?" + Digits;
+        final String fpRegex
+                = ("[\\x00-\\x20]*" + // Optional leading "whitespace"
+                "[+-]?(" + // Optional sign character
+                "NaN|" + // "NaN" string
+                "Infinity|"
+                + // "Infinity" string
+                // A decimal floating-point string representing a finite positive
+                // number without a leading sign has at most five basic pieces:
+                // Digits . Digits ExponentPart FloatTypeSuffix
+                // 
+                // Since this method allows integer-only strings as input
+                // in addition to strings of floating-point literals, the
+                // two sub-patterns below are simplifications of the grammar
+                // productions from the Java Language Specification, 2nd 
+                // edition, section 3.10.2.
+                // Digits ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
+                "(((" + Digits + "(\\.)?(" + Digits + "?)(" + Exp + ")?)|"
+                + // . Digits ExponentPart_opt FloatTypeSuffix_opt
+                "(\\.(" + Digits + ")(" + Exp + ")?)|"
+                + // Hexadecimal strings
+                "(("
+                + // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HexDigits + "(\\.)?)|"
+                + // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")"
+                + ")[pP][+-]?" + Digits + "))"
+                + "[fFdD]?))"
+                + "[\\x00-\\x20]*");// Optional trailing "whitespace"
+
+        return Pattern.matches(fpRegex, ponderation);
+        //Double.valueOf(ponderation); // Will not throw NumberFormatException
+
+    }
+
+    @Override
+    public void categorySelected(Category category) {
+        if (actualCategory.compareTo(category) != 0) {
+            actualCategory = category;
+            //oculto la ventana que muestra información del criterio seleccionado
+            gui.criterionInformationVisibility(false);
+
+            //cambio la lista del combo de criterios
+            gui.setCriterionList(modelComboCriterion[category.ordinal()]);
+
+            //limpio el panel de valoraciones (con una lista vacía se limpia)
+            gui.setValorationList(new LinkedList<Valoration>());
+
+            //pongo la ponderacion de la categoria y su color correcto
+            gui.setPonderationCategory(model.getWeighing(new IdCategory(category)));
+            gui.setColorPonderationCategory(Color.BLACK);
+        }
+    }
+
+    @Override
+    public void finishEvaluation() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

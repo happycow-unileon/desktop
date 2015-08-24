@@ -28,17 +28,14 @@ public class DefaultEvaluationModel implements IEvaluationModel {
     
     /**
      * Indica si la evaluación está actualizada con todos sus datos (valoraciones)
+     * @param idFarm
      */
-    private boolean updated;
-    
     public DefaultEvaluationModel(IdHandler idFarm){
         InformationEvaluation info=new InformationEvaluation(
                 new IdEvaluation(Database.getInstance().nextIdEvaluation()), idFarm, 
                 Database.getInstance().getNumberCow(idFarm));
         
-        this.updated=true;
         try {
-            
             evaluation = new Evaluation(info);
             evaluation.setParent(null);
             evaluation.add(new EvaluationCategory(new IdCategory(Category.BEHAVIOUR)));
@@ -48,6 +45,11 @@ public class DefaultEvaluationModel implements IEvaluationModel {
         } catch (CompositeException ex) {
             Logger.getLogger(DefaultEvaluationModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public DefaultEvaluationModel(Evaluation evaluation){
+        this.evaluation=evaluation;
+        
     }
 
     @Override

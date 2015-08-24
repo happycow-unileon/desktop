@@ -6,10 +6,7 @@ package es.unileon.happycow.windows.factory.evaluation;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.controller.evaluation.EvaluationCriterionController;
-import es.unileon.happycow.gui.evaluation.PanelCriterionEvaluation;
-import es.unileon.happycow.handler.IdFarm;
-import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
+import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
 import es.unileon.happycow.windows.factory.IFactory;
 import javax.swing.JPanel;
 
@@ -21,7 +18,7 @@ public class FactoryEvaluationCriterion extends IFactory{
     /**
      * Panel concreto
      */
-    private PanelCriterionEvaluation panel;
+    private PanelEvaluationCriterion panel;
     /**
      * Controlador concreto
      */
@@ -54,16 +51,7 @@ public class FactoryEvaluationCriterion extends IFactory{
         }
         
         if(controller==null){
-            IdHandler farm=new IdFarm(Integer.parseInt(parameters.getString("id")));
-            boolean isNew = parameters.getBoolean("isNew");
-            
-            EvaluationCriterionModel evaluation=new EvaluationCriterionModel(farm);
-            
-            if(!isNew){
-                //rellenar los datos de evaluación
-            }
-            
-            controller=new EvaluationCriterionController(panel, evaluation, isNew);
+            controller=new EvaluationCriterionController(panel);
             panel.setController(controller);
         }
     }
@@ -71,7 +59,7 @@ public class FactoryEvaluationCriterion extends IFactory{
     @Override
     public void createPanel() {
          if(panel==null){
-            panel=new PanelCriterionEvaluation();
+            panel=new PanelEvaluationCriterion();
         }
         
         //if the controller exists, set the controller to the panel
