@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -99,6 +101,13 @@ public class PanelCategory extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 controller.addCriterions();
+            }
+        });
+        
+        ponderationText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                controller.setCategoryPonderation(ponderationText.getText());
             }
         });
     }

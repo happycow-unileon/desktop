@@ -31,12 +31,9 @@ public class EvaluationCriterionModel extends DefaultEvaluationModel{
         }
     }
     
-    
-    public void removeValoration(IdHandler criterion, IdHandler valoration){
-        
-    }
-    
     public void removeValoration(IdHandler category, IdHandler criterion, IdHandler valoration){
-        
+        Component cri = evaluation.search(criterion);
+        Component val = cri.search(valoration);
+        cri.remove(val);
     }
 }

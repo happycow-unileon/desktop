@@ -70,6 +70,7 @@ public class PanelValorationList extends TitlePanel {
                 //remove from list
                 iterator.remove();
                 removed = true;
+                list.revalidate();
             }
         }
     }

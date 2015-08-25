@@ -62,9 +62,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
 
     private void setList() {
         DefaultListModel model=new DefaultListModel();
-//        model.addElement("hola1");
-//        model.addElement("hola2");
-        jListEvaluations.setModel(model);
+        jListFarms.setModel(model);
         
         
 //        int conteo=1;
@@ -169,7 +167,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
         
         buttonHelp = new javax.swing.JButton(new javax.swing.ImageIcon(getClass().getResource("/images/help.png")));
         scrollList = new javax.swing.JScrollPane();
-        jListEvaluations = new javax.swing.JList();
+        jListFarms = new javax.swing.JList();
     }
 
     /**
@@ -209,8 +207,8 @@ public class PanelManageFarm extends javax.swing.JPanel {
         buttonReport.setFocusPainted(false);
         buttonReport.setToolTipText("Ver reporte");
         
-        jListEvaluations.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scrollList.setViewportView(jListEvaluations);
+        jListFarms.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollList.setViewportView(jListFarms);
 
         decorator = new Decorator(scrollList,
                 Anchor.NORTH_EAST, Decorator.Direction.HORIZONTAL);
@@ -323,7 +321,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
     /**
      * lista de evaluaciones
      */
-    private javax.swing.JList jListEvaluations;
+    private javax.swing.JList jListFarms;
     /**
      * panel de botones
      */

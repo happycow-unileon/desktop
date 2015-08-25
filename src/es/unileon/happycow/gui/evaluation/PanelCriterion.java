@@ -119,7 +119,7 @@ public class PanelCriterion extends JPanel {
         ponderationText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                //comprobar cada vez que escribe y setear la ponderacion
+                controller.setPonderationCriterion(criterion, ponderationText.getText());
             }
         });
     }

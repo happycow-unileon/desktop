@@ -41,7 +41,7 @@ public class EvaluationCriterionController extends IController implements IEvalu
     private IdHandler actualCriterion;
 
     LinkedList<String>[] modelComboCriterion;
-    
+
     private ArrayList<DefaultListModel<IconList>> modelCriterion;
 
     private boolean newEvaluation;
@@ -60,8 +60,8 @@ public class EvaluationCriterionController extends IController implements IEvalu
         actualCriterion = null;
 
         initComboCriterion();
-        
-        modelCriterion = new  ArrayList<DefaultListModel<IconList>>();
+
+        modelCriterion = new ArrayList<DefaultListModel<IconList>>();
         for (int i = 0; i < 4; i++) {
             modelCriterion.add(new DefaultListModel<IconList>());
         }
@@ -205,6 +205,8 @@ public class EvaluationCriterionController extends IController implements IEvalu
         //elimino la valoracion del modelo
         //pillo en que criterio y categoría está
         IdHandler idCategory = new IdCategory(actualCategory);
+        System.out.println("Remove");
+        System.out.println(id.toString());
         IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
         model.removeValoration(idCategory, idCriterion, id);
 
@@ -217,28 +219,31 @@ public class EvaluationCriterionController extends IController implements IEvalu
      */
     @Override
     public void addNewValoration() {
-        //lo añado al modelo
-        IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
-        Float note = gui.getSelectedValoration();
-        Valoration val=new Valoration(note);
-        model.add(new IdCategory(actualCategory), idCriterion, val);
-        //notifico a la interfaz de que tiene que añadir una valoración a la lista
-        gui.addValoration(val);
+        //compruebo que haya criterio seleccionado
+        if (actualCriterion != null) {
+            //lo añado al modelo
+            IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
+            Float note = gui.getSelectedValoration();
+            Valoration val = new Valoration(note);
+            model.add(new IdCategory(actualCategory), idCriterion, val);
+            //notifico a la interfaz de que tiene que añadir una valoración a la lista
+            gui.addValoration(val);
+        }
     }
 
     @Override
     public void criterionSelected() {
-        if (actualCriterion == null 
+        if (actualCriterion == null
                 || gui.getSelectedCriterion().compareTo(actualCriterion.toString()) != 0) {
             gui.criterionInformationVisibility(true);
             actualCriterion = new IdCriterion(gui.getSelectedCriterion());
-            
+
             //change the criterion information
             Criterion cri = model.getCriterion(actualCriterion);
             float note = cri.getWeighing();
             boolean evaluated = gui.getCriterionEvaluated(actualCriterion);
             gui.setCriterionInformation(cri.getId(), note, evaluated);
-            
+
             gui.setColorPonderationCriterion(Color.BLACK);
 
             //change the list valorations
@@ -350,9 +355,9 @@ public class EvaluationCriterionController extends IController implements IEvalu
 
             //oculto la ventana que muestra información del criterio seleccionado
             gui.criterionInformationVisibility(false);
-            
+
             //vacio la selección de criterio
-            actualCriterion=null;
+            actualCriterion = null;
 
             //cambio la lista del combo de criterios
             gui.setComboCriterion(modelComboCriterion[category.ordinal()]);
@@ -364,7 +369,7 @@ public class EvaluationCriterionController extends IController implements IEvalu
 //            }
 //            gui.setCriterionList(listCriterions);
             gui.setModelCriterion(modelCriterion.get(category.ordinal()));
-            
+
             //limpio el panel de valoraciones (con una lista vacía se limpia)
             gui.setValorationList(new LinkedList<Valoration>());
 
