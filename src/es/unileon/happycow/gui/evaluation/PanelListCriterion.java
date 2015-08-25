@@ -4,6 +4,7 @@
 package es.unileon.happycow.gui.evaluation;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
+import java.awt.Dimension;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -33,6 +34,11 @@ public class PanelListCriterion extends TitlePanel {
     public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
+    
+    public void setModel(DefaultListModel<IconList> list){
+        jListCriterion.setModel(list);
+        modelCriterion=list;
+    }
 
     public void removeCriterion(String id) {
         int index = -1;
@@ -57,6 +63,7 @@ public class PanelListCriterion extends TitlePanel {
             if (o.getNombreCriterio().compareTo(id) == 0) {
                 found = true;
                 o.setChecked(evaluated);
+                modelCriterion.set(index, o);
             }
         }
 
@@ -66,8 +73,12 @@ public class PanelListCriterion extends TitlePanel {
             if (o.getNombreCriterio().compareTo(id.toString()) == 0) {
                 o.setChecked(evaluated);
                 found = true;
+                modelCriterion.set(i, o);
             }
         }
+        
+        //recargamos para actualizar el icono
+        jListCriterion.revalidate();
 
     }
 
@@ -147,6 +158,7 @@ public class PanelListCriterion extends TitlePanel {
         jListCriterion.setToolTipText("Lista de criterios seleccionados para evaluar");
         scrollCriterion.setViewportView(jListCriterion);
         scrollCriterion.setBorder(null);
+        scrollCriterion.setMinimumSize(new Dimension(200, 200));
 
         jListCriterion.setModel(modelCriterion);
     }

@@ -18,15 +18,19 @@ import javax.swing.JToggleButton;
  *
  * @author dorian
  */
-public class ListCategory extends JPanel {
+public class PanelListCategory extends JPanel {
 
     private IEvaluationCriterionController controller;
 
     private JToggleButton[] buttons;
     private JLabel titleCategory;
 
-    public ListCategory() {
+    public PanelListCategory() {
         initComponents();
+    }
+
+    public void setController(IEvaluationCriterionController controller) {
+        this.controller = controller;
     }
 
     public void setCategory(Category category) {
@@ -37,7 +41,7 @@ public class ListCategory extends JPanel {
         }
         int ordinal = category.ordinal();
         buttons[ordinal].setSelected(true);
-        titleCategory.setText(category.name());
+        titleCategory.setText(Category.getName(category));
     }
 
     public Category getCategory() {

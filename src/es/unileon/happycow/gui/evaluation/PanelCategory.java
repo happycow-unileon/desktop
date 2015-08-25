@@ -40,6 +40,7 @@ public class PanelCategory extends JPanel {
     }
     
     public void setListCriterion(List<String> list){
+        comboCriterion.getModel().clear();
         for (String element : list) {
             comboCriterion.getModel().addElement(element);
         }
@@ -82,7 +83,7 @@ public class PanelCategory extends JPanel {
 
     private void configureComponents() {
         comboCriterion.setTextFor(CheckComboBox.NONE, "* no criterio seleccionado *");
-        comboCriterion.setTextFor(CheckComboBox.MULTIPLE, "* multiples criterios *");
+        comboCriterion.setTextFor(CheckComboBox.MULTIPLE, "* múltiples criterios *");
         comboCriterion.setTextFor(CheckComboBox.ALL, "* todos los criterios *");
     }
 

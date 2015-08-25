@@ -4,6 +4,7 @@
 package es.unileon.happycow.gui.evaluation;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
+import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Valoration;
 import java.awt.Color;
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -32,7 +35,7 @@ public class PanelEvaluationCriterion extends JPanel {
     private PanelCriterion panelCriterionInformation;
     private PanelListCriterion panelListCriterion;
     private PanelCategory panelCategory;
-    private ListCategory panelListCategory;
+    private PanelListCategory panelListCategory;
     //algunos botones y combos extras
     private JButton addValorationButton;
     private JComboBox comboValoration;
@@ -52,6 +55,7 @@ public class PanelEvaluationCriterion extends JPanel {
         panelCriterionInformation.setController(controller);
         panelListCriterion.setController(controller);
         panelCategory.setController(controller);
+        panelListCategory.setController(controller);
     }
     
     public String getSelectedCriterion() {
@@ -98,19 +102,23 @@ public class PanelEvaluationCriterion extends JPanel {
         panelValorations.addValoration(valoration);
     }
     public float getSelectedValoration(){
-        return comboValoration.getSelectedIndex();
+        return comboValoration.getSelectedIndex()+1;
     }
     public void setValorationList(LinkedList<Valoration> list){
         panelValorations.setListValoration(list);
     }
     
-    public void setCriterionInformation(String criterion, float ponderation, boolean evaluated){
-        panelCriterionInformation.setNameCriterion(criterion);
+    public void setCriterionInformation(IdHandler criterion, float ponderation, boolean evaluated){
+        panelCriterionInformation.setNameCriterion(criterion.toString());
+        panelCriterionInformation.setCriterion(criterion);
         panelCriterionInformation.setEvaluated(evaluated);
         panelCriterionInformation.setPonderation(ponderation);
     }
     public List<Object> getCriterionsAddingSelected(){
         return panelCategory.getSelectedCriterion();
+    }
+    public void setModelCriterion(DefaultListModel<IconList> list){
+        panelListCriterion.setModel(list);
     }
     
     public void setColorPonderationCriterion(Color color){
@@ -132,6 +140,9 @@ public class PanelEvaluationCriterion extends JPanel {
     public void setTitleValorations(String title){
         panelValorations.setTitle(title);
     }
+    public void setCategory(Category category){
+        panelListCategory.setCategory(category);
+    }
  
     
     /**
@@ -145,7 +156,7 @@ public class PanelEvaluationCriterion extends JPanel {
     }
 
     private void createComponents() {
-        panelListCategory = new ListCategory();
+        panelListCategory = new PanelListCategory();
         panelCategory = new PanelCategory();
 
         addFile = new JButton("Añadir");
@@ -164,6 +175,8 @@ public class PanelEvaluationCriterion extends JPanel {
 
     private void configureComponents() {
         setLayout(new java.awt.GridBagLayout());
+        
+        panelCategory.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         panelValorations.setTitleMargin(new Insets(5, 5, 20, 5));
         panelFileList.setTitleMargin(new Insets(5, 5, 20, 5));
@@ -173,33 +186,6 @@ public class PanelEvaluationCriterion extends JPanel {
         comboValoration.setModel(
                 new javax.swing.DefaultComboBoxModel(
                         new String[]{"1", "2", "3", "4", "5"}));
-
-///TODO QUITAR
-//        List<String> criterions = new LinkedList<>();
-//        criterions.add("Criterio");
-//        criterions.add("Criterio2");
-//        criterions.add("Criterio3");
-//        criterions.add("Criterio4");
-//        panelCategory.setListCriterion(criterions);
-//
-//        panelListCriterion.addCriterion("hola");
-//        panelListCriterion.addCriterion("holaasdf");
-//        panelListCriterion.addCriterion("holasd");
-//
-//        List<Valoration> list2 = new LinkedList<>();
-//        list2.add(new Valoration(5.0f));
-//        list2.add(new Valoration(3.4f));
-//        list2.add(new Valoration(4.4f));
-//        list2.add(new Valoration(3.4f));
-//        list2.add(new Valoration(4.4f));
-//        list2.add(new Valoration(3.4f));
-//        list2.add(new Valoration(4.4f));
-//        list2.add(new Valoration(4.4f));
-//        list2.add(new Valoration(3.4f));
-//        list2.add(new Valoration(4.4f));
-//        list2.add(new Valoration(3.4f));
-//        list2.add(new Valoration(4.4f));
-//        panelValorations.addListValoration(list2);
 
     }
 

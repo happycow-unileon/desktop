@@ -21,23 +21,25 @@ import org.japura.gui.TitlePanel;
  *
  * @author dorian
  */
-public class PanelValorationList extends TitlePanel{
+public class PanelValorationList extends TitlePanel {
+
     private IEvaluationCriterionController controller;
     private LinkedList<PanelValoration> valorationPanels;
 
     public PanelValorationList(JComponent[] components) {
         super("", components);
         initComponents();
-        
-        valorationPanels=new LinkedList<>();
+
+        valorationPanels = new LinkedList<>();
     }
 
     public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
-    
-    public void setListValoration(List<Valoration> valorations){
+
+    public void setListValoration(List<Valoration> valorations) {
         valorationPanels.clear();
+        list.removeAll();
         addListValoration(valorations);
     }
 
@@ -54,18 +56,20 @@ public class PanelValorationList extends TitlePanel{
 
         valorationPanels.add(panel);
         list.add(panel);
+        // Revalidate frame to cause it to layout the new panel correctly.
+        list.revalidate();
     }
 
     public void removeValoration(IdHandler val) {
-        boolean removed=false;
+        boolean removed = false;
         for (Iterator<PanelValoration> iterator = valorationPanels.iterator(); iterator.hasNext() && !removed;) {
             PanelValoration next = iterator.next();
-            if(next.getValoration().compareTo(val)==0){
+            if (next.getValoration().compareTo(val) == 0) {
                 //remove the list from panel
                 list.remove(next);
                 //remove from list
                 iterator.remove();
-                removed=true;
+                removed = true;
             }
         }
     }
@@ -79,14 +83,14 @@ public class PanelValorationList extends TitlePanel{
 
     private void createComponents() {
         scrollList = new JScrollPane();
-        list=new JPanel();
+        list = new JPanel();
     }
 
     private void configureComponents() {
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
         scrollList.setViewportView(list);
         scrollList.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        
+
     }
 
     private void addEvents() {
@@ -97,10 +101,8 @@ public class PanelValorationList extends TitlePanel{
         setLayout(new BorderLayout());
         add(scrollList, BorderLayout.CENTER);
     }
-    
 
     private JScrollPane scrollList;
     private JPanel list;
 
-    
 }

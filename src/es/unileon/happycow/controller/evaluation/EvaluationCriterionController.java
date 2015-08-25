@@ -6,6 +6,7 @@ package es.unileon.happycow.controller.evaluation;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.IController;
 import es.unileon.happycow.database.Database;
+import es.unileon.happycow.gui.evaluation.IconList;
 import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
@@ -20,9 +21,11 @@ import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
 import es.unileon.happycow.strategy.EvaluationAlgorithm;
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 
 /**
@@ -38,6 +41,8 @@ public class EvaluationCriterionController extends IController implements IEvalu
     private IdHandler actualCriterion;
 
     LinkedList<String>[] modelComboCriterion;
+    
+    private ArrayList<DefaultListModel<IconList>> modelCriterion;
 
     private boolean newEvaluation;
     private int numberCows;
@@ -48,8 +53,6 @@ public class EvaluationCriterionController extends IController implements IEvalu
      * entera
      *
      * @param panel
-     * @param model
-     * @param newEvaluation
      */
     public EvaluationCriterionController(PanelEvaluationCriterion panel) {
         this.gui = panel;
@@ -57,6 +60,11 @@ public class EvaluationCriterionController extends IController implements IEvalu
         actualCriterion = null;
 
         initComboCriterion();
+        
+        modelCriterion = new  ArrayList<DefaultListModel<IconList>>();
+        for (int i = 0; i < 4; i++) {
+            modelCriterion.add(new DefaultListModel<IconList>());
+        }
     }
 
     @Override
@@ -69,9 +77,9 @@ public class EvaluationCriterionController extends IController implements IEvalu
         if (!isNew) {
             //rellenar los datos de evaluación
             IdHandler idEvaluation = new IdEvaluation(parameters.getInteger("idEvaluation"));
-            model=new EvaluationCriterionModel(Database.getInstance().getEvaluation(idEvaluation));
-        }else{
-            model=new EvaluationCriterionModel(farm);
+            model = new EvaluationCriterionModel(Database.getInstance().getEvaluation(idEvaluation));
+        } else {
+            model = new EvaluationCriterionModel(farm);
         }
 
         if (model != null) {
@@ -81,15 +89,11 @@ public class EvaluationCriterionController extends IController implements IEvalu
         }
 
         //establezco la categoría
+        gui.setCategory(actualCategory);
         //cambio la lista del combo de criterios
         gui.setComboCriterion(modelComboCriterion[actualCategory.ordinal()]);
         //cambio la lista de criterios de la categoria
-        LinkedList<Criterion> list=model.getListCriterion(actualCategory);
-        LinkedList<String> listCriterions=new LinkedList<>();
-        for (Criterion cri : list) {
-            listCriterions.add(cri.getName());
-        }
-        gui.setCriterionList(listCriterions);
+        gui.setModelCriterion(modelCriterion.get(actualCategory.ordinal()));
 
         //pongo la ponderacion de la categoria y su color correcto
         gui.setPonderationCategory(model.getWeighing(new IdCategory(actualCategory)));
@@ -106,7 +110,7 @@ public class EvaluationCriterionController extends IController implements IEvalu
             Criterion cri = model.getCriterion(actualCriterion);
             float ponderation = cri.getWeighing();
             boolean evaluated = gui.getCriterionEvaluated(actualCriterion);
-            gui.setCriterionInformation(actualCriterion.toString(), ponderation, evaluated);
+            gui.setCriterionInformation(actualCriterion, ponderation, evaluated);
 
             gui.setValorationList(model.listOfCriterion(actualCriterion));
         }
@@ -216,20 +220,25 @@ public class EvaluationCriterionController extends IController implements IEvalu
         //lo añado al modelo
         IdHandler idCriterion = new IdCriterion(gui.getSelectedCriterion());
         Float note = gui.getSelectedValoration();
-        model.add(new IdCategory(actualCategory), idCriterion, new Valoration(note));
+        Valoration val=new Valoration(note);
+        model.add(new IdCategory(actualCategory), idCriterion, val);
         //notifico a la interfaz de que tiene que añadir una valoración a la lista
-        gui.addValoration(null);
+        gui.addValoration(val);
     }
 
     @Override
     public void criterionSelected() {
-        if (actualCriterion==null || gui.getSelectedCriterion().compareTo(actualCriterion.toString()) != 0) {
+        if (actualCriterion == null 
+                || gui.getSelectedCriterion().compareTo(actualCriterion.toString()) != 0) {
+            gui.criterionInformationVisibility(true);
             actualCriterion = new IdCriterion(gui.getSelectedCriterion());
+            
             //change the criterion information
             Criterion cri = model.getCriterion(actualCriterion);
             float note = cri.getWeighing();
             boolean evaluated = gui.getCriterionEvaluated(actualCriterion);
-            gui.setCriterionInformation(cri.getName(), note, evaluated);
+            gui.setCriterionInformation(cri.getId(), note, evaluated);
+            
             gui.setColorPonderationCriterion(Color.BLACK);
 
             //change the list valorations
@@ -336,12 +345,26 @@ public class EvaluationCriterionController extends IController implements IEvalu
     public void categorySelected(Category category) {
         if (actualCategory.compareTo(category) != 0) {
             actualCategory = category;
+            //pongo la categoria
+            gui.setCategory(category);
+
             //oculto la ventana que muestra información del criterio seleccionado
             gui.criterionInformationVisibility(false);
+            
+            //vacio la selección de criterio
+            actualCriterion=null;
 
             //cambio la lista del combo de criterios
-            gui.setCriterionList(modelComboCriterion[category.ordinal()]);
-
+            gui.setComboCriterion(modelComboCriterion[category.ordinal()]);
+            //cambio la lista de criterios de la categoria
+//            LinkedList<Criterion> list = model.getListCriterion(actualCategory);
+//            LinkedList<String> listCriterions = new LinkedList<>();
+//            for (Criterion cri : list) {
+//                listCriterions.add(cri.getName());
+//            }
+//            gui.setCriterionList(listCriterions);
+            gui.setModelCriterion(modelCriterion.get(category.ordinal()));
+            
             //limpio el panel de valoraciones (con una lista vacía se limpia)
             gui.setValorationList(new LinkedList<Valoration>());
 
