@@ -7,7 +7,7 @@ import es.unileon.happycow.application.Parameters;
  *
  * @author dorian
  */
-public abstract class IController {
+public abstract class Controller {
     /**
      * Controlador concreto del jframe
      */

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class NewFarmController extends IController {
+public class NewFarmController extends Controller {
 
     private final PanelNewFarm panel;
 

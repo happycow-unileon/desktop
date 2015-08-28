@@ -9,7 +9,7 @@ import es.unileon.happycow.model.User;
  *
  * @author dorian
  */
-public class PasswordController extends IController{
+public class PasswordController extends Controller{
     private final PanelPassword panel;
 
     public PasswordController(PanelPassword panel) {

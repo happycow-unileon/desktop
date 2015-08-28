@@ -2,7 +2,7 @@
 package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.BarOptionsController;
 import es.unileon.happycow.gui.PanelOptions;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class FactoryOptionsBar extends IFactory {
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
-    public IController getController() {
+    public Controller getController() {
         if(controller==null){
             createController();
         }

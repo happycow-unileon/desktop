@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class EditFarmController extends IController {
+public class EditFarmController extends Controller {
 
     private final PanelEditFarm panel;
     private final IdHandler idFarm;

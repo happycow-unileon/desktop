@@ -5,7 +5,7 @@
  */
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.gui.admin.InterfaceTabs;
 import java.util.LinkedList;
 
@@ -13,7 +13,7 @@ import java.util.LinkedList;
  *
  * @author dorian
  */
-public class AdminController extends IController {
+public class AdminController extends Controller {
     
     LinkedList<InterfaceTabs> panels;
 

@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.gui.admin.Backup;
 import java.io.File;
 
@@ -8,7 +8,7 @@ import java.io.File;
  *
  * @author dorian
  */
-public class BackupController extends IController{
+public class BackupController extends Controller{
     private final Backup panel;
 //    private final es.unileon.happycow.procedures.Backup procedure;
 

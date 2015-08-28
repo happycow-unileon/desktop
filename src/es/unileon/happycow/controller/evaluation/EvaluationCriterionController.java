@@ -4,10 +4,10 @@
 package es.unileon.happycow.controller.evaluation;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
-import es.unileon.happycow.gui.evaluation.IconList;
-import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
+import es.unileon.happycow.gui.evaluation.criterion.IconList;
+import es.unileon.happycow.gui.evaluation.criterion.PanelEvaluationCriterion;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
@@ -22,6 +22,7 @@ import es.unileon.happycow.strategy.EvaluationAlgorithm;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,10 +33,10 @@ import javax.swing.JFileChooser;
  *
  * @author dorian
  */
-public class EvaluationCriterionController extends IController implements IEvaluationCriterionController {
+public class EvaluationCriterionController extends Controller implements IEvaluationCriterionController {
 
     private EvaluationCriterionModel model;
-    private PanelEvaluationCriterion gui;
+    private final PanelEvaluationCriterion gui;
 
     private Category actualCategory;
     private IdHandler actualCriterion;
@@ -61,7 +62,7 @@ public class EvaluationCriterionController extends IController implements IEvalu
 
         initComboCriterion();
 
-        modelCriterion = new ArrayList<DefaultListModel<IconList>>();
+        modelCriterion = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             modelCriterion.add(new DefaultListModel<IconList>());
         }
@@ -114,14 +115,33 @@ public class EvaluationCriterionController extends IController implements IEvalu
 
             gui.setValorationList(model.listOfCriterion(actualCriterion));
         }
+        
+        setTitleValorations();
     }
 
     private void addAll() {
-
+        //relleno los modelos de criterios
+        for (int i = 0; i < 4; i++) {
+            LinkedList<Criterion> list=model.getListCriterion(Category.getEnum(i));
+            DefaultListModel<IconList> modelList=modelCriterion.get(i);
+            for (Iterator<Criterion> iterator = list.iterator(); iterator.hasNext();) {
+                Criterion next = iterator.next();
+                IconList icon=new IconList(next.getName());
+                modelList.addElement(icon);
+            }
+        }
     }
 
     private void setNumberCows() {
-        gui.setTitleValorations("(mínimo ".concat(Integer.toString(numberCows)).concat(")"));
+        gui.setMinimunCows(numberCows);
+    }
+    
+    private void setTitleValorations(){
+        int number=0;
+        if(actualCriterion!=null){
+            number=model.listOfCriterion(actualCriterion).size();
+        }
+        gui.setTitleValorations(number);
     }
 
     /**
@@ -156,7 +176,6 @@ public class EvaluationCriterionController extends IController implements IEvalu
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File fichero = fileChooser.getSelectedFile();
             File downloaded = new File(fichero.getPath() + File.separator + id.toString());
-//            System.out.println(downloaded.getAbsolutePath());
             byte[] data = Database.getInstance().getFile(model.getIdHandler(), id.toString());
             Database.getInstance().saveFileToTheSystem(data, downloaded);
         }
@@ -237,6 +256,7 @@ public class EvaluationCriterionController extends IController implements IEvalu
                 || gui.getSelectedCriterion().compareTo(actualCriterion.toString()) != 0) {
             gui.criterionInformationVisibility(true);
             actualCriterion = new IdCriterion(gui.getSelectedCriterion());
+            setTitleValorations();
 
             //change the criterion information
             Criterion cri = model.getCriterion(actualCriterion);
@@ -358,16 +378,11 @@ public class EvaluationCriterionController extends IController implements IEvalu
 
             //vacio la selección de criterio
             actualCriterion = null;
+            setTitleValorations();
 
             //cambio la lista del combo de criterios
             gui.setComboCriterion(modelComboCriterion[category.ordinal()]);
             //cambio la lista de criterios de la categoria
-//            LinkedList<Criterion> list = model.getListCriterion(actualCategory);
-//            LinkedList<String> listCriterions = new LinkedList<>();
-//            for (Criterion cri : list) {
-//                listCriterions.add(cri.getName());
-//            }
-//            gui.setCriterionList(listCriterions);
             gui.setModelCriterion(modelCriterion.get(category.ordinal()));
 
             //limpio el panel de valoraciones (con una lista vacía se limpia)
@@ -381,6 +396,10 @@ public class EvaluationCriterionController extends IController implements IEvalu
 
     @Override
     public void finishEvaluation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(Database.getInstance().saveEvaluation(model)){
+            System.out.println("correcto");
+        }else{
+            System.out.println("arggh");
+        }
     }
 }

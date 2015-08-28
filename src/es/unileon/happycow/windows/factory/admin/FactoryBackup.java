@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory.admin;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.admin.BackupController;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.Backup;
@@ -21,7 +21,7 @@ public class FactoryBackup extends IFactory{
     }
 
     @Override
-    public IController getController() {
+    public Controller getController() {
         if(controller==null){
             createController();
         }

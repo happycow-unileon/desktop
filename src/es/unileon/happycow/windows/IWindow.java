@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdHandler;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public abstract class IWindow {
     
     private IFactory factory;
     
-    private IController controller;
+    private Controller controller;
     private JPanel panel;
 
     public IWindow(String title,boolean unique, boolean back, IdHandler id, IFactory factory) {
@@ -64,7 +64,7 @@ public abstract class IWindow {
         factory=null;
     }
     
-    public IController getController() {
+    public Controller getController() {
         if(controller==null){
             createWindow();
         }

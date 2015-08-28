@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.windows.factory.evaluation.FactoryEvaluationCow;
 import es.unileon.happycow.windows.factory.evaluation.FactoryEvaluationCriterion;
 import javax.swing.JPanel;
@@ -47,7 +47,7 @@ public class FactoryEvaluation extends IFactory {
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController()
      */
     @Override
-    public IController getController() {
+    public Controller getController() {
         return concreteFactoryEvaluation.getController();
     }
 

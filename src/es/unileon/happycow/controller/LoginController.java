@@ -11,7 +11,7 @@ import es.unileon.happycow.gui.PanelLogin;
  *
  * @author dorian
  */
-public class LoginController extends IController {
+public class LoginController extends Controller {
     /**
      * Panel concreto
      */

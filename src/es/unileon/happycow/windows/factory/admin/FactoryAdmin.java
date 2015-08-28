@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory.admin;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.admin.AdminController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.factory.IFactory;
@@ -35,7 +35,7 @@ public class FactoryAdmin extends IFactory{
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
-    public IController getController() {
+    public Controller getController() {
         if(controller!=null){
             createController();
         }

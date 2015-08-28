@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory.admin;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.admin.RemoveCriterionController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.factory.IFactory;
@@ -24,7 +24,7 @@ public class FactoryRemoveCriterion extends IFactory {
     }
 
     @Override
-    public IController getController() {
+    public Controller getController() {
         if (controller == null) {
             createController();
         }

@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.admin.RemoveUser;
 import es.unileon.happycow.model.Rol;
@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class RemoveUserController extends IController {
+public class RemoveUserController extends Controller {
 
     private final RemoveUser panel;
 

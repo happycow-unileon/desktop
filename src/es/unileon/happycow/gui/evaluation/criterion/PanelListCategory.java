@@ -1,7 +1,7 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation;
+package es.unileon.happycow.gui.evaluation.criterion;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.Category;

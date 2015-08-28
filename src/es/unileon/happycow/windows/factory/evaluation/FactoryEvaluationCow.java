@@ -4,7 +4,7 @@
 package es.unileon.happycow.windows.factory.evaluation;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.windows.factory.IFactory;
 import javax.swing.JPanel;
 
@@ -19,7 +19,7 @@ public class FactoryEvaluationCow extends IFactory{
     }
 
     @Override
-    public IController getController() {
+    public Controller getController() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

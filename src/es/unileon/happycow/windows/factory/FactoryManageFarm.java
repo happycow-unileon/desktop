@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.ManageFarmController;
 import es.unileon.happycow.gui.PanelManageFarm;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class FactoryManageFarm extends IFactory{
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
-    public IController getController() {
+    public Controller getController() {
         if(controller==null){
             createController();
         }

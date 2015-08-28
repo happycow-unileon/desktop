@@ -1,48 +1,42 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation;
+package es.unileon.happycow.gui.evaluation.criterion;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
-import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdGeneric;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 /**
  *
  * @author dorian
  */
-public class PanelValoration extends JPanel {
-    
+public class PanelFile extends javax.swing.JPanel {
+
     private IEvaluationCriterionController controller;
-    private IdHandler valoration;
+    private String fileName;
     
     /**
      * Creates new form PanelFile
-     * @param valoration
      */
-    public PanelValoration(IdHandler valoration) {
+    public PanelFile() {
         initComponents();
-        this.valoration=valoration;
     }
     
+    public void setFileName(String name){
+        this.fileName=name;
+        this.name.setText(name);
+    }
+
     public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
 
-    public void setTextValoration(String text){
-        this.name.setText(text);
-    }
-    
-    public String getText(String text){
-        return this.name.getText();
+    public String getFileName() {
+        return fileName;
     }
 
-    public IdHandler getValoration() {
-        return valoration;
-    }
-    
     private void initComponents() {
         createComponents();
         configureComponents();
@@ -53,38 +47,38 @@ public class PanelValoration extends JPanel {
     private void createComponents(){
         name = new javax.swing.JLabel();
         
-        buttonCopy = new javax.swing.JButton(new javax.swing.ImageIcon
-                        (getClass().getResource("/images/copy.png")));
+        buttonDownload = new javax.swing.JButton(new javax.swing.ImageIcon
+                        (getClass().getResource("/images/download.png")));
         
         buttonRemove = new javax.swing.JButton(new javax.swing.ImageIcon
                         (getClass().getResource("/images/unchecked.png")));
     }
     
     private void configureComponents(){
-        buttonCopy.setToolTipText("Copiar");
-        buttonRemove.setToolTipText("Eliminar");
+        buttonDownload.setToolTipText("Descargar fichero");
+        buttonRemove.setToolTipText("Borrar fichero");
+        
+        buttonDownload.setBorderPainted(false);
+        buttonDownload.setContentAreaFilled(false);
+        buttonDownload.setFocusPainted(false);
         
         buttonRemove.setBorderPainted(false);
         buttonRemove.setContentAreaFilled(false);
         buttonRemove.setFocusPainted(false);
-        
-        buttonCopy.setBorderPainted(false);
-        buttonCopy.setContentAreaFilled(false);
-        buttonCopy.setFocusPainted(false);
     }
     
     private void addEvents(){
-        buttonCopy.addMouseListener(new java.awt.event.MouseAdapter() {
+        buttonDownload.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.copyValoration(valoration);
+                controller.downloadFile(new IdGeneric(fileName));
             }
         });
         
         buttonRemove.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.removeValoration(valoration);
+                controller.removeFile(new IdGeneric(fileName));
             }
         });
     }
@@ -95,13 +89,12 @@ public class PanelValoration extends JPanel {
         
         add(name);
         add(Box.createHorizontalGlue());
-        add(buttonCopy);
+        add(buttonDownload);
         add(buttonRemove);
     }
 
 
-    private javax.swing.JButton buttonCopy;
+    private javax.swing.JButton buttonDownload;
     private javax.swing.JButton buttonRemove;
     private javax.swing.JLabel name;
-    
 }

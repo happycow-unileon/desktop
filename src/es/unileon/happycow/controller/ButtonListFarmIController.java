@@ -7,7 +7,7 @@ import es.unileon.happycow.handler.IdHandler;
  * lista de granjas deshabilitadas
  * @author dorian
  */
-public abstract class ButtonListFarmIController extends IController{
+public abstract class ButtonListFarmIController extends Controller{
     /**
      * Método ejecutar para los botones, los cuales pasan el id de la granja
      * seleccionada

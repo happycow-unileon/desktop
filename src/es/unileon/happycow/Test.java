@@ -3,7 +3,7 @@
  */
 package es.unileon.happycow;
 
-import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
+import es.unileon.happycow.gui.evaluation.criterion.PanelEvaluationCriterion;
 import es.unileon.happycow.handler.Category;
 import java.awt.BorderLayout;
 import java.awt.Color;

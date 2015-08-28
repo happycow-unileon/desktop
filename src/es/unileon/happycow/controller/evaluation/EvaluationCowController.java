@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller.evaluation;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
@@ -14,7 +14,7 @@ import java.util.LinkedList;
  *
  * @author dorian
  */
-public class EvaluationCowController extends IController {
+public class EvaluationCowController extends Controller {
 //
 ////    private final InterfaceEvaluationCriterionPanel panel;
 ////    private final InterfaceEvaluationModel model;

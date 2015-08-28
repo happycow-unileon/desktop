@@ -1,11 +1,9 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation;
+package es.unileon.happycow.gui.evaluation.criterion;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
-import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.model.composite.Valoration;
 import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,56 +19,60 @@ import org.japura.gui.TitlePanel;
  *
  * @author dorian
  */
-public class PanelValorationList extends TitlePanel {
-
+public class PanelFileList extends TitlePanel {
     private IEvaluationCriterionController controller;
-    private LinkedList<PanelValoration> valorationPanels;
+    private LinkedList<PanelFile> filePanels;
 
-    public PanelValorationList(JComponent[] components) {
+    public PanelFileList(JComponent[] components) {
         super("", components);
         initComponents();
-
-        valorationPanels = new LinkedList<>();
+        
+        filePanels=new LinkedList<>();
     }
 
     public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
     }
 
-    public void setListValoration(List<Valoration> valorations) {
-        valorationPanels.clear();
-        list.removeAll();
-        addListValoration(valorations);
-    }
-
-    public void addListValoration(List<Valoration> valorations) {
-        for (Valoration val : valorations) {
-            addValoration(val);
+    public void addFileList(List<String> files) {
+        for (String file : files) {
+            addFile(file);
         }
     }
+    
+    public void removeFileList(){
+        filePanels.clear();
+        list.removeAll();
+    }
+    
+    public void addComponentTitle(JComponent component){
+        this.add(component);
+    }
 
-    public void addValoration(Valoration val) {
-        PanelValoration panel = new PanelValoration(val.getId());
-        panel.setTextValoration("Valoración: ".concat(Float.toString(val.getNota())));
+    public void addFile(String file) {
+        PanelFile panel = new PanelFile();
+        panel.setFileName(file);
         panel.setController(controller);
 
-        valorationPanels.add(panel);
+        filePanels.add(panel);
         list.add(panel);
-        // Revalidate frame to cause it to layout the new panel correctly.
         list.revalidate();
     }
 
-    public void removeValoration(IdHandler val) {
-        boolean removed = false;
-        for (Iterator<PanelValoration> iterator = valorationPanels.iterator(); iterator.hasNext() && !removed;) {
-            PanelValoration next = iterator.next();
-            if (next.getValoration().compareTo(val) == 0) {
+    public void removeFile(String file) {
+        boolean removed=false;
+        for (Iterator<PanelFile> iterator = filePanels.iterator(); iterator.hasNext() && !removed;) {
+            PanelFile next = iterator.next();
+            if(next.getFileName().compareTo(file)==0){
                 //remove the list from panel
                 list.remove(next);
                 //remove from list
                 iterator.remove();
-                removed = true;
-                list.revalidate();
+                
+                
+                this.revalidate();
+                removed=true;
+                
             }
         }
     }
@@ -84,14 +86,14 @@ public class PanelValorationList extends TitlePanel {
 
     private void createComponents() {
         scrollList = new JScrollPane();
-        list = new JPanel();
+        list=new JPanel();
     }
 
     private void configureComponents() {
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
         scrollList.setViewportView(list);
-        scrollList.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-
+        scrollList.setBorder(null);
+        scrollList.setViewportBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
     }
 
     private void addEvents() {

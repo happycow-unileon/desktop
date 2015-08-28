@@ -1,4 +1,4 @@
-package es.unileon.happycow.gui.evaluation;
+package es.unileon.happycow.gui.evaluation.criterion;
 
 import javax.swing.ImageIcon;
 

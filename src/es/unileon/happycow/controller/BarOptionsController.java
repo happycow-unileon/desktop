@@ -7,7 +7,7 @@ import es.unileon.happycow.gui.PanelOptions;
  *
  * @author dorian
  */
-public class BarOptionsController extends IController {
+public class BarOptionsController extends Controller {
     private final PanelOptions panel;
     private boolean view;
 

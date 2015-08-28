@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.admin.NewUser;
 import es.unileon.happycow.handler.IdHandler;
@@ -11,7 +11,7 @@ import es.unileon.happycow.model.User;
  *
  * @author dorian
  */
-public class NewUserController extends IController{
+public class NewUserController extends Controller{
     private final NewUser panel;
 
     public NewUserController(NewUser panel) {

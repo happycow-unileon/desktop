@@ -4,9 +4,9 @@
 package es.unileon.happycow.windows.factory.evaluation;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.evaluation.EvaluationCriterionController;
-import es.unileon.happycow.gui.evaluation.PanelEvaluationCriterion;
+import es.unileon.happycow.gui.evaluation.criterion.PanelEvaluationCriterion;
 import es.unileon.happycow.windows.factory.IFactory;
 import javax.swing.JPanel;
 
@@ -29,7 +29,7 @@ public class FactoryEvaluationCriterion extends IFactory{
     }
 
     @Override
-    public IController getController() {
+    public Controller getController() {
          if(controller==null){
             createController();
         }

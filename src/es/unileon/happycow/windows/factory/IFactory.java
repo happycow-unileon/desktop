@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import javax.swing.JPanel;
 
 /**
@@ -23,7 +23,7 @@ public abstract class IFactory {
      * Return the controller created
      * @return the controller
      */
-    public abstract IController getController();
+    public abstract Controller getController();
     /**
      * Return the panel created
      * @return the panel

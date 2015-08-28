@@ -2,7 +2,7 @@ package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.EditFarmController;
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.NewFarmController;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.PanelEditFarm;
@@ -42,7 +42,7 @@ public class FactoryEditFarm extends IFactory {
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController()
      */
     @Override
-    public IController getController() {
+    public Controller getController() {
         if (controller == null) {
             createController();
         }

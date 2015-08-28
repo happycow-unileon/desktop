@@ -1,7 +1,7 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation;
+package es.unileon.happycow.gui.evaluation.criterion;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.Category;
@@ -92,6 +92,7 @@ public class PanelEvaluationCriterion extends JPanel {
     }
     public void removeFile(IdHandler file){
         panelFileList.removeFile(file.toString());
+        //panelFileList.revalidate();
     }
     
     
@@ -137,8 +138,11 @@ public class PanelEvaluationCriterion extends JPanel {
     public void criterionInformationVisibility(boolean visible){
         panelCriterionInformation.setVisible(visible);
     }
-    public void setTitleValorations(String title){
-        panelValorations.setTitle(title);
+    public void setTitleValorations(int valorations){
+        panelValorations.setTitle(valorations);
+    }
+    public void setMinimunCows(int cows){
+        panelValorations.setMinimunCows(cows);
     }
     public void setCategory(Category category){
         panelListCategory.setCategory(category);
@@ -181,7 +185,7 @@ public class PanelEvaluationCriterion extends JPanel {
         panelValorations.setTitleMargin(new Insets(5, 5, 20, 5));
         panelFileList.setTitleMargin(new Insets(5, 5, 20, 5));
         panelFileList.setTitle("Ficheros");
-        panelValorations.setTitle("5 valoraciones (min. 10)");
+        panelValorations.setTitle("");
         panelListCriterion.setTitle("Criterios");
         comboValoration.setModel(
                 new javax.swing.DefaultComboBoxModel(

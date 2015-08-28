@@ -1,6 +1,6 @@
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.controller.IController;
+import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.admin.RemoveCriterion;
 import es.unileon.happycow.handler.IdCriterion;
@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author dorian
  */
-public class RemoveCriterionController extends IController {
+public class RemoveCriterionController extends Controller {
 //    private JFrameController fatherController;
 
     private final RemoveCriterion panel;
