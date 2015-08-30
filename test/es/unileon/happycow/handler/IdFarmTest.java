@@ -23,7 +23,7 @@ public class IdFarmTest {
     public void setUp() {
         userId=new IdUser("user");
         firstId=new IdFarm(5);
-        secondId=new IdFarm(userId,3);
+        secondId=new IdFarm(3);
     }
     
     @Test
@@ -31,9 +31,8 @@ public class IdFarmTest {
         IdFarm other=new IdFarm(2);
         assertEquals(2, other.getIdFarm());
         
-        other=new IdFarm(userId, 5);
+        other=new IdFarm(5);
         assertEquals(5, other.getIdFarm());
-        assertEquals(userId, other.getIdUser());
     }
     
     @Test
@@ -58,21 +57,20 @@ public class IdFarmTest {
         assertEquals(3, secondId.getIdFarm());
     }
 
-    /**
-     * Test of getIdUser method, of class IdFarm.
-     */
-    @Test
-    public void testGetIdUser() {
-        assertEquals(userId, secondId.getIdUser());
-    }
 
     /**
      * Test of toString method, of class IdFarm.
      */
     @Test
     public void testToString() {
-        assertEquals("5", firstId.toString());
-        assertEquals("3", secondId.toString());
+        assertEquals("Farm-5", firstId.toString());
+        assertEquals("Farm-3", secondId.toString());
+    }
+    
+    @Test
+    public void testGetValue(){
+        assertEquals("5", firstId.getValue());
+        assertEquals("3", secondId.getValue());
     }
 
     /**
@@ -83,9 +81,8 @@ public class IdFarmTest {
         assertEquals(0, firstId.compareTo(firstId));
         assertFalse(firstId.compareTo(secondId)==0);
         
-        IdUser anotherUser=new IdUser("another");
-        firstId=new IdFarm(anotherUser, secondId.getIdFarm());
-        assertFalse(firstId.compareTo(secondId)==0);
+        firstId=new IdFarm(secondId.getIdFarm());
+        assertTrue(firstId.compareTo(secondId)==0);
     }
 
     /**

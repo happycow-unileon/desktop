@@ -28,6 +28,15 @@ public class AverageEvaluation extends EvaluationAlgorithm{
     public AverageEvaluation(IEvaluationModel model) {
         super(model);
     }
+
+    public AverageEvaluation() {
+        super();
+    }
+
+    @Override
+    public void setModel(IEvaluationModel model) {
+        super.setModel(model);
+    }
     
     @Override
     public String toString(){
@@ -48,24 +57,22 @@ public class AverageEvaluation extends EvaluationAlgorithm{
         StringBuilder result=new StringBuilder();
         result.append("Resultados detallados<br>");
         result.append("Mejor Categoria: ");
-        result.append(bestCategory.toString());
+        result.append(Category.getName(bestCategory));
         result.append(" ");
         result.append(bestCategoryResult);
-        result.append("&#09;");
         
         result.append("Peor Categoría: ");
-        result.append(worstCategory.toString());
+        result.append(Category.getName(worstCategory));
         result.append(" ");
         result.append(worstCategoryResult);
         result.append("<br><br>");
         
         for (Category category : Category.values()) {
-            result.append(category.toString());
+            result.append(Category.getName(category));
             result.append("<br>");
             result.append("Criterio mejor evaluado: ");
             result.append(bestCriterion(category));
-            result.append("&#09;");
-            
+            result.append("<br>");
             result.append("Criterio peor evaluado: ");
             result.append(worstCriterion(category));
             result.append("<br><br>");

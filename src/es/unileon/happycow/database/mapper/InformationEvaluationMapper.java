@@ -7,6 +7,7 @@ import es.unileon.happycow.database.EntityDB;
 import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdUser;
 import es.unileon.happycow.model.InformationEvaluation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,9 +39,9 @@ public class InformationEvaluationMapper implements EntityDB {
                 + "'ALIMENTACION','SALUD','COMFORT','COMPORTAMIENTO',"
                 + "'FECHA','NUMEROVACAS')"
                 + " VALUES(?,?,?,?,?,?,?,?,?,?)");
-        sql.setInt(1, Integer.parseInt(info.getIdEvaluation().toString()));
-        sql.setInt(2, Integer.parseInt(info.getIdFarm().toString()));
-        sql.setString(3, info.getIdUser().toString());
+        sql.setInt(1, Integer.parseInt(info.getIdEvaluation().getValue()));
+        sql.setInt(2, Integer.parseInt(info.getIdFarm().getValue()));
+        sql.setString(3, info.getIdUser().getValue());
         sql.setFloat(4, info.getNota());
         sql.setFloat(5, info.getAlimentacion());
         sql.setFloat(6, info.getSalud());
@@ -63,7 +64,7 @@ public class InformationEvaluationMapper implements EntityDB {
     public List<PreparedStatement> deleteObject(Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareCall(
                 "delete from evaluation where idevaluation = ?");
-        sql.setInt(1, Integer.parseInt(info.getIdEvaluation().toString()));
+        sql.setInt(1, Integer.parseInt(info.getIdEvaluation().getValue()));
 
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);
@@ -72,7 +73,7 @@ public class InformationEvaluationMapper implements EntityDB {
     
     public static PreparedStatement getListEvaluations(Connection connection, IdHandler farm) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM EVALUATION WHERE IDGRANJA=?");
-            sql.setInt(1, Integer.parseInt(farm.toString()));
+            sql.setInt(1, Integer.parseInt(farm.getValue()));
         return sql;
     }
 
@@ -80,6 +81,7 @@ public class InformationEvaluationMapper implements EntityDB {
         return new InformationEvaluation(
                 (IdHandler) new IdEvaluation(result.getInt("IDEVALUATION")),
                 new IdFarm(result.getInt("IDGRANJA")),
+                new IdUser(result.getString("USUARIO")),
                 result.getFloat("NOTA"),
                 result.getFloat("ALIMENTACION"),
                 result.getFloat("SALUD"),

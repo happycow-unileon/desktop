@@ -48,5 +48,10 @@ public class IdWindow implements IdHandler {
             return toString().concat(type.name()).compareTo(another.toString());
         }
     }
+
+    @Override
+    public String getValue() {
+        return String.valueOf(id);
+    }
     
 }

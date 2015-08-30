@@ -7,6 +7,7 @@ import es.unileon.happycow.gui.PanelManageFarm;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
+import es.unileon.happycow.model.InformationEvaluation;
 
 /**
  *
@@ -35,10 +36,14 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
 
     public void removeEvaluation(IdHandler id) {
         Database.getInstance().removeEvaluation(id);
+        panel.removeEvaluation(id);
     }
 
     public void report(IdHandler id) {
-//        fatherController.report(new Report(Database.getInstance().getEvaluation(id)), idFarm);
+        controller.clearParameters();
+        controller.addParameter("idFarm", idFarm.toString());
+        controller.addParameter("idEvaluation", id.toString());
+        controller.setState(Window.REPORT);
     }
 
     /**
@@ -46,14 +51,14 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
      *
      * @param id
      */
-    public void evaluationSelected(IdHandler id) {
+    public void evaluationSelected(InformationEvaluation info) {
         //llama al padre y le indica la evaluación seleccionada
         controller.clearParameters();
         controller.addParameter("idFarm", idFarm.toString());
         controller.addParameter("isNew", false);
-        controller.addParameter("idEvaluation", id.toString());
+        controller.addParameter("idEvaluation", info.getIdEvaluation().toString());
+        controller.addParameter("user", info.getIdUser().toString());
         controller.setState(Window.EVALUATION);
-//        fatherController.evaluation(idFarm, id);
     }
 
     /**
@@ -79,6 +84,7 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         controller.clearParameters();
         controller.addParameter("isNew", true);
         controller.addParameter("idFarm", idFarm.toString());
+        controller.addParameter("user", Database.getInstance().getUser().getId().toString());
         controller.setState(Window.EVALUATION);
     }
 
@@ -97,18 +103,19 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         controller.clearParameters();
         controller.addParameter("id", idFarm.toString());
         controller.setState(Window.EDIT_FARM);
-//        fatherController.newFarm(idFarm);
     }
 
     @Override
     public void onResume(Parameters parameters) {
         String id = parameters.getString("id");
         if (id != null) {
-            idFarm = new IdFarm(Integer.parseInt(id));
+            idFarm = new IdFarm(id);
         }
+
         if (idFarm != null) {
             Farm farm = Database.getInstance().getFarm(idFarm);
             panel.setFarm(farm);
+            panel.setList(farm.getListEvaluation());
         }
     }
 

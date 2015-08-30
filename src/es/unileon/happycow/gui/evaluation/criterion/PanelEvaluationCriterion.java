@@ -31,7 +31,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
     //paneles que forman la ventana
     private PanelFileList panelFileList;
-    private PanelValorationList panelValorations;
+    private es.unileon.happycow.gui.evaluation.criterion.valorations.PanelValorationList panelValorations;
     private PanelCriterion panelCriterionInformation;
     private PanelListCriterion panelListCriterion;
     private PanelCategory panelCategory;
@@ -62,19 +62,19 @@ public class PanelEvaluationCriterion extends JPanel {
         return panelListCriterion.getCriterion();
     }
     public void addCriterion(IdHandler id){
-        panelListCriterion.addCriterion(id.toString());
+        panelListCriterion.addCriterion(id.getValue());
     }
     public void removeCriterion(IdHandler id){
-        panelListCriterion.removeCriterion(id.toString());
+        panelListCriterion.removeCriterion(id.getValue());
     }
     public void setCriterionList(LinkedList<String> criterions){
         panelListCriterion.setListCriterion(criterions);
     }
     public void setCriterionEvaluated(IdHandler id, boolean evaluated){
-        panelListCriterion.setCriterionEvaluated(id.toString(), evaluated);
+        panelListCriterion.setCriterionEvaluated(id.getValue(), evaluated);
     }
     public boolean getCriterionEvaluated(IdHandler id){
-        return panelListCriterion.getCriterionEvaluated(id.toString());
+        return panelListCriterion.getCriterionEvaluated(id.getValue());
     }
     public void setComboCriterion(LinkedList<String> criterions){
         panelCategory.setListCriterion(criterions);
@@ -91,7 +91,7 @@ public class PanelEvaluationCriterion extends JPanel {
         panelFileList.addFile(file);
     }
     public void removeFile(IdHandler file){
-        panelFileList.removeFile(file.toString());
+        panelFileList.removeFile(file.getValue());
         //panelFileList.revalidate();
     }
     
@@ -110,7 +110,7 @@ public class PanelEvaluationCriterion extends JPanel {
     }
     
     public void setCriterionInformation(IdHandler criterion, float ponderation, boolean evaluated){
-        panelCriterionInformation.setNameCriterion(criterion.toString());
+        panelCriterionInformation.setNameCriterion(criterion.getValue());
         panelCriterionInformation.setCriterion(criterion);
         panelCriterionInformation.setEvaluated(evaluated);
         panelCriterionInformation.setPonderation(ponderation);
@@ -173,7 +173,7 @@ public class PanelEvaluationCriterion extends JPanel {
         addValorationButton = new JButton("Add");
         comboValoration = new javax.swing.JComboBox();
         JComponent[] components = {comboValoration, addValorationButton};
-        panelValorations = new PanelValorationList(components);
+        panelValorations = new es.unileon.happycow.gui.evaluation.criterion.valorations.PanelValorationList(components);
 
     }
 

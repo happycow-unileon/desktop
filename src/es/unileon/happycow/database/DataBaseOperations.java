@@ -273,7 +273,7 @@ public interface DataBaseOperations {
      * la clase para ir incrementándolo después de la primera consulta
      * @return 
      */
-    public int nextIdValoration();
+//    public int nextIdValoration();
 
     
     

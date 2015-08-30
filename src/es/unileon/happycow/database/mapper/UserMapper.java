@@ -48,7 +48,7 @@ public class UserMapper implements EntityDB {
         PreparedStatement sql = connection.prepareStatement(
                 "UPDATE USUARIO SET CONTRASENIA=? WHERE NOMBREUSUARIO=?");
         sql.setString(1, user.getPassword());
-        sql.setString(2, user.getId().toString());
+        sql.setString(2, user.getId().getValue());
 
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);
@@ -68,7 +68,7 @@ public class UserMapper implements EntityDB {
 
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM USUARIO WHERE NOMBREUSUARIO=?");
-        sql.setString(1, id.toString());
+        sql.setString(1, id.getValue());
         return sql;
     }
     

@@ -25,6 +25,6 @@ public class EvaluationCategory extends Composite {
     }
 
     public String toString() {
-        return "\tCategoria: " + this.id.toString() + "\n" + super.toString();
+        return "\tCategoria: " + this.id.getValue()+ "\n" + super.toString();
     }
 }

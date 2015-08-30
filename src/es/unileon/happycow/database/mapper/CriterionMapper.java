@@ -36,7 +36,7 @@ public class CriterionMapper implements EntityDB {
         sql.setString(1, criterion.getName());
         sql.setString(2, criterion.getDescription());
         sql.setString(3, criterion.getHelp());
-        sql.setString(4, ((IdCategory) criterion.getCategory()).toString());
+        sql.setString(4, ((IdCategory) criterion.getCategory()).getValue());
 
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);
@@ -51,7 +51,7 @@ public class CriterionMapper implements EntityDB {
     @Override
     public List<PreparedStatement> deleteObject(Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("DELETE FROM CRITERION WHERE NOMBRECRITERIO=?");
-        sql.setString(1, criterion.getId().toString());
+        sql.setString(1, criterion.getId().getValue());
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);
         return list;

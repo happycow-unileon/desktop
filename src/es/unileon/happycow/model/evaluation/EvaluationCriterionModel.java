@@ -14,8 +14,8 @@ import es.unileon.happycow.model.composite.Evaluation;
  */
 public class EvaluationCriterionModel extends DefaultEvaluationModel{
 
-    public EvaluationCriterionModel(IdHandler idFarm) {
-        super(idFarm);
+    public EvaluationCriterionModel(IdHandler idFarm, IdHandler user) {
+        super(idFarm, user);
     }
     
     public EvaluationCriterionModel(Evaluation evaluation){

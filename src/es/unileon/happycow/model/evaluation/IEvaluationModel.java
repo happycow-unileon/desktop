@@ -137,6 +137,8 @@ public interface IEvaluationModel extends Serializable{
     
     public InformationEvaluation getInformation();
     
+    public IdHandler nextIdValoration();
+    
     //TODO
     /**
      * Devolver una lista de evaluaciones por paquetes (vacas) --> esta interfaz debería

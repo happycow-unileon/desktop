@@ -16,7 +16,7 @@ public abstract class EvaluationAlgorithm {
     protected float behaviour;
     protected float health;
     protected float total;
-    protected final IEvaluationModel model;
+    protected IEvaluationModel model;
 
     public EvaluationAlgorithm(IEvaluationModel model) {
         this.model=model;
@@ -24,6 +24,14 @@ public abstract class EvaluationAlgorithm {
         house=0;
         behaviour=0;
         health=0;
+    }
+
+    public EvaluationAlgorithm() {
+        this(null);
+    }
+
+    public void setModel(IEvaluationModel model) {
+        this.model = model;
     }
     
     public static int necesaryNumberOfCows(int total){
@@ -55,10 +63,13 @@ public abstract class EvaluationAlgorithm {
     }
     
     private float nota(Category cat){
+        if(model==null){
+            return 0;
+        }
         float media=0;
         int conteo=0;
-        LinkedList<Valoration> fuckyou=model.listOfCategory(cat);
-        for (Valoration val : fuckyou) {
+        LinkedList<Valoration> listValoration=model.listOfCategory(cat);
+        for (Valoration val : listValoration) {
             media+=val.getWeighing()*val.getNota();
             conteo++;
         }
@@ -87,6 +98,9 @@ public abstract class EvaluationAlgorithm {
     }
     
     public void calcular(){
+        if(model==null){
+            return;
+        }
         float media=0;
         for (Category category : Category.values()) {
             media+=nota(category)*model.getWeighing(new IdCategory(category));

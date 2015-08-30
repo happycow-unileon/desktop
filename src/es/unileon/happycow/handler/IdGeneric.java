@@ -22,4 +22,9 @@ public class IdGeneric implements IdHandler{
 		return this.id;
 	}
 
+    @Override
+    public String getValue() {
+        return this.id;
+    }
+
 }

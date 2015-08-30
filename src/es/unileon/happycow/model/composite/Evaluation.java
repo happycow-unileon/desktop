@@ -29,6 +29,6 @@ public class Evaluation extends Composite {
 
     @Override
     public String toString() {
-        return "Evaluación: " + id.toString() + "\n"+ super.toString();
+        return "Evaluación: " + id.getValue() + "\n"+ super.toString();
     }
 }

@@ -63,7 +63,7 @@ public class Criterion extends Composite implements Cloneable {
         this.category = category;
         this.description = description;
         this.help = help;
-        this.name = idCriterion.toString();
+        this.name = idCriterion.getValue();
 
         this.entity = Entity.CRITERION;
         id = idCriterion;
@@ -120,6 +120,6 @@ public class Criterion extends Composite implements Cloneable {
     }
 
     public String toString() {
-        return "\t\tCriterio: " + this.id.toString() + "\n" + super.toString();
+        return "\t\tCriterio: " + this.id.getValue()+ "\n" + super.toString();
     }
 }

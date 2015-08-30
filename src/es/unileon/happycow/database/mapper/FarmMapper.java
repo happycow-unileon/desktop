@@ -38,7 +38,7 @@ public class FarmMapper implements EntityDB {
                 + "NOMBREGANADERO,DNIGANADERO,NUMEROVACAS,"
                 + "IDENTIFICADORGRANJA,OTROSDATOS,ENABLED)"
                 + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        sql.setInt(1, Integer.parseInt(farm.getIdFarm().toString()));
+        sql.setInt(1, Integer.parseInt(farm.getIdFarm().getValue()));
         sql.setString(2, farm.getFarmName());
         sql.setString(3, farm.getNameUser());
         sql.setString(4, farm.getAddress());
@@ -75,7 +75,7 @@ public class FarmMapper implements EntityDB {
         sql.setString(6, farm.getDniFarmer());
         sql.setInt(7, farm.getCowNumber());
         sql.setBoolean(8, farm.isEnabled());
-        sql.setInt(9, Integer.parseInt(farm.getIdFarm().toString()));
+        sql.setInt(9, Integer.parseInt(farm.getIdFarm().getValue()));
 
         LinkedList<PreparedStatement> listSql = new LinkedList<>();
         listSql.add(sql);
@@ -85,7 +85,7 @@ public class FarmMapper implements EntityDB {
     @Override
     public List<PreparedStatement> deleteObject(Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("DELETE FROM FARM WHERE IDGRANJA=?");
-        sql.setInt(1, Integer.parseInt(farm.getIdFarm().toString()));
+        sql.setInt(1, Integer.parseInt(farm.getIdFarm().getValue()));
 
         LinkedList<PreparedStatement> listSql = new LinkedList<>();
         listSql.add(sql);
@@ -94,13 +94,13 @@ public class FarmMapper implements EntityDB {
 
     public static PreparedStatement getObject(IdHandler id, Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE IDGRANJA=?");
-        sql.setInt(1, Integer.parseInt(id.toString()));
+        sql.setInt(1, Integer.parseInt(id.getValue()));
         return sql;
     }
 
     public static PreparedStatement getAllObject(IdHandler idUser, Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE NOMBREUSUARIO=? AND ENABLED=?");
-        sql.setString(1, idUser.toString());
+        sql.setString(1, idUser.getValue());
         sql.setBoolean(2, true);
         return sql;
     }
@@ -108,13 +108,13 @@ public class FarmMapper implements EntityDB {
     public static PreparedStatement getDisabledFarms(IdHandler idUser, Connection connection) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE ENABLED=? AND NOMBREUSUARIO=?");
         sql.setBoolean(1, false);
-        sql.setString(2, idUser.toString());
+        sql.setString(2, idUser.getValue());
         return sql;
     }
     
     public static PreparedStatement getNumberCows(IdHandler id, Connection connection) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT NUMEROVACAS FROM FARM WHERE IDGRANJA=?");
-        sql.setString(1, id.toString());
+        sql.setString(1, id.getValue());
         return sql;
     }
 

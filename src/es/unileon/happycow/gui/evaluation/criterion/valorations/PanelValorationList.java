@@ -1,20 +1,17 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion;
+package es.unileon.happycow.gui.evaluation.criterion.valorations;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Valoration;
 import java.awt.BorderLayout;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import org.japura.gui.TitlePanel;
 
 /**
@@ -24,64 +21,48 @@ import org.japura.gui.TitlePanel;
 public class PanelValorationList extends TitlePanel {
 
     private IEvaluationCriterionController controller;
-    private LinkedList<PanelValoration> valorationPanels;
     private String minCows;
+    private ModelTable modelList;
 
     public PanelValorationList(JComponent[] components) {
         super("", components);
         initComponents();
-        minCows="";
-        valorationPanels = new LinkedList<>();
+        minCows = "";
     }
 
     public void setTitle(int valorations) {
         super.setTitle(Integer.toString(valorations).concat(" valoraciones ").concat(minCows));
     }
-    
-    public void setMinimunCows(int cows){
-        minCows="(mínimo ".concat(Integer.toString(cows)).concat(")");
+
+    public void setMinimunCows(int cows) {
+        minCows = "(mínimo ".concat(Integer.toString(cows)).concat(")");
     }
 
     public void setController(IEvaluationCriterionController controller) {
         this.controller = controller;
+        
+        CopyButtonEditor editorCopy=new CopyButtonEditor(modelList, table, controller);
+        table.setDefaultEditor(CopyButtonRenderer.class, editorCopy);
+        table.addMouseListener(editorCopy);
+        
+        RemoveButtonEditor editorRemove=new RemoveButtonEditor(modelList, table, controller);
+        table.setDefaultEditor(RemoveButtonRenderer.class, editorRemove);
+        table.addMouseListener(editorRemove);
     }
 
     public void setListValoration(List<Valoration> valorations) {
-        valorationPanels.clear();
-        list.removeAll();
-        addListValoration(valorations);
-    }
-
-    public void addListValoration(List<Valoration> valorations) {
-        for (Valoration val : valorations) {
-            addValoration(val);
+        modelList.clearValorations();
+        for (Valoration valoration : valorations) {
+            addValoration(valoration);
         }
     }
 
     public void addValoration(Valoration val) {
-        PanelValoration panel = new PanelValoration(val.getId());
-        panel.setTextValoration("Valoración: ".concat(Float.toString(val.getNota())));
-        panel.setController(controller);
-
-        valorationPanels.add(panel);
-        list.add(panel);
-        // Revalidate frame to cause it to layout the new panel correctly.
-        list.revalidate();
+        modelList.addValoration(val);
     }
 
     public void removeValoration(IdHandler val) {
-        boolean removed = false;
-        for (Iterator<PanelValoration> iterator = valorationPanels.iterator(); iterator.hasNext() && !removed;) {
-            PanelValoration next = iterator.next();
-            if (next.getValoration().compareTo(val) == 0) {
-                //remove the list from panel
-                list.remove(next);
-                //remove from list
-                iterator.remove();
-                removed = true;
-                list.revalidate();
-            }
-        }
+        modelList.removeValoration(val);
     }
 
     private void initComponents() {
@@ -93,18 +74,25 @@ public class PanelValorationList extends TitlePanel {
 
     private void createComponents() {
         scrollList = new JScrollPane();
-        list = new JPanel();
+        table = new JTable();
+        modelList = new ModelTable();
     }
 
     private void configureComponents() {
-        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
-        scrollList.setViewportView(list);
-        scrollList.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-
+        table.setModel(modelList);
+        table.setRowHeight(30);
+        table.getColumnModel().getColumn(1).setMaxWidth(40);
+        table.getColumnModel().getColumn(2).setMaxWidth(40);
+        table.setDefaultRenderer(CopyButtonRenderer.class, new CopyButtonRenderer());
+        table.setDefaultRenderer(RemoveButtonRenderer.class, new RemoveButtonRenderer());
+        table.setDefaultRenderer(String.class, new LabelRenderer());
+        table.setTableHeader(null);
+        
+        scrollList.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollList.setViewportView(table);
     }
 
     private void addEvents() {
-
     }
 
     private void addLayout() {
@@ -113,6 +101,6 @@ public class PanelValorationList extends TitlePanel {
     }
 
     private JScrollPane scrollList;
-    private JPanel list;
+    private JTable table;
 
 }

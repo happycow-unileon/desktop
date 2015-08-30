@@ -9,7 +9,6 @@ import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,8 +48,9 @@ public class CriterionEvaluationMapper implements EntityDB {
          */
         PreparedStatement sql = connection.prepareStatement("INSERT INTO PONDERACIONCRITERIO"
                 + "(IDEVALUATION, NOMBRECRITERIO, PONDERACION) VALUES(?,?,'" + criterion.getWeighing() + "')");
-        sql.setInt(1, Integer.parseInt(criterion.getRoot().getId().toString()));
-        sql.setString(2, criterion.getId().toString());
+        sql.setInt(1, Integer.parseInt(criterion.getRoot().getId().getValue()));
+        sql.setString(2, criterion.getId().getValue());
+        list.add(sql);
 
         return list;
     }

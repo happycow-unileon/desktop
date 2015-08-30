@@ -242,13 +242,15 @@ public abstract class DatabaseObject implements DataBaseOperations {
             //tablas con registro de los tipos de codigos usados y su usuario
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS VALORATION ("
                     + "  IDVALORATION NUMBER(38, 0),"
+                    + "  NOMBRECRITERIO NVARCHAR2(100),"
                     + "  IDEVALUATION NUMBER(38, 0),"
                     + "  NOTA FLOAT(32),"
                     + "  PONDERACION FLOAT(32),"
                     + "  CONSTRAINT PK_VALORATION PRIMARY KEY (IDVALORATION, IDEVALUATION),"
+                    + "  CONSTRAINT FK_VALORATION_CRITERION FOREIGN KEY (NOMBRECRITERIO)"
+                    + "    REFERENCES CRITERION(NOMBRECRITERIO) ON DELETE CASCADE,"
                     + "  CONSTRAINT FK_VALORATION_EVALUATION FOREIGN KEY (IDEVALUATION)"
-                    + "    REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE,"
-                    + "  CONSTRAINT KEY_VALORATION_IDVALORATION UNIQUE (IDVALORATION));");
+                    + "    REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
             sql.executeUpdate();
 
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS PONDERACIONCATEGORIA "
@@ -332,8 +334,8 @@ public abstract class DatabaseObject implements DataBaseOperations {
     public boolean storeObject(EntityDB object) {
         boolean result = false;
         try {
-            List<PreparedStatement> list = object.insertObject(conection);
             startTransaccion();
+            List<PreparedStatement> list = object.insertObject(conection);
             for (PreparedStatement sql : list) {
                 executeSQL(sql, TIPOSQL.MODIFICACION);
             }
@@ -527,7 +529,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
             PreparedStatement sql = conection.prepareStatement("UPDATE FARM SET "
                     + "ENABLED=? WHERE IDGRANJA=?");
             sql.setBoolean(1, enabled);
-            sql.setInt(2, Integer.parseInt(id.toString()));
+            sql.setInt(2, Integer.parseInt(id.getValue()));
             executeSQL(sql, TIPOSQL.MODIFICACION);
             resultSwitch = true;
         } catch (SQLException ex) {
@@ -658,9 +660,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         try {
             PreparedStatement sql = EvaluationMapper.getObject(conection, id);
             executeSQL(sql, TIPOSQL.CONSULTA);
-            if (resultSet.next()) {
-                evaluation = EvaluationMapper.restoreObject(resultSet);
-            }
+            evaluation = EvaluationMapper.restoreObject(resultSet);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseObject.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -704,15 +704,11 @@ public abstract class DatabaseObject implements DataBaseOperations {
             }
 
         } catch (SQLException ex) {
+            System.out.println("error!!");
         } catch (Exception ex) {
+            System.out.println("error!");
         }
         return id;
-    }
-
-    @Override
-    public int nextIdValoration() {
-        //cada id es único dentro de la evaluación
-        return 2;
     }
 
     @Override
@@ -782,7 +778,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         if (criterions == null) {
             getListCriterion();
         }
-        return criterions.clone(id.toString());
+        return criterions.clone(id.getValue());
     }
 
     //funciones de los adjuntos para evaluaciones
@@ -798,7 +794,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         try {
             PreparedStatement sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
 
-            sql.setString(1, handler.toString());
+            sql.setString(1, handler.getValue());
             sql.setBytes(2, arr);
             sql.setString(3, name);
             executeSQL(sql, TIPOSQL.MODIFICACION);
@@ -817,7 +813,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         List<String> fileNamesList = new ArrayList<>();
         try {
             PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
-            sql.setString(1, idHandler.toString());
+            sql.setString(1, idHandler.getValue());
 
             executeSQL(sql, TIPOSQL.CONSULTA);
             while (resultSet.next()) {
@@ -840,7 +836,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         try {
 
             PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=? AND FILENAME=?");
-            sql.setString(1, idHandler.toString());
+            sql.setString(1, idHandler.getValue());
             sql.setString(2, name);
 
             executeSQL(sql, TIPOSQL.CONSULTA);

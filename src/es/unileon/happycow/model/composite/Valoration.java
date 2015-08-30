@@ -1,8 +1,6 @@
 package es.unileon.happycow.model.composite;
 
-import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.IdHandler;
-import es.unileon.happycow.handler.IdValoration;
 
 /**
  *
@@ -19,12 +17,6 @@ public class Valoration extends Component {
         this.entity=Entity.VALORATION;
         id = idHandler;
         weighing = 1;
-    }
-
-    public Valoration(float nota) {
-        this((IdHandler) new IdValoration(Database.getInstance().nextIdValoration()),
-                nota);
-
     }
 
     public IdHandler getIdCategory() {
@@ -70,7 +62,7 @@ public class Valoration extends Component {
 
     @Override
     public String toString() {
-        return "\t\t\tValoration: " + this.id.toString() + "\n";
+        return "\t\t\tValoration: " + this.id.getValue()+ "\n";
     }
 
 }

@@ -51,8 +51,14 @@ public class IdUserTest {
      */
     @Test
     public void testToString() {
-        assertEquals("oneName", firstId.toString());
-        assertEquals("another name", secondId.toString());
+        assertEquals("User-oneName", firstId.toString());
+        assertEquals("User-another name", secondId.toString());
+    }
+    
+    @Test
+    public void testGetValue(){
+        assertEquals("oneName", firstId.getValue());
+        assertEquals("another name", secondId.getValue());
     }
 
     /**

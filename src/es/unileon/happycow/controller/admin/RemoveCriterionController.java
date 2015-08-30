@@ -43,7 +43,7 @@ public class RemoveCriterionController extends Controller {
 
         LinkedList<Criterion> cri = Database.getInstance().getListCriterion();
         for (Criterion criterion : cri) {
-            list.add(criterion.getName() + "-" + criterion.getCategory().toString());
+            list.add(criterion.getName() + "-" + criterion.getCategory().getValue());
         }
         panel.changeCombo(list);
 

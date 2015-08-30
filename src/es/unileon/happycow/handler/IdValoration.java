@@ -12,11 +12,20 @@ public class IdValoration implements IdHandler{
         this.id = id;
     }
 
+    public IdValoration(String id) {
+        if(id.contains("Valoration-")){
+        String[] result=id.split("Valoration-",2);
+        this.id = Integer.parseInt(result[1]);
+        }else{
+            this.id=Integer.parseInt(id);
+        }
+    }
+
     public IdValoration(IdHandler id) {
-        try {
+        if(id.toString().contains("Valoration-")){
             IdValoration valoration = (IdValoration) id;
             this.id = valoration.getId();
-        } catch (Exception e) {
+        }else{
             throw new IllegalArgumentException("No es un identificador de valoración");
         }
     }
@@ -27,11 +36,16 @@ public class IdValoration implements IdHandler{
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return "Valoration-"+String.valueOf(id);
     }
 
     @Override
     public int compareTo(IdHandler another) {
-        return this.toString().compareTo(another.toString());
+            return this.toString().compareTo(another.toString());
+    }
+
+    @Override
+    public String getValue() {
+        return String.valueOf(id);
     }
 }

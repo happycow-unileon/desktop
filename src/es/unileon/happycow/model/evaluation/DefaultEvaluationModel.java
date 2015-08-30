@@ -5,6 +5,7 @@ import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdValoration;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.EvaluationCategory;
@@ -12,6 +13,7 @@ import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.CompositeException;
 import es.unileon.happycow.model.composite.Evaluation;
+import es.unileon.happycow.model.composite.iterator.IteratorEvaluation;
 import es.unileon.happycow.model.composite.iterator.IteratorException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,17 +26,21 @@ import java.util.logging.Logger;
  */
 public class DefaultEvaluationModel implements IEvaluationModel {
 
+    protected int numberValoration;
     protected Evaluation evaluation;
-    
+
     /**
-     * Indica si la evaluación está actualizada con todos sus datos (valoraciones)
+     * Indica si la evaluación está actualizada con todos sus datos
+     * (valoraciones)
+     *
      * @param idFarm
      */
-    public DefaultEvaluationModel(IdHandler idFarm){
-        InformationEvaluation info=new InformationEvaluation(
-                new IdEvaluation(Database.getInstance().nextIdEvaluation()), idFarm, 
+    public DefaultEvaluationModel(IdHandler idFarm, IdHandler user) {
+        InformationEvaluation info = new InformationEvaluation(
+                new IdEvaluation(Database.getInstance().nextIdEvaluation()), idFarm,
+                user,
                 Database.getInstance().getNumberCow(idFarm));
-        
+        this.numberValoration = -1;
         try {
             evaluation = new Evaluation(info);
             evaluation.setParent(null);
@@ -46,10 +52,11 @@ public class DefaultEvaluationModel implements IEvaluationModel {
             Logger.getLogger(DefaultEvaluationModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public DefaultEvaluationModel(Evaluation evaluation){
-        this.evaluation=evaluation;
-        
+
+    public DefaultEvaluationModel(Evaluation evaluation) {
+        this.evaluation = evaluation;
+        this.numberValoration = -1;
+
     }
 
     @Override
@@ -166,13 +173,9 @@ public class DefaultEvaluationModel implements IEvaluationModel {
         Component c = evaluation.search(category);
 
         if (c != null) {
-            try {
-                for (Iterator<Component> iterator = c.iterator(); iterator.hasNext();) {
-                    Valoration next = (Valoration) iterator.next();
-                    list.add(next);
-                }
-            } catch (IteratorException ex) {
-
+            for (Iterator<Component> iterator = new IteratorEvaluation(c); iterator.hasNext();) {
+                Valoration next = (Valoration) iterator.next();
+                list.add(next);
             }
 
         }
@@ -237,6 +240,12 @@ public class DefaultEvaluationModel implements IEvaluationModel {
     @Override
     public Evaluation getComposite() {
         return evaluation;
+    }
+
+    @Override
+    public IdHandler nextIdValoration() {
+        numberValoration++;
+        return new IdValoration(numberValoration);
     }
 
 }

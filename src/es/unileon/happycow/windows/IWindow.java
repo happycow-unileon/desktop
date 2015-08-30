@@ -4,7 +4,6 @@ import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdHandler;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -90,7 +89,7 @@ public abstract class IWindow {
 
     @Override
     public int hashCode() {
-        return id.toString().hashCode();
+        return id.getValue().hashCode();
     }
     
     public void onResume(Parameters parameters){

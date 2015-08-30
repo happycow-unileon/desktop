@@ -6,7 +6,6 @@
 
 package es.unileon.happycow.handler;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -59,8 +58,14 @@ public class IdCriterionTest {
      */
     @Test
     public void testToString() {
-        assertEquals("oneName", firstId.toString());
-        assertEquals("another name", secondId.toString());
+        assertEquals("Criterion-oneName", firstId.toString());
+        assertEquals("Criterion-another name", secondId.toString());
+    }
+    
+    @Test
+    public void testGetValue(){
+        assertEquals("oneName", firstId.getValue());
+        assertEquals("another name", secondId.getValue());
     }
 
     /**

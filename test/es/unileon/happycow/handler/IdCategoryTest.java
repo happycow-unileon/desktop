@@ -64,10 +64,18 @@ public class IdCategoryTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Alimentación", food.toString());
-        assertEquals("Salud", health.toString());
-        assertEquals("Refugio", house.toString());
-        assertEquals("Comportamiento", behaviour.toString());
+        assertEquals("Category-Alimentación", food.toString());
+        assertEquals("Category-Salud", health.toString());
+        assertEquals("Category-Refugio", house.toString());
+        assertEquals("Category-Comportamiento", behaviour.toString());
+    }
+    
+    @Test
+    public void testGetValue(){
+        assertEquals("Alimentación", food.getValue());
+        assertEquals("Salud", health.getValue());
+        assertEquals("Refugio", house.getValue());
+        assertEquals("Comportamiento", behaviour.getValue());
     }
 
     /**

@@ -11,8 +11,8 @@ import es.unileon.happycow.handler.IdHandler;
  */
 public class EvaluationCowModel extends DefaultEvaluationModel{
 
-    public EvaluationCowModel(IdHandler idFarm) {
-        super(idFarm);
+    public EvaluationCowModel(IdHandler idFarm, IdHandler user) {
+        super(idFarm, user);
     }
     
 }

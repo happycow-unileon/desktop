@@ -1,12 +1,13 @@
 package es.unileon.happycow.database.mapper;
 
-import es.unileon.happycow.database.Database;
 import es.unileon.happycow.database.EntityDB;
+import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdUser;
 import es.unileon.happycow.handler.IdValoration;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.composite.Component;
@@ -17,7 +18,6 @@ import es.unileon.happycow.model.composite.EvaluationCategory;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,7 +61,7 @@ public class EvaluationMapper implements EntityDB {
 
     public static PreparedStatement getNumberCows(Connection connection, IdHandler id) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT NUMEROVACAS FROM EVALUATION WHERE IDGRANJA=?");
-        sql.setString(1, id.toString());
+        sql.setString(1, id.getValue());
         return sql;
     }
 
@@ -76,10 +76,9 @@ public class EvaluationMapper implements EntityDB {
     }
 
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException {
-//        InformationEvaluation info=Database.getInstance().getInformationEvaluation(id);
         PreparedStatement sql = connection.prepareStatement(
                 "SELECT "
-                + "E.IDEVALUATION, E.FECHA, E.NUMEROVACAS, E.IDGRANJA, E.NOTA AS NOTAEV, E.ALIMENTACION, E.SALUD, E.COMFORT, E.COMPORTAMIENTO,"
+                + "E.USUARIO AS USER, E.IDEVALUATION, E.FECHA, E.NUMEROVACAS, E.IDGRANJA, E.NOTA AS NOTAEV, E.ALIMENTACION, E.SALUD, E.COMFORT, E.COMPORTAMIENTO,"
                 + "C.CATEGORIA, PCA.PONDERACION AS PONCATEGORIA, C.NOMBRECRITERIO, PCR.PONDERACION AS PONCRITERIO, V.NOTA, "
                 + "V.IDVALORATION "
                 + "FROM "
@@ -89,9 +88,9 @@ public class EvaluationMapper implements EntityDB {
                 + "LEFT JOIN VALORATION AS V  ON C.NOMBRECRITERIO=V.NOMBRECRITERIO "
                 + "LEFT JOIN PONDERACIONCRITERIO AS PCR ON PCR.NOMBRECRITERIO=V.NOMBRECRITERIO AND PCR.IDEVALUATION=V.IDEVALUATION "
                 + "WHERE V.IDEVALUATION=? AND PCA.IDEVALUATION=? AND E.IDEVALUATION=?");
-        sql.setInt(1, Integer.parseInt(id.toString()));
-        sql.setInt(2, Integer.parseInt(id.toString()));
-        sql.setInt(3, Integer.parseInt(id.toString()));
+        sql.setInt(1, Integer.parseInt(id.getValue()));
+        sql.setInt(2, Integer.parseInt(id.getValue()));
+        sql.setInt(3, Integer.parseInt(id.getValue()));
         return sql;
     }
 
@@ -107,6 +106,7 @@ public class EvaluationMapper implements EntityDB {
                     information = new InformationEvaluation(
                             (IdHandler) new IdEvaluation(result.getInt("IDEVALUATION")),
                             new IdFarm(result.getInt("IDGRANJA")),
+                            new IdUser(result.getString("USER")),
                             result.getFloat("NOTAEV"),
                             result.getFloat("ALIMENTACION"),
                             result.getFloat("SALUD"),
@@ -117,25 +117,36 @@ public class EvaluationMapper implements EntityDB {
 
                     evaluation = new Evaluation(information);
                     firstTime = false;
+
+                    //add the categories
+                    evaluation.add(new EvaluationCategory(new IdCategory(Category.BEHAVIOUR)));
+                    evaluation.add(new EvaluationCategory(new IdCategory(Category.FOOD)));
+                    evaluation.add(new EvaluationCategory(new IdCategory(Category.HEALTH)));
+                    evaluation.add(new EvaluationCategory(new IdCategory(Category.HOUSE)));
                 }
 
                 //get the category
                 IdHandler category = new IdCategory(result.getString("CATEGORIA"));
                 Component categoryComponent = evaluation.search(category);
+
                 //set weighing of category
-                categoryComponent.setWeighing(result.getFloat("PONCATEGORIA"));
+                float ponderation = result.getFloat("PONCATEGORIA");
+                if (!result.wasNull()) {
+                    categoryComponent.setWeighing(ponderation);
+                }
                 //add category to evaluation
-                evaluation.add(categoryComponent);
+//                evaluation.add(categoryComponent);
 
                 //set the criterion
                 if (result.getString("NOMBRECRITERIO") != null) {
-                    Criterion criterion = new Criterion(
-                            new IdCriterion(result.getString("NOMBRECRITERIO")),
-                            result.getFloat("PONCRITERIO"));
-                    criterion.setWeighing(result.getFloat("PONCRITERIO"));
-
-                    //add the criterion to the component
-                    categoryComponent.add(criterion);
+                    IdHandler id=new IdCriterion(result.getString("NOMBRECRITERIO"));
+                    
+                    Component criterion=categoryComponent.search(id);
+                    if(criterion==null){
+                        criterion= new Criterion(id, result.getFloat("PONCRITERIO"));
+                        criterion.setWeighing(result.getFloat("PONCRITERIO"));
+                        categoryComponent.add(criterion);
+                    }
 
                     Valoration valoration = new Valoration(new IdValoration(result.getInt("IDVALORATION")), result.getInt("NOTA"));
 

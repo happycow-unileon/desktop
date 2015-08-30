@@ -1,6 +1,5 @@
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import java.io.Serializable;
 import java.sql.Date;
@@ -9,7 +8,7 @@ import java.sql.Date;
  *
  * @author dorian
  */
-public class InformationEvaluation implements Serializable {
+public class InformationEvaluation  implements Serializable {
 
     private IdHandler idEvaluation;
     private IdHandler idFarm;
@@ -22,12 +21,12 @@ public class InformationEvaluation implements Serializable {
     private Date fecha;
     private int numberCows;
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler idUser,
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
             float nota, float alimentacion, float salud, float comfort,
             float comportamiento, Date fecha, int number) {
         this.idEvaluation = idEvaluation;
-        this.idUser = idUser;
         this.nota = nota;
+        this.idUser=user;
         this.alimentacion = alimentacion;
         this.salud = salud;
         this.comfort = comfort;
@@ -37,29 +36,21 @@ public class InformationEvaluation implements Serializable {
         this.numberCows = number;
     }
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
-            float nota, float alimentacion, float salud, float comfort,
-            float comportamiento, Date fecha, int number) {
-        this(idEvaluation, idFarm,
-                ((IdFarm) idFarm).getIdUser(), nota, alimentacion,
-                salud, comfort, comportamiento, fecha, number);
-    }
-
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
-            int alimentacion, int salud, int comfort, int comportamiento,
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
+            float alimentacion, float salud, float comfort, float comportamiento,
             Date fecha, int number) {
-        this(idEvaluation, idFarm,
+        this(idEvaluation, idFarm, user,
                 (alimentacion + salud + comfort + comportamiento) / 4,
                 alimentacion, salud, comfort, comportamiento, fecha, number);
     }
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm,
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
             Date fecha, int number) {
-        this(idEvaluation, idFarm, 0, 0, 0, 0, fecha, number);
+        this(idEvaluation, idFarm, user, 0, 0, 0, 0, fecha, number);
     }
 
-    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, int number) {
-        this(idEvaluation, idFarm, 0, 0, 0, 0, new Date(new java.util.Date().getTime()), number);
+    public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user, int number) {
+        this(idEvaluation, idFarm, user, 0, 0, 0, 0, new Date(new java.util.Date().getTime()), number);
     }
 
     public int getNumberCows() {
@@ -138,6 +129,6 @@ public class InformationEvaluation implements Serializable {
 
     @Override
     public int hashCode() {
-        return idEvaluation.toString().hashCode();
+        return idEvaluation.getValue().hashCode();
     }
 }

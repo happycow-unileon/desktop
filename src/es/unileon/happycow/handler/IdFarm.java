@@ -6,24 +6,26 @@ package es.unileon.happycow.handler;
  */
 public class IdFarm implements IdHandler {
 
-    private IdHandler idUser;
     private int idFarm;
 
     public IdFarm(int idFarm) {
         this.idFarm = idFarm;
     }
 
-    public IdFarm(IdHandler idUser, int idFarm) {
-        this.idUser = idUser;
-        this.idFarm = idFarm;
+    public IdFarm(String idFarm) {
+        if (idFarm.contains("Farm-")) {
+            String[] result = idFarm.split("Farm-", 2);
+            this.idFarm = Integer.parseInt(result[1]);
+        } else {
+            this.idFarm = Integer.parseInt(idFarm);
+        }
     }
 
     public IdFarm(IdHandler idFarm) {
-        try {
-            IdFarm id = (IdFarm) idFarm;
-            this.idUser = id.getIdUser();
-            this.idFarm = id.getIdFarm();
-        } catch (Exception e) {
+        if (idFarm.toString().contains("Farm-")) {
+            IdFarm usuario = (IdFarm) idFarm;
+            this.idFarm = usuario.getIdFarm();
+        } else {
             throw new IllegalArgumentException("El identificador no es de tipo granja");
         }
     }
@@ -32,32 +34,19 @@ public class IdFarm implements IdHandler {
         return idFarm;
     }
 
-    public IdHandler getIdUser() {
-        return idUser;
-    }
-
     @Override
     public String toString() {
-        return String.valueOf(idFarm);
+        return "Farm-" + String.valueOf(idFarm);
 
     }
 
     @Override
     public int compareTo(IdHandler another) {
-        IdFarm other = null;
-        int result = 0;
-        try {
-            other = (IdFarm) another;
-        } catch (Exception e) {
-            result = -1;
-        }
-        if (result != -1) {
-            if (this.idUser == null || other.getIdUser() == null || this.idUser.compareTo(other.getIdUser()) == 0) {
-                result = this.toString().compareTo(another.toString());
-            } else {
-                result = -1;
-            }
-        }
-        return result;
+        return this.toString().compareTo(another.toString());
+    }
+
+    @Override
+    public String getValue() {
+        return String.valueOf(idFarm);
     }
 }

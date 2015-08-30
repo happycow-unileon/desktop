@@ -61,7 +61,6 @@ public class ListFarmsController extends ButtonListFarmIController{
         controller.clearParameters();
         controller.addParameter("id", id.toString());
         controller.setState(Window.MANAGE_FARM);
-//        fatherController.manageFarm(id);
     }
 
     @Override

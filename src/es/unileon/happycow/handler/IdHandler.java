@@ -8,4 +8,6 @@ public interface IdHandler extends Serializable {
 
     @Override
     public String toString();
+    
+    public String getValue();
 }

@@ -30,7 +30,7 @@ public class User implements Serializable {
     }
 
     public User(IdHandler id, String passwd, Rol rol) {
-        this.name = id.toString();
+        this.name = id.getValue();
         this.idHandler = id;
         this.password = DatabaseObject.encript(passwd);
         this.rol = rol;

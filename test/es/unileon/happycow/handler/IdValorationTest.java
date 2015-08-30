@@ -50,8 +50,14 @@ public class IdValorationTest {
      */
     @Test
     public void testToString() {
-        assertEquals("5", firstId.toString());
-        assertEquals("3", secondId.toString());
+        assertEquals("Valoration-5", firstId.toString());
+        assertEquals("Valoration-3", secondId.toString());
+    }
+    
+    @Test
+    public void testGetValue(){
+        assertEquals("5", firstId.getValue());
+        assertEquals("3", secondId.getValue());
     }
 
     /**

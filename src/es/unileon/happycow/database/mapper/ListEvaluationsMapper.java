@@ -45,7 +45,7 @@ public class ListEvaluationsMapper implements EntityDB{
     
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM EVALUATION WHERE IDGRANJA=?");
-        sql.setString(1, id.toString());
+        sql.setString(1, id.getValue());
         return sql;
     }
     

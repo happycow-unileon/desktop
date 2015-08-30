@@ -1,22 +1,27 @@
 package es.unileon.happycow.handler;
 
-
 /**
  *
  * @author dorian
  */
-public class IdUser implements IdHandler{
+public class IdUser implements IdHandler {
+
     private final String user;
 
     public IdUser(String user) {
-        this.user = user;
+        if (user.contains("User-")) {
+            String[] result = user.split("User-", 2);
+            this.user = result[1];
+        } else {
+            this.user = user;
+        }
     }
-    
-    public IdUser(IdHandler id){
-        try {
-            IdUser usuario=(IdUser)id;
-            this.user=usuario.getUser();
-        } catch (Exception e) {
+
+    public IdUser(IdHandler id) {
+        if (id.toString().contains("User-")) {
+            IdUser usuario = (IdUser) id;
+            this.user = usuario.getUser();
+        } else {
             throw new IllegalArgumentException("No es un identificador de usuario");
         }
     }
@@ -27,6 +32,11 @@ public class IdUser implements IdHandler{
 
     @Override
     public String toString() {
+        return "User-" + user;
+    }
+
+    @Override
+    public String getValue() {
         return user;
     }
 

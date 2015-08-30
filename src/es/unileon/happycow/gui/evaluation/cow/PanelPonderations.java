@@ -57,7 +57,7 @@ public class PanelPonderations {
         
         ComboBoxModel modelCategory=new DefaultComboBoxModel(Category.getArrayString());
         comboCategory.setModel(modelCategory);
-        comboCategory.
+        
         
         labelPonderationCategory.setText("Ponderación categoría: ");
         labelPonderationCriterion.setText("Ponderación criterio: ");

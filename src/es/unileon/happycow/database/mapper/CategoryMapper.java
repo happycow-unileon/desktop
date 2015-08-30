@@ -9,7 +9,6 @@ import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.EvaluationCategory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +17,8 @@ import java.util.List;
  *
  * @author dorian
  */
-public class CategoryMapper implements EntityDB{
+public class CategoryMapper implements EntityDB {
+
     private EvaluationCategory category;
 
     public CategoryMapper(EvaluationCategory category) {
@@ -28,29 +28,29 @@ public class CategoryMapper implements EntityDB{
     public void setCategory(EvaluationCategory category) {
         this.category = category;
     }
-    
+
     @Override
     public List<PreparedStatement> insertObject(Connection connection) throws SQLException {
         LinkedList<PreparedStatement> list = new LinkedList<>();
-        
+
         //guardo todas mis criterios
         for (Component criterion : category.getList()) {
             CriterionEvaluationMapper mapVal;
             mapVal = new CriterionEvaluationMapper((Criterion) criterion);
             list.addAll(mapVal.insertObject(connection));
         }
-        
+
         //guardo además mi ponderación en la evaluación
         /**
          * SetFloat del sql tiene errores de forma que si es 0.5, aparece
          * 0.50000000000000342 y similares por ello se setea directamente en el
          * sql
          */
-        PreparedStatement 
-            sql = connection.prepareStatement("INSERT INTO PONDERACIONCATEGORIA"
-                    + "(IDEVALUATION,CATEGORIA,PONDERACION) VALUES(?,?,'" + category.getWeighing() + "')");
-            sql.setInt(1, Integer.parseInt(category.getRoot().getId().toString()));
-            sql.setString(2, category.getId().toString());
+        PreparedStatement sql = connection.prepareStatement("INSERT INTO PONDERACIONCATEGORIA"
+                + "(IDEVALUATION,CATEGORIA,PONDERACION) VALUES(?,?,'" + category.getWeighing() + "')");
+        sql.setInt(1, Integer.parseInt(category.getRoot().getId().getValue()));
+        sql.setString(2, category.getId().getValue());
+        list.add(sql);
 
         return list;
     }
@@ -65,5 +65,4 @@ public class CategoryMapper implements EntityDB{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
 }

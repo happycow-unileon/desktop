@@ -30,12 +30,13 @@ public class ValorationMapper implements EntityDB {
     @Override
     public List<PreparedStatement> insertObject(Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("INSERT INTO VALORATION"
-                + "(IDVALORATION, IDEVALUATION,NOTA,PONDERACION)"
-                + " VALUES(?,?,?,?)");
-        sql.setInt(1, Integer.parseInt(valoration.getId().toString()));
-        sql.setInt(2, Integer.parseInt(valoration.getIdEvaluation().toString()));
-        sql.setFloat(3, valoration.getNota());
-        sql.setFloat(4, valoration.getWeighing());
+                + "(IDVALORATION, NOMBRECRITERIO, IDEVALUATION,NOTA,PONDERACION)"
+                + " VALUES(?,?,?,?,?)");
+        sql.setInt(1, Integer.parseInt(valoration.getId().getValue()));
+        sql.setString(2, valoration.getIdCriterion().getValue());
+        sql.setInt(3, Integer.parseInt(valoration.getIdEvaluation().getValue()));
+        sql.setFloat(4, valoration.getNota());
+        sql.setFloat(5, valoration.getWeighing());
         
         //y guardo su ponderación
         //en este caso, no se guardan

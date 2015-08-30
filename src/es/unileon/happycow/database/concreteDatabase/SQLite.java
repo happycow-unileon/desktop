@@ -24,6 +24,7 @@ public class SQLite extends DatabaseObject {
 
     @Override
     public boolean openDB() {
+        System.out.println("voy a abrir");
         //si la conexión es nula, se crea la conexión/base de datos por primera vez
         if (conection == null) {
             System.out.println("* Starting...");

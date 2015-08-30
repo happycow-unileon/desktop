@@ -1,6 +1,5 @@
 package es.unileon.happycow.controller;
 
-import es.unileon.happycow.application.JFrameController;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.database.DatabaseObject;
@@ -31,20 +30,17 @@ public class LoginController extends Controller {
             //indicar al controlador general que se cambia de ventana
             switch (Database.getInstance().getUser().getRol()) {
                 case ADMINISTRADOR:
+                    controller.clearParameters();
                     controller.setState(Window.ADMINISTRATION);
                     break;
                 case VETERINARIO:
+                    controller.clearParameters();
                     controller.setState(Window.LIST_FARMS);
                     break;
             }
         } else {
             login.setMessageError("Error en los datos de logueo, pruebe otra vez");
         }
-    }
-
-    @Override
-    public void setFrameController(JFrameController controller) {
-        this.controller = controller;
     }
 
     @Override

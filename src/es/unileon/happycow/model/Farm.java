@@ -119,7 +119,7 @@ public class Farm {
     }
 
     public String getNameUser() {
-        return idUser.toString();
+        return idUser.getValue();
     }
 
     public IdHandler getIdUser() {
@@ -184,6 +184,6 @@ public class Farm {
 
     @Override
     public String toString() {
-        return "IdFarm = " + idFarm.toString() + " FarmIdentifier = " + farmIdentifier + " NombreGranja = " + farmName;
+        return "IdFarm = " + idFarm.getValue()+ " FarmIdentifier = " + farmIdentifier + " NombreGranja = " + farmName;
     }
 }

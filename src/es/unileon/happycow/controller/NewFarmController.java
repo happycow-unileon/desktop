@@ -61,7 +61,6 @@ public class NewFarmController extends Controller {
     public void saveFarm() {
         Farm farm;
         if (controlFarm()) {
-
             IdHandler identificationfarm = new IdFarm(Database.getInstance().nextIdFarm());
             farm = new Farm(identificationfarm, panel.getNameFarm(), panel.getIdFarm(),
                     panel.getAddressFarm(), panel.getNameFarmer(),

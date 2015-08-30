@@ -14,7 +14,7 @@ import es.unileon.happycow.windows.Login;
 import es.unileon.happycow.windows.ManageFarm;
 import es.unileon.happycow.windows.NewFarm;
 import es.unileon.happycow.windows.Password;
-import java.util.HashMap;
+import es.unileon.happycow.windows.ReportWindow;
 
 /**
  *
@@ -65,6 +65,10 @@ public class FactoryWindows {
             case EDIT_FARM:
                 factory=new FactoryEditFarm(parameters);
                 break;
+                
+            case REPORT:
+                factory=new FactoryReport(parameters);
+                break;
         }
 
         if (factory == null) {
@@ -110,6 +114,10 @@ public class FactoryWindows {
                 
             case EDIT_FARM:
                 window=new EditFarm(factory);
+                break;
+                
+            case REPORT:
+                window=new ReportWindow(factory);
                 break;
         }
 
