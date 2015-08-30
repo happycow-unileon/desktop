@@ -13,11 +13,17 @@ public class Parameters {
     private HashMap<String,String> parametersString;
     private HashMap<String,Integer> parametersInt;
     private HashMap<String,Boolean> parametersBoolean;
+    private HashMap<String,Object> parametersObjects;
 
     public Parameters() {
         parametersString=new HashMap<>();
         parametersInt=new HashMap<>();
         parametersBoolean=new HashMap<>();
+        parametersObjects=new HashMap<>();
+    }
+    
+    public void addParameter(String key, Object value){
+        parametersObjects.put(key, value);
     }
     
     public void addParameter(String key, String value){
@@ -36,6 +42,11 @@ public class Parameters {
         parametersString.clear();
         parametersBoolean.clear();
         parametersInt.clear();
+        parametersObjects.clear();
+    }
+    
+    public Object getObject(Object key){
+        return parametersObjects.get(key);
     }
     
     public String getString(Object key){

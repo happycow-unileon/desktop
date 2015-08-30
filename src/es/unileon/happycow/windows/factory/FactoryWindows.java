@@ -9,6 +9,7 @@ import es.unileon.happycow.windows.BarOptions;
 import es.unileon.happycow.windows.EditFarm;
 import es.unileon.happycow.windows.EnableFarm;
 import es.unileon.happycow.windows.Evaluation;
+import es.unileon.happycow.windows.ExcelWindow;
 import es.unileon.happycow.windows.ListFarm;
 import es.unileon.happycow.windows.Login;
 import es.unileon.happycow.windows.ManageFarm;
@@ -69,6 +70,10 @@ public class FactoryWindows {
             case REPORT:
                 factory=new FactoryReport(parameters);
                 break;
+                
+            case EXCEL:
+                factory=new FactoryExcel(parameters);
+                break;
         }
 
         if (factory == null) {
@@ -118,6 +123,10 @@ public class FactoryWindows {
                 
             case REPORT:
                 window=new ReportWindow(factory);
+                break;
+                
+            case EXCEL:
+                window=new ExcelWindow(factory);
                 break;
         }
 

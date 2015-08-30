@@ -7,6 +7,9 @@ import es.unileon.happycow.windows.Window;
 import es.unileon.happycow.gui.PanelListFarms;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
+import es.unileon.happycow.model.User;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,6 +57,14 @@ public class ListFarmsController extends ButtonListFarmIController{
     public void exportExcel(){
         //llama al padre y le da toda la lista de granjas
 //        fatherController.excel(Database.getInstance().getListFarms());
+        controller.clearParameters();
+        
+        LinkedHashMap<User, LinkedList<Farm>> list=new LinkedHashMap<>();
+        list.put(Database.getInstance().getUser(),Database.getInstance().getListFarms());
+        
+        controller.addParameter("list", list);
+        controller.setState(Window.EXCEL);
+        
     }
 
     @Override

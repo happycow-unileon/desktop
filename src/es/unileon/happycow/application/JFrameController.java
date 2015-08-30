@@ -67,6 +67,10 @@ public class JFrameController extends Observable{
         parameters.addParameter(key, value);
     }
     
+    public void addParameter(String key, Object value){
+        parameters.addParameter(key, value);
+    }
+    
     public void clearParameters(){
         parameters.clearParameters();
     }
