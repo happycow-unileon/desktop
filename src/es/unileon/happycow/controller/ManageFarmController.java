@@ -8,6 +8,9 @@ import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.InformationEvaluation;
+import es.unileon.happycow.model.User;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 /**
  *
@@ -95,6 +98,15 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
 //        LinkedList<Farm> list=new LinkedList<>();
 //        list.add(Database.getInstance().getFarm(idFarm));
 //        fatherController.excel(list);
+        controller.clearParameters();
+        
+        LinkedHashMap<User, LinkedList<Farm>> list=new LinkedHashMap<>();
+        LinkedList<Farm> farms=new LinkedList<>();
+        farms.add(Database.getInstance().getFarm(idFarm));
+        list.put(Database.getInstance().getUser(),farms);
+        
+        controller.addParameter("list", list);
+        controller.setState(Window.EXCEL);
     }
 
     @Override

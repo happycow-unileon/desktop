@@ -6,11 +6,9 @@ import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.InformationEvaluation;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.ListModel;
 import org.japura.gui.Anchor;
 import org.japura.gui.Decorator;
 
@@ -22,7 +20,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
 
     private ManageFarmController controller;
     private DefaultListModel<InformationEvaluation> model;
-    private Farm farmSelected;
+//    private Farm farmSelected;
 
     /**
      * Creates new form PanelManagementFarm
@@ -61,7 +59,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
      * @param farm
      */
     public void setFarm(Farm farm) {
-        farmSelected = farm;
+//        farmSelected = farm;
         fillDataFarm(farm);
     }
 

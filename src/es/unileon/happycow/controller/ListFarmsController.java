@@ -56,7 +56,6 @@ public class ListFarmsController extends ButtonListFarmIController{
      */
     public void exportExcel(){
         //llama al padre y le da toda la lista de granjas
-//        fatherController.excel(Database.getInstance().getListFarms());
         controller.clearParameters();
         
         LinkedHashMap<User, LinkedList<Farm>> list=new LinkedHashMap<>();
