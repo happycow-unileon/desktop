@@ -1,6 +1,7 @@
 package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.ExcelController;
+import es.unileon.happycow.gui.admin.InterfaceTabs;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.User;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,7 @@ import org.japura.gui.model.DefaultListCheckModel;
  *
  * @author dorian
  */
-public class PanelExcel extends javax.swing.JPanel {
+public class PanelExcel extends javax.swing.JPanel implements InterfaceTabs {
 
     /**
      * Controlador del panel
@@ -39,6 +40,7 @@ public class PanelExcel extends javax.swing.JPanel {
     }
 
     public void setComboUsers(LinkedList<User> list) {
+        comboUsers.removeAllItems();
         for (User user : list) {
             comboUsers.addItem(user.getName());
         }
@@ -173,4 +175,9 @@ public class PanelExcel extends javax.swing.JPanel {
     private javax.swing.JButton buttonHelp;
     private javax.swing.JComboBox comboUsers;
     private PanelUserExcel panel;
+
+    @Override
+    public void updateInformation() {
+        controller.update();
+    }
 }

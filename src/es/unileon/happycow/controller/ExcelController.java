@@ -32,9 +32,11 @@ public class ExcelController extends Controller {
     private DataExcel model;
     private IdHandler farmSelected;
     private IdHandler userSelected;
+    private boolean loaded;
 
     public ExcelController(PanelExcel login) {
         this.panel = login;
+        loaded = false;
     }
 
     public void export() {
@@ -160,14 +162,32 @@ public class ExcelController extends Controller {
 
     @Override
     public void onResume(Parameters parameters) {
-        LinkedHashMap<User, LinkedList<Farm>> list = (LinkedHashMap<User, LinkedList<Farm>>)parameters.getObject("list");
-        this.model = new DataExcel(list);
-        
-        LinkedList<User> users = new LinkedList<>(list.keySet());
-        if (users.size() == 1) {
-            userSelected = users.get(0).getId();
-            panel.hideComboUser(true);
+        LinkedHashMap<User, LinkedList<Farm>> list = (LinkedHashMap<User, LinkedList<Farm>>) parameters.getObject("list");
+        setExcel(list, parameters.getBoolean("admin"));
+    }
+
+    public void update() {
+        if (!loaded) {
+            loaded=true;
+            //create the list of users and theirs lists of farms
+            LinkedHashMap<User, LinkedList<Farm>> list = new LinkedHashMap<>();
+            //for every user in the database...
+            for (User user : Database.getInstance().getListUsers()) {
+                //store his list of farms
+                list.put(user, Database.getInstance().getListFarms(user.getId()));
+            }
+
+            setExcel(list, true);
         }
+    }
+
+    private void setExcel(LinkedHashMap<User, LinkedList<Farm>> list, boolean admin) {
+        this.model = new DataExcel(list);
+
+        LinkedList<User> users = new LinkedList<>(list.keySet());
+        panel.setComboUsers(users);
+        userSelected = users.get(0).getId();
+        panel.hideComboUser(!admin);
 
         changeListFarms();
     }

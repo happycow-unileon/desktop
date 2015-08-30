@@ -8,6 +8,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.Administrator;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.User;
+import es.unileon.happycow.windows.factory.FactoryExcel;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import javax.swing.JPanel;
@@ -82,8 +83,8 @@ public class FactoryAdmin extends IFactory{
             panel.addTab("Nuevo Criterio", createNewCriterion().getPanel());
             panel.addTab("Eliminar Usuario", createRemoveUser().getPanel());
             panel.addTab("Eliminar Criterio", createRemoveCriterion().getPanel());
+            panel.addTab("Excel", createExcel().getPanel());
             panel.addTab("Backup", createBackup().getPanel());
-//            panel.addTab("Excel", createExcel().getPanel());
         }
         
         if(controller!=null){
@@ -96,18 +97,10 @@ public class FactoryAdmin extends IFactory{
      * @return  the factory that create the excel's panel
      */
     private IFactory createExcel(){
-        //create the list of users and theirs lists of farms
-        LinkedHashMap<User, LinkedList<Farm>> list=new LinkedHashMap<>();
-        //for every user in the database...
-        for (User user : Database.getInstance().getListUsers()) {
-            //store his list of farms
-            list.put(user, Database.getInstance().getListFarms(user.getId()));
-        }
-        //create the excel's panel TODO
-//        Factory factory=new FactoryExcel(list);
-//        factory.createElements();
-//        return factory;
-        return null;
+        //create the excel's panel
+        IFactory factory=new FactoryExcel(parameters);
+        factory.createElements();
+        return factory;
     }
     
     /**

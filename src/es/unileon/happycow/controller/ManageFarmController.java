@@ -95,9 +95,6 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
      * Pasa a la ventana de excel con esta granja y sus evaluaciones marcadas
      */
     public void excel() {
-//        LinkedList<Farm> list=new LinkedList<>();
-//        list.add(Database.getInstance().getFarm(idFarm));
-//        fatherController.excel(list);
         controller.clearParameters();
         
         LinkedHashMap<User, LinkedList<Farm>> list=new LinkedHashMap<>();
@@ -106,6 +103,7 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         list.put(Database.getInstance().getUser(),farms);
         
         controller.addParameter("list", list);
+        controller.addParameter("admin", false);
         controller.setState(Window.EXCEL);
     }
 

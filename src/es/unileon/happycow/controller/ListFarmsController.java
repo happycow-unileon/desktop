@@ -62,6 +62,7 @@ public class ListFarmsController extends ButtonListFarmIController{
         list.put(Database.getInstance().getUser(),Database.getInstance().getListFarms());
         
         controller.addParameter("list", list);
+        controller.addParameter("admin", false);
         controller.setState(Window.EXCEL);
         
     }
