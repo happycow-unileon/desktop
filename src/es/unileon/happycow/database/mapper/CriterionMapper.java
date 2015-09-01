@@ -36,7 +36,7 @@ public class CriterionMapper implements EntityDB {
         sql.setString(1, criterion.getName());
         sql.setString(2, criterion.getDescription());
         sql.setString(3, criterion.getHelp());
-        sql.setString(4, ((IdCategory) criterion.getCategory()).getValue());
+        sql.setString(4, (new IdCategory(criterion.getCategory()).getValue()));
 
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);

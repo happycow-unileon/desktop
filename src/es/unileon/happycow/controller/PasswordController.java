@@ -1,7 +1,7 @@
 package es.unileon.happycow.controller;
 
 import es.unileon.happycow.database.Database;
-import es.unileon.happycow.database.DatabaseObject;
+import es.unileon.happycow.database.concreteDatabase.DatabaseObject;
 import es.unileon.happycow.gui.PanelPassword;
 import es.unileon.happycow.model.User;
 

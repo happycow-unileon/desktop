@@ -1,13 +1,15 @@
 package es.unileon.happycow.model;
 
 import es.unileon.happycow.handler.IdHandler;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  *
  * @author dorian
  */
-public class Farm {
+public class Farm implements Serializable{
 
     private IdHandler idFarm;
     private String farmName;
@@ -185,5 +187,34 @@ public class Farm {
     @Override
     public String toString() {
         return "IdFarm = " + idFarm.getValue()+ " FarmIdentifier = " + farmIdentifier + " NombreGranja = " + farmName;
+    }
+    
+    
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        idFarm=(IdHandler)stream.readObject();
+        farmName=(String)stream.readObject();
+        farmIdentifier=(String)stream.readObject();
+        address=(String)stream.readObject();
+        farmerName=(String)stream.readObject();
+        dniFarmer=(String)stream.readObject();
+        cowNumber=stream.readInt();
+        idUser=(IdHandler)stream.readObject();
+        otherData=(String)stream.readObject();
+        enabled=stream.readBoolean();
+    }
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException {
+        stream.writeObject(idFarm);
+        stream.writeObject(farmName);
+        stream.writeObject(farmIdentifier);
+        stream.writeObject(address);
+        stream.writeObject(farmerName);
+        stream.writeObject(dniFarmer);
+        stream.writeInt(cowNumber);
+        stream.writeObject(idUser);
+        stream.writeObject(otherData);
+        stream.writeBoolean(enabled);
     }
 }

@@ -1,5 +1,10 @@
-package es.unileon.happycow.database;
+package es.unileon.happycow.database.concreteDatabase;
 
+import es.unileon.happycow.database.DataBaseOperations;
+import es.unileon.happycow.database.EntityDB;
+import es.unileon.happycow.database.backup.FilesDB;
+import es.unileon.happycow.database.backup.PonderationDB;
+import es.unileon.happycow.database.backup.ValorationDB;
 import es.unileon.happycow.database.prototype.InsertCriterion;
 import es.unileon.happycow.database.mapper.FarmMapper;
 import es.unileon.happycow.database.mapper.EvaluationMapper;
@@ -57,7 +62,9 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public void startTransaccion() throws SQLException {
         if (conection != null) {
-            conection.setAutoCommit(false);
+            if (conection.getAutoCommit()) {
+                conection.setAutoCommit(false);
+            }
         }
     }
 
@@ -648,13 +655,6 @@ public abstract class DatabaseObject implements DataBaseOperations {
     }
 
     @Override
-    public InformationEvaluation getInformationEvaluation(IdHandler id) {
-//        PreparedStatement sql=InformationEvaluationMapper
-//        return InformationEvaluationMapper.restoreObject(resultSet);
-        return null;
-    }
-
-    @Override
     public Evaluation getEvaluation(IdHandler id) {
         Evaluation evaluation = null;
         try {
@@ -892,4 +892,257 @@ public abstract class DatabaseObject implements DataBaseOperations {
         return bFile;
     }
 
+    //Backup
+    @Override
+    public LinkedList<Farm> getAllFarms() {
+        LinkedList<Farm> farms = new LinkedList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FARM");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+
+            while (resultSet.next()) {
+                farms.add(FarmMapper.restoreObject(resultSet));
+            }
+        } catch (Exception e) {
+        }
+        return farms;
+    }
+
+    @Override
+    public LinkedList<FilesDB> getAllFiles() {
+        LinkedList<FilesDB> list = new LinkedList<>();
+        byte[] fileBytes = null;
+        try {
+
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+
+            while (resultSet.next()) {
+                fileBytes = resultSet.getBytes("FILE");
+                int idEvaluation = resultSet.getInt("IDEVALUATION");
+                String name = resultSet.getString("FILENAME");
+                list.add(new FilesDB(idEvaluation, name, fileBytes));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+
+        return list;
+    }
+
+    @Override
+    public LinkedList<InformationEvaluation> getAllInformationEvaluations() {
+        LinkedList<InformationEvaluation> model = new LinkedList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM EVALUATION");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+
+            while (resultSet.next()) {
+                InformationEvaluation info = new InformationEvaluation(
+                        new IdEvaluation(resultSet.getInt("IDEVALUATION")),
+                        new IdFarm(resultSet.getInt("IDGRANJA")),
+                        new IdUser(resultSet.getString("USUARIO")),
+                        resultSet.getInt("NOTA"),
+                        resultSet.getInt("ALIMENTACION"),
+                        resultSet.getInt("SALUD"),
+                        resultSet.getInt("COMFORT"),
+                        resultSet.getInt("COMPORTAMIENTO"),
+                        resultSet.getDate("FECHA"),
+                        resultSet.getInt("NUMEROVACAS"));
+                model.add(info);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return model;
+    }
+
+    @Override
+    public LinkedList<PonderationDB> getCategoryPonderation() {
+        LinkedList<PonderationDB> lista = new LinkedList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM PONDERACIONCATEGORIA");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            while (resultSet.next()) {
+                int idEval = resultSet.getInt("idevaluation");
+                String categoria = resultSet.getString("categoria");
+                float b = resultSet.getFloat("ponderacion");
+                PonderationDB pon = new PonderationDB(idEval, categoria, b);
+
+                lista.add(pon);
+            }
+
+        } catch (SQLException ex) {
+        } catch (Exception ex) {
+        }
+        return lista;
+    }
+
+    @Override
+    public LinkedList<PonderationDB> getCriterionPonderation() {
+        LinkedList<PonderationDB> lista = new LinkedList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM PONDERACIONCRITERIO");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            while (resultSet.next()) {
+                int idEval = resultSet.getInt("idevaluation");
+                String categoria = resultSet.getString("nombrecriterio");
+                float b = resultSet.getFloat("ponderacion");
+                PonderationDB pon = new PonderationDB(idEval, categoria, b);
+                lista.add(pon);
+            }
+
+        } catch (SQLException ex) {
+        } catch (Exception ex) {
+        }
+
+        return lista;
+    }
+
+    @Override
+    public LinkedList<ValorationDB> getAllValorations() {
+        LinkedList<ValorationDB> valores = new LinkedList<>();
+        try {
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM VALORATION");
+            executeSQL(sql, TIPOSQL.CONSULTA);
+            while (resultSet.next()) {
+                int numValoration = resultSet.getInt("idvaloration");
+                IdHandler idValoration = new IdEvaluation(numValoration);
+                float nota = resultSet.getFloat("nota");
+                ValorationDB val = new ValorationDB(idValoration,
+                        new IdEvaluation(resultSet.getInt("IDEVALUATION")),
+                        new IdCriterion(resultSet.getString("NOMBRECRITERIO")),
+                        nota);
+                valores.add(val);
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+
+        return valores;
+    }
+
+    @Override
+    public boolean saveInformationEvaluation(InformationEvaluation info) {
+        try {
+            InformationEvaluationMapper map = new InformationEvaluationMapper(info);
+            List<PreparedStatement> list = map.insertObject(conection);
+            for (PreparedStatement sql : list) {
+                executeSQL(sql, TIPOSQL.MODIFICACION);
+            }
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean saveFiles(LinkedList<FilesDB> list) {
+        for (FilesDB file : list) {
+            saveFile(new IdEvaluation(file.getId()), file.getFile(), file.getFilename());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveCategoryPonderation(LinkedList<PonderationDB> list) {
+        boolean correct = true;
+        for (PonderationDB ponderationDB : list) {
+            correct = correct && newPonderacionCategoria(
+                    ponderationDB.getId(), ponderationDB.getName(), ponderationDB.getPonderation());
+        }
+        return correct;
+    }
+
+    private boolean newPonderacionCategoria(int idEvaluation, String idCategoria, float ponderacion) {
+        boolean nuevo = false;
+        try {
+            /**
+             * SetFloat del sql tiene errores de forma que si es 0.5, aparece
+             * 0.50000000000000342 y similares por ello se setea directamente en
+             * el sql
+             */
+            PreparedStatement sql = conection.prepareStatement("INSERT INTO PONDERACIONCATEGORIA"
+                    + "(IDEVALUATION,CATEGORIA,PONDERACION) VALUES(?,?,'" + ponderacion + "')");
+            sql.setInt(1, idEvaluation);
+            sql.setString(2, idCategoria);
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+            nuevo = true;
+        } catch (SQLException ex) {
+        } catch (Exception ex) {
+        }
+        return nuevo;
+    }
+
+    @Override
+    public boolean saveCriterionPonderation(LinkedList<PonderationDB> list) {
+        boolean correct = true;
+        for (PonderationDB ponderationDB : list) {
+            correct = correct && newPonderacionCriterio(
+                    ponderationDB.getId(), ponderationDB.getName(), ponderationDB.getPonderation());
+        }
+        return correct;
+    }
+
+    private boolean newPonderacionCriterio(int idEvaluation, String idCriterio, float ponderacion) {
+        boolean nuevo = false;
+        try {
+            /**
+             * SetFloat del sql tiene errores de forma que si es 0.5, aparece
+             * 0.50000000000000342 y similares por ello se setea directamente en
+             * el sql
+             */
+            PreparedStatement sql = conection.prepareStatement("INSERT INTO PONDERACIONCRITERIO"
+                    + "(IDEVALUATION, NOMBRECRITERIO, PONDERACION) VALUES(?,?,'" + ponderacion + "')");
+            sql.setInt(1, idEvaluation);
+            sql.setString(2, idCriterio.toString());
+            //sql.setFloat(3, ponderacion);
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+            nuevo = true;
+        } catch (SQLException ex) {
+        } catch (Exception ex) {
+        }
+        return nuevo;
+
+    }
+
+    @Override
+    public boolean saveValoration(ValorationDB valoration) {
+        boolean resultSave = false;
+        try {
+            PreparedStatement sql = conection.prepareStatement("INSERT INTO VALORATION"
+                    + "(IDVALORATION, NOMBRECRITERIO,IDEVALUATION,NOTA,PONDERACION)"
+                    + " VALUES(?,?,?,?,?)");
+            sql.setInt(1, Integer.parseInt(valoration.getIdValoration().getValue()));
+            sql.setString(2, valoration.getIdCriterion().getValue());
+            sql.setInt(3, Integer.parseInt(valoration.getIdEvaluation().getValue()));
+            sql.setFloat(4, valoration.getNota());
+            sql.setFloat(5, valoration.getWeighing());
+
+            executeSQL(sql, TIPOSQL.MODIFICACION);
+            resultSave = true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resultSave;
+    }
+
+    @Override
+    public boolean newCriterionBackup(Criterion criterion) {
+        try {
+            CriterionMapper map = new CriterionMapper(criterion);
+            List<PreparedStatement> list = map.insertObject(conection);
+            for (PreparedStatement sql : list) {
+                executeSQL(sql, TIPOSQL.MODIFICACION);
+            }
+            criterions.add(criterion);
+            
+            return true;
+            
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }

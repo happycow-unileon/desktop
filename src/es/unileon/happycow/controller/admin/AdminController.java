@@ -1,6 +1,5 @@
 package es.unileon.happycow.controller.admin;
 
-import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.gui.admin.InterfaceTabs;
 import java.util.LinkedList;

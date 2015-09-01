@@ -1,35 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.unileon.happycow.model.composite;
 
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  *
  * @author dorian
  */
-public class Criterion extends Composite implements Cloneable {
+public class Criterion extends Composite implements Cloneable, Serializable {
 
     /**
      * Category of the criterion
      */
-    private final IdHandler category;
+    private IdHandler category;
     /**
      * Short description about the criterion
      */
-    private final String description;
+    private String description;
     /**
      * Longer description about the criterion, the help of the criterion
      */
-    private final String help;
+    private String help;
     /**
      * Name of the criterion
      */
-    private final String name;
+    private String name;
 
     /**
      * Constructor
@@ -120,6 +117,24 @@ public class Criterion extends Composite implements Cloneable {
     }
 
     public String toString() {
-        return "\t\tCriterio: " + this.id.getValue()+ "\n" + super.toString();
+        return "\t\tCriterio: " + this.id.getValue() + "\n" + super.toString();
+    }
+
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        id=(IdHandler)stream.readObject();
+        category=(IdHandler)stream.readObject();
+        description=(String)stream.readObject();
+        help=(String)stream.readObject();
+        name=(String)stream.readObject();
+    }
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException {
+        stream.writeObject(id);
+        stream.writeObject(category);
+        stream.writeObject(description);
+        stream.writeObject(help);
+        stream.writeObject(name);
     }
 }

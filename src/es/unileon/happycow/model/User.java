@@ -1,6 +1,6 @@
 package es.unileon.happycow.model;
 
-import es.unileon.happycow.database.DatabaseObject;
+import es.unileon.happycow.database.concreteDatabase.DatabaseObject;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import java.io.Serializable;
@@ -63,6 +63,7 @@ public class User implements Serializable {
 //    public PreferredView getPreferredView(){
 //        return this.preferredView;
 //    }
+    
     public IdHandler getId() {
         return this.idHandler;
     }

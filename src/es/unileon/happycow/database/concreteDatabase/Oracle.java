@@ -1,6 +1,5 @@
 package es.unileon.happycow.database.concreteDatabase;
 
-import es.unileon.happycow.database.DatabaseObject;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;

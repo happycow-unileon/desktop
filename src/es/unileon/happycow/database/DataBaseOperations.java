@@ -1,5 +1,8 @@
 package es.unileon.happycow.database;
 
+import es.unileon.happycow.database.backup.FilesDB;
+import es.unileon.happycow.database.backup.PonderationDB;
+import es.unileon.happycow.database.backup.ValorationDB;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.Farm;
@@ -195,8 +198,6 @@ public interface DataBaseOperations {
      * @return 
      */
     public Evaluation getEvaluation(IdHandler id);
-    
-    public InformationEvaluation getInformationEvaluation(IdHandler id);
    
     /**
      * Guarda los datos de una evaluación 
@@ -266,15 +267,6 @@ public interface DataBaseOperations {
      */
     public int nextIdFarm();
 
-    /**
-     * Devuelve el identificador de una valoración.
-     * ATENCIÓN: aquí se ha de tener en cuenta que se pedirá varias veces sin
-     * ir guardando en la base de datos, por lo que se debe mantener una variable en
-     * la clase para ir incrementándolo después de la primera consulta
-     * @return 
-     */
-//    public int nextIdValoration();
-
     
     
    
@@ -285,14 +277,14 @@ public interface DataBaseOperations {
      * granjas (sin más datos que los de la tabla granjas)
      * @return 
      */
-//    public LinkedList<Farm> getAllFarms();
+    public LinkedList<Farm> getAllFarms();
     
     /**
      * Devuelve una lista de todos los datos de la tabla evaluaciones, devolviendo
      * una lista de evaluaciones, pero sin más datos que la tabla evaluaciones
      * @return 
      */
-//    public LinkedList<DefaultEvaluationModel> getAllEvaluations();
+    public LinkedList<InformationEvaluation> getAllInformationEvaluations();
     
     
     
@@ -318,5 +310,29 @@ public interface DataBaseOperations {
     public byte[] getFile(IdHandler idHandler, String name);
      
     public void saveFileToTheSystem(byte[] arr, File file);
+    
+    
+
+    public LinkedList<FilesDB> getAllFiles();
+    
+    
+    
+    public LinkedList<PonderationDB> getCategoryPonderation();
+    
+    public LinkedList<PonderationDB> getCriterionPonderation();
+    
+    public LinkedList<ValorationDB> getAllValorations();
+    
+    public boolean saveFiles(LinkedList<FilesDB> list);
+    
+    public boolean saveCategoryPonderation(LinkedList<PonderationDB> list);
+    
+    public boolean saveCriterionPonderation(LinkedList<PonderationDB> list);
+    
+    public boolean saveValoration(ValorationDB valoration);
+    
+    public boolean saveInformationEvaluation(InformationEvaluation info);
+    
+    public boolean newCriterionBackup(Criterion criterion);
     
 }
