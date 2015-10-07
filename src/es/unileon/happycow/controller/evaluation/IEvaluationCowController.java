@@ -10,7 +10,7 @@ import es.unileon.happycow.handler.IdHandler;
  *
  * @author dorian
  */
-public interface IEvaluationCriterionController {
+public interface IEvaluationCowController {
 
     public void downloadFile(IdHandler id);
     public void removeFile(IdHandler id);
@@ -28,7 +28,6 @@ public interface IEvaluationCriterionController {
     public void addCriterions();
     
     public void setCategoryPonderation(String ponderation);
-    public void categorySelected(Category category);
     
     public void finishEvaluation();
     

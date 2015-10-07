@@ -88,6 +88,8 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         controller.addParameter("isNew", true);
         controller.addParameter("idFarm", idFarm.toString());
         controller.addParameter("user", Database.getInstance().getUser().getId().toString());
+        //TODO
+        controller.addParameter("mode", "COW");
         controller.setState(Window.EVALUATION);
     }
 

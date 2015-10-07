@@ -2,28 +2,33 @@ package es.unileon.happycow.controller.evaluation;
 
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
+import es.unileon.happycow.gui.evaluation.cow.PanelEvaluationCow;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
+import es.unileon.happycow.model.evaluation.IEvaluationModel;
+import java.io.File;
 import java.util.LinkedList;
+import javax.swing.Icon;
+import javax.swing.JFileChooser;
 
 /**
  *
  * @author dorian
  */
-public class EvaluationCowController extends Controller {
-//
-////    private final InterfaceEvaluationCriterionPanel panel;
-////    private final InterfaceEvaluationModel model;
-////    private final boolean newEvaluation;
-//
-////    public EvaluationCowController(PanelCriterionEvaluation panel) {
-////        this.panel = null;
-////        this.newEvaluation = false;
-////    }
+public class EvaluationCowController extends Controller implements IEvaluationCowController{
+
+    private PanelEvaluationCow gui;
+    private IEvaluationModel model;
+    private boolean newEvaluation;
+
+    public EvaluationCowController(PanelEvaluationCow panel) {
+        this.gui = null;
+        this.newEvaluation = false;
+    }
 //    
 //    
 //
@@ -232,4 +237,104 @@ public class EvaluationCowController extends Controller {
 ////            Database.getInstance().saveFileToTheSystem(data, downloaded);
 ////        }
 //    }
+
+     /**
+     * Recibo la orden de descargar el fichero, hago lo necesario
+     *
+     * @param id
+     */
+    @Override
+    public void downloadFile(IdHandler id) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int seleccion = fileChooser.showSaveDialog(null);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fileChooser.getSelectedFile();
+            File downloaded = new File(fichero.getPath() + File.separator + id.getValue());
+            byte[] data = Database.getInstance().getFile(model.getIdHandler(), id.getValue());
+            Database.getInstance().saveFileToTheSystem(data, downloaded);
+        }
+    }
+
+    /**
+     * Recibo la orden de borrar un fichero y lo borro en el modelo tengo que
+     * notificar a la vista que quite ese fichero de la lista
+     *
+     * @param id
+     */
+    @Override
+    public void removeFile(IdHandler id) {
+        //borrar fichero del modelo
+        //borro dicho fichero en la vista
+        gui.removeFile(id);
+    }
+
+    @Override
+    public void addFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fileChooser.getSelectedFile();
+            Database.getInstance().saveFile(model.getIdHandler(), fichero);
+            //añado el fichero al gui
+            gui.addFile(fichero.getName());
+        }
+    }
+
+    @Override
+    public void removeValoration(IdHandler valoration) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void copyValoration(IdHandler valoration) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addNewValoration() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void help(IdHandler id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void evaluated(IdHandler id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPonderationCriterion(IdHandler id, String ponderation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void criterionSelected() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeCriterion(IdHandler idCriterion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addCriterions() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setCategoryPonderation(String ponderation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void finishEvaluation() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

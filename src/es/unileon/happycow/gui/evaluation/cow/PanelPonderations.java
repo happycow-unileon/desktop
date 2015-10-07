@@ -6,13 +6,14 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
  *
  * @author dorian
  */
-public class PanelPonderations {
+public class PanelPonderations extends JPanel {
     private JComboBox<String> comboCategory;
     private JComboBox<String> comboCriterion;
     private JTextField ponderationCategory;
