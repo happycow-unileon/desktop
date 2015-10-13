@@ -8,16 +8,26 @@ import es.unileon.happycow.handler.IdUser;
 import es.unileon.happycow.model.User;
 
 /**
- *
+ * Controller for new user
  * @author dorian
  */
 public class NewUserController extends Controller{
+    /**
+     * panel
+     */
     private final NewUser panel;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public NewUserController(NewUser panel) {
         this.panel = panel;
     }
     
+    /**
+     * Save the user
+     */
     public void saveUser(){
         String name=panel.getNameUser();
         IdHandler id=new IdUser(name);

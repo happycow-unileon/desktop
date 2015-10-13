@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.controller.evaluation;
 
 import es.unileon.happycow.application.Parameters;
@@ -33,22 +30,42 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Controller of criterions' evaluation
  * @author dorian
  */
 public class EvaluationCriterionController extends Controller implements IEvaluationCriterionController {
-
+    /**
+     * Model
+     */
     private EvaluationCriterionModel model;
+    /**
+     * Panel
+     */
     private final PanelEvaluationCriterion gui;
-
+    /**
+     * Actual category selected
+     */
     private Category actualCategory;
+    /**
+     * Actual criterion selected
+     */
     private IdHandler actualCriterion;
-
-    LinkedList<String>[] modelComboCriterion;
-
+    /**
+     * The combo of criterion (model-all criterions of a category)
+     * Position of array, ordinal of enumeration category
+     */
+    private LinkedList<String>[] modelComboCriterion;
+    /**
+     * The actual list of criterion (criterions selected to evaluate)
+     */
     private ArrayList<DefaultListModel<IconList>> modelCriterion;
-
+    /**
+     * Is a new evaluation or see/modifing an existent evaluation
+     */
     private boolean newEvaluation;
+    /**
+     * Number of cows during evaluation
+     */
     private int numberCows;
 
     /**
@@ -75,18 +92,23 @@ public class EvaluationCriterionController extends Controller implements IEvalua
     public void onResume(Parameters parameters) {
         super.onResume(parameters);
         
+        //get the farm associated
         IdHandler farm = new IdFarm(parameters.getString("idFarm"));
+        //new evaluation?
         boolean isNew = parameters.getBoolean("isNew");
+        
         newEvaluation=isNew;
         if (!isNew) {
             //rellenar los datos de evaluación
             IdHandler idEvaluation = new IdEvaluation(parameters.getString("idEvaluation"));
             model = new EvaluationCriterionModel(Database.getInstance().getEvaluation(idEvaluation));
         } else {
+            //crear nueva evaluación
             IdHandler user=new IdUser(parameters.getString("user"));
             model = new EvaluationCriterionModel(farm,user);
         }
 
+        //si tengo modelo, pillar el mínimo necesario de vacas y setear y rellenar todos los datos
         if (model != null) {
             numberCows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
             setNumberCows();
@@ -123,6 +145,9 @@ public class EvaluationCriterionController extends Controller implements IEvalua
         setTitleValorations();
     }
 
+    /**
+     * Add all data model
+     */
     private void addAll() {
         //relleno los modelos de criterios
         for (int i = 0; i < 4; i++) {
@@ -136,10 +161,16 @@ public class EvaluationCriterionController extends Controller implements IEvalua
         }
     }
 
+    /**
+     * Set the minimun number of cows in panel
+     */
     private void setNumberCows() {
         gui.setMinimunCows(numberCows);
     }
     
+    /**
+     * Set the title of list valorations in panel to show number of valorations
+     */
     private void setTitleValorations(){
         int number=0;
         if(actualCriterion!=null){
@@ -152,12 +183,14 @@ public class EvaluationCriterionController extends Controller implements IEvalua
      * Inicializo el contenido del combo de criterios que se añade
      */
     private void initComboCriterion() {
+        //prepare array
         int categories = Category.getArrayString().length;
         modelComboCriterion = new LinkedList[categories];
         for (int i = 0; i < categories; i++) {
             modelComboCriterion[i] = new LinkedList<>();
         }
 
+        //fill data
         LinkedList<Criterion> lista = Database.getInstance().getListCriterion();
         for (Criterion criterion : lista) {
             IdCategory id = (IdCategory) criterion.getCategory();
@@ -194,6 +227,9 @@ public class EvaluationCriterionController extends Controller implements IEvalua
     @Override
     public void removeFile(IdHandler id) {
         //borrar fichero del modelo
+        //TODO-borrar de la base de datos
+        //TODO ver como guardar temporalmente ficheros antes de guardarlos
+        //definitivamente de la base de datos
         //borro dicho fichero en la vista
         gui.removeFile(id);
     }
@@ -221,6 +257,7 @@ public class EvaluationCriterionController extends Controller implements IEvalua
 
         //lo añado a la gui
         gui.addValoration(clone);
+        setTitleValorations();
     }
 
     @Override
@@ -233,6 +270,7 @@ public class EvaluationCriterionController extends Controller implements IEvalua
 
         //y lo quito de la gui también
         gui.removeValoration(id);
+        setTitleValorations();
     }
 
     /**
@@ -249,6 +287,7 @@ public class EvaluationCriterionController extends Controller implements IEvalua
             model.add(new IdCategory(actualCategory), idCriterion, val);
             //notifico a la interfaz de que tiene que añadir una valoración a la lista
             gui.addValoration(val);
+            setTitleValorations();
         }
     }
 
@@ -339,6 +378,7 @@ public class EvaluationCriterionController extends Controller implements IEvalua
 
     @Override
     public void finishEvaluation() {
+        //TODO nueva y no nueva evaluación
         if(Database.getInstance().saveEvaluation(model)){
             controller.clearParameters();
             controller.addParameter("idFarm", model.getInformation().getIdFarm().toString());
@@ -346,6 +386,18 @@ public class EvaluationCriterionController extends Controller implements IEvalua
             controller.setState(Window.REPORT);
         }else{
             System.out.println("arggh");
+        }
+    }
+    
+    @Override
+    public void setCategoryPonderation(IdHandler id, String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(new IdCategory(actualCategory), pon);
+            gui.setColorPonderationCategory(Color.BLACK);
+        } else {
+            gui.setColorPonderationCategory(Color.RED);
         }
     }
 
@@ -361,6 +413,11 @@ public class EvaluationCriterionController extends Controller implements IEvalua
         }
     }
 
+    /**
+     * Comprueba si es un número flotante
+     * @param ponderation
+     * @return true si es, false al contrario
+     */
     private boolean isFloatUnit(String ponderation) {
         final String Digits = "(\\p{Digit}+)";
         final String HexDigits = "(\\p{XDigit}+)";
@@ -401,15 +458,4 @@ public class EvaluationCriterionController extends Controller implements IEvalua
 
     }
 
-    @Override
-    public void setCategoryPonderation(IdHandler id, String ponderation) {
-        if (isFloatUnit(ponderation)) {
-            //seteo en el modelo la ponderación
-            float pon = Float.valueOf(ponderation);
-            model.setWeighing(new IdCategory(actualCategory), pon);
-            gui.setColorPonderationCategory(Color.BLACK);
-        } else {
-            gui.setColorPonderationCategory(Color.RED);
-        }
-    }
 }

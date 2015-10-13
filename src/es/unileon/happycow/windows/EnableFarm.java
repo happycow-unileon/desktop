@@ -4,7 +4,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdWindow;
 
 /**
- *
+ * Window enable farm
  * @author dorian
  */
 public class EnableFarm extends IWindow{

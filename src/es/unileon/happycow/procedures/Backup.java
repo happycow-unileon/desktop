@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.procedures;
 
 import es.unileon.happycow.database.Database;
@@ -11,8 +8,6 @@ import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.User;
 import es.unileon.happycow.model.composite.Criterion;
-import es.unileon.happycow.model.composite.Valoration;
-import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,28 +27,50 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- *
+ * Process backup
  * @author amdiaz8
  */
 public class Backup {
-
+    /**
+     * State of backup
+     */
     private StringBuilder estado;
 
+    /**
+     * path for exporting
+     */
     public String rutaTemporalExportar = System.getProperty("java.io.tmpdir")
             .concat("/HappyCowExport");
+    /**
+     * path for importing
+     */
     public String rutaTemporalImportar = System.getProperty("java.io.tmpdir")
             .concat("/HapppyCowImport");
 
+    /**
+     * Constructor
+     */
     public Backup() {
         this.estado = new StringBuilder();
     }
 
+    /**
+     * Get state
+     * @return 
+     */
     public String getEstado() {
         String result = estado.toString();
         estado = new StringBuilder();
         return result;
     }
 
+    /**
+     * Store in a file the list of objects given
+     * @param destiny file where store
+     * @param list objects to store
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     private void store(File destiny, List<?> list) throws FileNotFoundException, IOException {
         // Se abre el fichero donde se hará la copia
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(destiny));
@@ -63,6 +80,11 @@ public class Backup {
         oos.close();
     }
 
+    /**
+     * Do backup of database
+     * @param carpeta
+     * @return 
+     */
     public boolean backup(File carpeta) {
         boolean result = true;
         //Establezco la ruta temporal y creo la carpeta
@@ -118,6 +140,12 @@ public class Backup {
         return result;
     }
 
+    /**
+     * Do backup and make the zip backup file
+     * @param carpeta
+     * @param fecha
+     * @throws Exception 
+     */
     private void exportar(String carpeta, String fecha) throws Exception {
 
         //crea el comprimido
@@ -252,6 +280,14 @@ public class Backup {
         }
     }
 
+    /**
+     * Lee de fichero los objetos y devuelve una lista de objetos leidos
+     * @param source
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     private LinkedList<Object> read(File source) throws FileNotFoundException, IOException, ClassNotFoundException {
         LinkedList<Object> list = new LinkedList<>();
         // Se abre el fichero donde se leerá la copia
@@ -269,6 +305,11 @@ public class Backup {
         return list;
     }
 
+    /**
+     * Recupera el backup y lo guarda en la base de datos
+     * @param fichero
+     * @return 
+     */
     public boolean recuperarBackup(File fichero) {
         boolean result = true;
         if (fichero.exists()) {

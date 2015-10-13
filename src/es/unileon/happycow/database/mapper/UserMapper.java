@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database.mapper;
 
 import es.unileon.happycow.database.EntityDB;
@@ -14,17 +11,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ *Class map for user
  * @author dorian
  */
 public class UserMapper implements EntityDB {
-
+    /**
+     * User
+     */
     private User user;
 
+    /**
+     * Constructor
+     * @param user 
+     */
     public UserMapper(User user) {
         this.user = user;
     }
 
+    /**
+     * Set user
+     * @param user 
+     */
     public void setUser(User user) {
         this.user = user;
     }
@@ -66,16 +73,35 @@ public class UserMapper implements EntityDB {
         return list;
     }
 
+    /**
+     * Get an user given the id
+     * @param connection of the database
+     * @param id id of user
+     * @return the needed statements
+     * @throws SQLException 
+     */
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM USUARIO WHERE NOMBREUSUARIO=?");
         sql.setString(1, id.getValue());
         return sql;
     }
     
+    /**
+     * Get all users
+     * @param connection
+     * @return the needed statements
+     * @throws SQLException 
+     */
     public static PreparedStatement getAllObject(Connection connection)throws SQLException{
         return connection.prepareStatement("SELECT * FROM USUARIO");
     }
     
+    /**
+     * Restore an user from the resultset
+     * @param result
+     * @return an user
+     * @throws SQLException 
+     */
     public static User restoreObject(ResultSet result) throws SQLException {
         User one=new User(result.getString("NOMBREUSUARIO"), result.getString("CONTRASENIA"), result.getString("ROL"));
         one.setPassword(result.getString("CONTRASENIA"));

@@ -8,27 +8,48 @@ import es.unileon.happycow.model.Farm;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Controller of panel of edit farm
  * @author dorian
  */
 public class EditFarmController extends Controller {
-
+    /**
+     * The panel
+     */
     private final PanelEditFarm panel;
+    /**
+     * The associated farm
+     */
     private final IdHandler idFarm;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public EditFarmController(PanelEditFarm panel) {
         this(panel, null);
     }
 
+    /**
+     * Constructor
+     * @param panel
+     * @param idFarm the associated farm
+     */
     public EditFarmController(PanelEditFarm panel, IdHandler idFarm) {
         this.panel = panel;
         this.idFarm = idFarm;
     }
 
+    /**
+     * Come back
+     */
     public void returnWindow() {
         controller.comeBack();
     }
 
+    /**
+     * Check the farm's data
+     * @return true if everything ok, false otherwise
+     */
     private boolean controlFarm() {
         boolean correct = true;
         StringBuilder errores = new StringBuilder();
@@ -52,6 +73,11 @@ public class EditFarmController extends Controller {
         return correct;
     }
 
+    /**
+     * Check if a string is numeric (integer)
+     * @param cadena
+     * @return true if is numeric (integer) false otherwise
+     */
     private boolean isNumeric(String cadena) {
         try {
             Integer.parseInt(cadena);
@@ -61,8 +87,12 @@ public class EditFarmController extends Controller {
         }
     }
 
+    /**
+     * Save the farm
+     */
     public void saveFarm() {
         Farm farm;
+        //check data....
         if (controlFarm()) {
             farm = Database.getInstance().getFarm(idFarm);
             farm.setAddress(panel.getAddressFarm());

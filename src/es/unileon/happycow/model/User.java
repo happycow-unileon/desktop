@@ -4,17 +4,27 @@ import es.unileon.happycow.database.concreteDatabase.DatabaseObject;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
 import java.io.Serializable;
-//import es.unileon.happycow.procedures.PreferredView;
 
 /**
  *
  * @author amdiaz8
  */
 public class User implements Serializable {
-
+    /**
+     * Name
+     */
     private String name;
+    /**
+     * Password
+     */
     private String password;
+    /**
+     * Id
+     */
     private IdHandler idHandler;
+    /**
+     * Rol
+     */
     private Rol rol;
 
     public User(String name, String passwd, Rol rol) {
@@ -36,14 +46,26 @@ public class User implements Serializable {
         this.rol = rol;
     }
 
+    /**
+     * Get name
+     * @return 
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Get password
+     * @return 
+     */
     public String getPassword() {
         return this.password;
     }
 
+    /**
+     * Get rol
+     * @return 
+     */
     public Rol getRol() {
         return rol;
     }
@@ -56,14 +78,18 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    /**
+     * Get string rol
+     * @return 
+     */
     public String getStringRol() {
         return rol.toString();
     }
-
-//    public PreferredView getPreferredView(){
-//        return this.preferredView;
-//    }
     
+    /**
+     * Get id
+     * @return 
+     */
     public IdHandler getId() {
         return this.idHandler;
     }

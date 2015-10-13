@@ -4,7 +4,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdWindow;
 
 /**
- *
+ *Window bar option
  * @author dorian
  */
 public class BarOptions extends IWindow{

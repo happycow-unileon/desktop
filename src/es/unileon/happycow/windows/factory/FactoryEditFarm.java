@@ -29,7 +29,7 @@ public class FactoryEditFarm extends IFactory {
     /**
      * *
      *
-     * @param farm the farm to modify or use. If null, a new farm is created
+     * @param parameters
      */
     public FactoryEditFarm(Parameters parameters) {
         super(parameters);
@@ -37,6 +37,7 @@ public class FactoryEditFarm extends IFactory {
 
     /**
      *
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController()
      */
     @Override
@@ -49,6 +50,7 @@ public class FactoryEditFarm extends IFactory {
 
     /**
      *
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getPanel()
      */
     @Override

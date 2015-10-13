@@ -17,7 +17,7 @@ import javax.print.PrintService;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * The controller of the report's window
  * @author dorian
  */
 public class ReportController extends Controller {
@@ -26,13 +26,22 @@ public class ReportController extends Controller {
      * Panel concreto
      */
     private final PanelReport panelReport;
-
+    /**
+     * Asociated farm
+     */
     private IdHandler farm;
 
+    /**
+     * Constructor
+     * @param report the panel that is controled
+     */
     public ReportController(PanelReport report) {
         this.panelReport = report;
     }
 
+    /**
+     * Print the report
+     */
     public void imprimir() {
         Printer print = new Printer();
         if (print.hasServices()) {
@@ -47,11 +56,17 @@ public class ReportController extends Controller {
         }
     }
 
+    /**
+     * Change to the state of list farms
+     */
     public void listFarms() {
         controller.clearParameters();
         controller.setState(Window.LIST_FARMS);
     }
 
+    /**
+     * Change to the state of farm management
+     */
     public void farm() {
         controller.clearParameters();
         controller.addParameter("id", farm.toString());

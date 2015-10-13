@@ -25,52 +25,60 @@ import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 
 /**
+ * Controller of cow's evaluation
  *
  * @author dorian
  */
 public class EvaluationCowController extends Controller implements IEvaluationCowController {
 
+    /**
+     * Panel
+     */
     private PanelEvaluationCow panel;
+    /**
+     * Model
+     */
     private EvaluationCowModel model;
+    /**
+     * Is new evaluation?
+     */
     private boolean newEvaluation;
 
-    private LinkedList<String> modelComboFood;
-    private LinkedList<String> modelComboHealth;
-    private LinkedList<String> modelComboBehaviour;
-    private LinkedList<String> modelComboHouse;
+    /**
+     * The combo of criterion (model-all criterions of a category) Position of
+     * array, ordinal of enumeration category
+     */
+    private LinkedList<String>[] modelComboCriterion;
 
     public EvaluationCowController(PanelEvaluationCow panel) {
         this.panel = panel;
         this.newEvaluation = false;
-        setCombos();
+        initComboCriterion();
     }
 
-    private void setCombos() {
-        modelComboBehaviour = new LinkedList<>();
-        modelComboFood = new LinkedList<>();
-        modelComboHealth = new LinkedList<>();
-        modelComboHouse = new LinkedList<>();
+    /**
+     * Inicializo el contenido del combo de criterios que se añade
+     */
+    private void initComboCriterion() {
+        //prepare array
+        int categories = Category.getArrayString().length;
+        modelComboCriterion = new LinkedList[categories];
+        for (int i = 0; i < categories; i++) {
+            modelComboCriterion[i] = new LinkedList<>();
+        }
 
+        //fill data
         LinkedList<Criterion> lista = Database.getInstance().getListCriterion();
         for (Criterion criterion : lista) {
             IdCategory id = (IdCategory) criterion.getCategory();
-            switch (id.getCategory()) {
-                case FOOD:
-                    modelComboFood.add(criterion.getName());
-                    break;
-                case HEALTH:
-                    modelComboHealth.add(criterion.getName());
-                    break;
-                case HOUSE:
-                    modelComboHouse.add(criterion.getName());
-                    break;
-                case BEHAVIOUR:
-                    modelComboBehaviour.add(criterion.getName());
-                    break;
-            }
+            modelComboCriterion[Category.getEnum(id.getValue()).ordinal()]
+                    .add(criterion.getName());
         }
     }
 
+    /**
+     * Write in panel the ponderations
+     */
     private void setPonderationsInfo() {
         selectedCategoryPonderation();
     }
@@ -79,22 +87,14 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
     public void selectedCategoryPonderation() {
         IdHandler category = panel.getCategoryPonderationSelected();
         float ponderation = model.getWeighing(category);
+        //set on panel the ponderation
         panel.setPonderationCategory(ponderation);
 
-        switch (Category.getEnum(category.getValue())) {
-            case BEHAVIOUR:
-                panel.setComboCriterionPonderation(modelComboBehaviour);
-                break;
-            case FOOD:
-                panel.setComboCriterionPonderation(modelComboFood);
-                break;
-            case HEALTH:
-                panel.setComboCriterionPonderation(modelComboHealth);
-                break;
-            case HOUSE:
-                panel.setComboCriterionPonderation(modelComboHouse);
-                break;
-        }
+        //set the combo of criterions
+        panel.setComboCriterionPonderation(
+                modelComboCriterion[Category.getEnum(category.getValue()).ordinal()]);
+
+        //set the ponderation of criterions
         selectedCriterionPonderation();
     }
 
@@ -105,16 +105,21 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
         if (selected != null) {
             ponderation = model.getWeighing(selected);
         }
+        //set the ponderation on panel
         panel.setPonderationCriterion(ponderation);
     }
 
     @Override
     public void onResume(Parameters parameters) {
         super.onResume(parameters);
+        //set the information with a change of category
         changeCategory();
 
+        //get the farm associated
         IdHandler farm = new IdFarm(parameters.getString("idFarm"));
+        //is new evaluation?
         boolean isNew = parameters.getBoolean("isNew");
+        
         newEvaluation = isNew;
         if (!isNew) {
             //rellenar los datos de evaluación
@@ -137,14 +142,21 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
         selectedCow();
     }
 
+    /**
+     * Add all information from model
+     */
     private void addAll() {
         for (int i = 0; i < model.getNumberCows(); i++) {
             panel.addCow();
         }
     }
 
+    /**
+     * Set the minimum cows of evaluation
+     */
     private void setNumberCows() {
-        int cows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
+        int cows = EvaluationAlgorithm.necesaryNumberOfCows(
+                model.getInformation().getNumberCows());
         panel.setNumberCows(cows);
     }
 
@@ -172,6 +184,11 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
         }
     }
 
+    /**
+     * Comprueba si es un número flotante
+     * @param ponderation
+     * @return true si es, false al contrario
+     */
     private boolean isFloatUnit(String ponderation) {
         final String Digits = "(\\p{Digit}+)";
         final String HexDigits = "(\\p{XDigit}+)";
@@ -214,30 +231,11 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
 
     @Override
     public void changeCategory() {
-        switch (panel.getSelectedCategory()) {
-            case BEHAVIOUR:
-                panel.setComboCriterion(modelComboBehaviour);
-                break;
-            case FOOD:
-                panel.setComboCriterion(modelComboFood);
-                break;
-            case HEALTH:
-                panel.setComboCriterion(modelComboHealth);
-                break;
-            case HOUSE:
-                panel.setComboCriterion(modelComboHouse);
-                break;
-        }
+        panel.setComboCriterion(modelComboCriterion[
+                panel.getSelectedCategory().ordinal()]);
+
     }
 
-//    public void saveValoration() {
-////        if (newEvaluation) {
-////            Database.getInstance().saveEvaluation(model);
-////        } else {
-////            Database.getInstance().saveModifiedEvaluation(model);
-////        }
-////        JFrameController.getInstance().report(new Report(model), model.getInformation().getIdFarm());
-//    }
     /**
      * Recibo la orden de descargar el fichero, hago lo necesario
      *
@@ -266,6 +264,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
     @Override
     public void removeFile(IdHandler id) {
         //borrar fichero del modelo
+        //TODO
         //borro dicho fichero en la vista
         panel.removeFile(id);
     }
@@ -328,12 +327,22 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
         }
     }
 
+    /**
+     * Add a valoration to the panel
+     * @param category
+     * @param criterion 
+     * @param valoration 
+     */
     private void addValorationPanel(IdHandler category, IdHandler criterion, float valoration) {
         panel.addValoration(category.getValue().concat("/")
                 .concat(criterion.getValue()
                         .concat(": ").concat(Float.toString(valoration))));
     }
 
+    /**
+     * Add a valoration to model and to panel
+     * @param val 
+     */
     private void addValoration(Valoration val) {
         IdHandler criterion = val.getIdCriterion();
         IdHandler category = val.getIdCategory();
@@ -351,6 +360,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
 
     @Override
     public void finishEvaluation() {
+        //TODO
         if (newEvaluation) {
             if (Database.getInstance().saveEvaluation(model)) {
                 controller.clearParameters();

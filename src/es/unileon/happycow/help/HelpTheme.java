@@ -1,10 +1,7 @@
-/*
- * 
- */
 package es.unileon.happycow.help;
 
 /**
- *
+ * All of the help's tophics
  * @author dorian
  */
 public enum HelpTheme {

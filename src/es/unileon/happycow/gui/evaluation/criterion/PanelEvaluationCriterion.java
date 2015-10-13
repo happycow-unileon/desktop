@@ -233,7 +233,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor=java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.2;

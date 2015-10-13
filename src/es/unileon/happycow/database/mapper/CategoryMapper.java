@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database.mapper;
 
 import es.unileon.happycow.database.EntityDB;
@@ -14,17 +11,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Map class for category
  * @author dorian
  */
 public class CategoryMapper implements EntityDB {
-
+    /**
+     * Category
+     */
     private EvaluationCategory category;
 
+    /**
+     * Constructor
+     * @param category 
+     */
     public CategoryMapper(EvaluationCategory category) {
         this.category = category;
     }
 
+    /**
+     * Set category
+     * @param category 
+     */
     public void setCategory(EvaluationCategory category) {
         this.category = category;
     }

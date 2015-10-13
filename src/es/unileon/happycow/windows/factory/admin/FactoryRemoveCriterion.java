@@ -15,8 +15,13 @@ import javax.swing.JPanel;
  * @author dorian
  */
 public class FactoryRemoveCriterion extends IFactory {
-
+    /**
+     * Panel
+     */
     private RemoveCriterion panel;
+    /**
+     * Controller
+     */
     private RemoveCriterionController controller;
 
     public FactoryRemoveCriterion(Parameters parameters) {

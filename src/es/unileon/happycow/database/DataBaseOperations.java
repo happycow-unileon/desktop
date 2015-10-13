@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Interface of operations a database must implement
  * @author dorian
  */
 public interface DataBaseOperations {
@@ -26,11 +26,18 @@ public interface DataBaseOperations {
      * @return 
      */
     public boolean clearDB();
-    
+    /**
+     * Start a transaction
+     * @throws SQLException 
+     */
     public void startTransaccion() throws SQLException;
-
+    /**
+     * Rollback a transaction
+     */
     public void rollback();
-
+    /**
+     * Commit a transaction
+     */
     public void commit();
 
 
@@ -82,7 +89,11 @@ public interface DataBaseOperations {
      */
     public boolean newUser(User user);
     
-    
+    /**
+     * Update the data user
+     * @param user
+     * @return 
+     */
     public boolean updateUser(User user);
     
     /**
@@ -162,11 +173,15 @@ public interface DataBaseOperations {
     
     /**
      * Devuelve el número de vacas que tiene la granja en una determinada evaluacion
-     * @param id
+     * @param evaluation
      * @return 
      */
     public int getNumberCowEvaluation(IdHandler evaluation);
-    
+    /**
+     * Devuelve el número de vacas que tiene una granja actualmente
+     * @param idFarm
+     * @return 
+     */
     public int getNumberCow(IdHandler idFarm);
 
     /**
@@ -215,7 +230,11 @@ public interface DataBaseOperations {
      */
     public boolean updateEvaluation(IEvaluationModel evaluation);
     
-    
+    /**
+     * Elimina la evaluación dada
+     * @param id
+     * @return 
+     */
     public boolean removeEvaluation(IdHandler id);
     
     
@@ -285,54 +304,94 @@ public interface DataBaseOperations {
      * @return 
      */
     public LinkedList<InformationEvaluation> getAllInformationEvaluations();
-    
-    
+ 
     
     /**
-     * Guardar la valoración con todos los datos dados.
-     * @param idEvaluation
-     * @param criterion
-     * @param valoration 
-     * @return  
+     * Guarda un fichero
+     * @param handler
+     * @param file
+     * @return 
      */
-//    public boolean saveValoration(int idEvaluation, Criterion criterion, Valoration valoration);
-    
-   
-    
-//    public boolean saveEvaluationBackup(IEvaluationModel evaluation);
-    
-    
-    
     public boolean saveFile(IdHandler handler, File file);
-    
+    /**
+     * Devuelve la lista de ficheros de una evaluación dada
+     * @param idHandler
+     * @return 
+     */
     public List<String> getFileNames(IdHandler idHandler);
-    
+    /**
+     * Get a file given its name and id evaluation
+     * @param idHandler
+     * @param name
+     * @return 
+     */
     public byte[] getFile(IdHandler idHandler, String name);
-     
+     /**
+      * Store the file in the computer to the user
+      * @param arr
+      * @param file 
+      */
     public void saveFileToTheSystem(byte[] arr, File file);
     
     
-
+    //Backup
+    /**
+     * Get ALL files to backup
+     * @return 
+     */
     public LinkedList<FilesDB> getAllFiles();
     
     
-    
+    /**
+     * Get ALL category ponderation to backup
+     * @return 
+     */
     public LinkedList<PonderationDB> getCategoryPonderation();
-    
+    /**
+     * Get ALL criterion ponderation to backup
+     * @return 
+     */
     public LinkedList<PonderationDB> getCriterionPonderation();
-    
+    /**
+     * Get ALL valorations to backup
+     * @return 
+     */
     public LinkedList<ValorationDB> getAllValorations();
-    
+    /**
+     * Save files from backup
+     * @param list
+     * @return 
+     */
     public boolean saveFiles(LinkedList<FilesDB> list);
-    
+    /**
+     * Save category ponderation from backup
+     * @param list
+     * @return 
+     */
     public boolean saveCategoryPonderation(LinkedList<PonderationDB> list);
-    
+    /**
+     * Save criterion poneration from backup
+     * @param list
+     * @return 
+     */
     public boolean saveCriterionPonderation(LinkedList<PonderationDB> list);
-    
+    /**
+     * Save valoration from backup
+     * @param valoration
+     * @return 
+     */
     public boolean saveValoration(ValorationDB valoration);
-    
+    /**
+     * Save information evaluation from backup
+     * @param info
+     * @return 
+     */
     public boolean saveInformationEvaluation(InformationEvaluation info);
-    
+    /**
+     * Save a criterion from backup
+     * @param criterion
+     * @return 
+     */
     public boolean newCriterionBackup(Criterion criterion);
     
 }

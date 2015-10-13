@@ -14,17 +14,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Map class for a criterion (with ponderation
  * @author dorian
  */
 public class CriterionEvaluationMapper implements EntityDB {
-
+    /**
+     * Criterion
+     */
     private Criterion criterion;
 
+    /**
+     * Constructor
+     * @param criterion 
+     */
     public CriterionEvaluationMapper(Criterion criterion) {
         this.criterion = criterion;
     }
 
+    /**
+     * Set the criterion
+     * @param criterion 
+     */
     public void setCriterion(Criterion criterion) {
         this.criterion = criterion;
     }

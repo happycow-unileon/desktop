@@ -13,13 +13,27 @@ import oracle.help.Help;
 import oracle.help.library.Book;
 import oracle.help.library.helpset.HelpSet;
 
+/**
+ * System of helps in the application
+ * @author dorian
+ */
 public class HelpSystem {
-
+    /**
+     * Instance
+     */
     private static HelpSystem instance = null;
-
+    /**
+     * Manager of help
+     */
     private CSHManager manager;
+    /**
+     * Help object with the books
+     */
     private oracle.help.Help _helpObject;
 
+    /**
+     * Constructor
+     */
     private HelpSystem() {
 //        _useOracleLookAndFeel();
 
@@ -28,19 +42,26 @@ public class HelpSystem {
         boolean combineBooks = false;
         boolean useLabelInfo = true;
         try {
+            //get the file with the configuration
             URL fileURL = Init.class.getResource("/help/ohguide.hs");
             HelpSet aHelpSet = new HelpSet(fileURL);
 
             if (aHelpSet != null) {
+                //add the book
                 books.addElement(aHelpSet);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
+        //Set the whole help
         setHelp(books, combineBooks, useLabelInfo);
     }
 
+    /**
+     * Get the only instance of help application
+     * @return 
+     */
     public static HelpSystem getInstance() {
         if (instance == null) {
             instance = new HelpSystem();
@@ -48,6 +69,12 @@ public class HelpSystem {
         return instance;
     }
 
+    /**
+     * Set the help system
+     * @param books
+     * @param combineBooks
+     * @param useLabelInfo 
+     */
     private void setHelp(Vector books, boolean combineBooks, boolean useLabelInfo) {
         int i;
 
@@ -69,9 +96,11 @@ public class HelpSystem {
         }
 
         manager = new CSHManager(_helpObject);
-        //manager.addBook(null, useLabelInfo);
     }
 
+    /**
+     * An oracle look and feel
+     */
     static private void _useOracleLookAndFeel() {
         OracleLookAndFeel.setColorScheme(Color.cyan);
 
@@ -84,10 +113,17 @@ public class HelpSystem {
         }
     }
 
+    /**
+     * Start the help, show the index
+     */
     public void start() {
         _helpObject.showNavigatorWindow();
     }
 
+    /**
+     * Show a concrete help's tophic
+     * @param theme 
+     */
     public void seeHelp(HelpTheme theme) {
         String topic = "";
         switch (theme) {

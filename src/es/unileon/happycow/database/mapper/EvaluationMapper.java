@@ -27,17 +27,27 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Map class for an evaluation
  * @author dorian
  */
 public class EvaluationMapper implements EntityDB {
-
+    /**
+     * Evaluation
+     */
     private IEvaluationModel evaluation;
 
+    /**
+     * Constructor
+     * @param evaluation 
+     */
     public EvaluationMapper(IEvaluationModel evaluation) {
         this.evaluation = evaluation;
     }
 
+    /**
+     * Set the evaluation
+     * @param evaluation 
+     */
     public void setEvaluation(IEvaluationModel evaluation) {
         this.evaluation = evaluation;
     }
@@ -59,6 +69,13 @@ public class EvaluationMapper implements EntityDB {
         return list;
     }
 
+    /**
+     * get the number of cows of the evaluation
+     * @param connection
+     * @param id
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getNumberCows(Connection connection, IdHandler id) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT NUMEROVACAS FROM EVALUATION WHERE IDGRANJA=?");
         sql.setString(1, id.getValue());
@@ -75,6 +92,13 @@ public class EvaluationMapper implements EntityDB {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Get an evaluation given its id
+     * @param connection
+     * @param id
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException {
         PreparedStatement sql = connection.prepareStatement(
                 "SELECT "
@@ -94,6 +118,12 @@ public class EvaluationMapper implements EntityDB {
         return sql;
     }
 
+    /**
+     * Restore an evaluation
+     * @param result
+     * @return
+     * @throws SQLException 
+     */
     public static Evaluation restoreObject(ResultSet result) throws SQLException {
         InformationEvaluation information = null;
         Evaluation evaluation = null;

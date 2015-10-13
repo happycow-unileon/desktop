@@ -4,7 +4,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdWindow;
 
 /**
- *
+ *Window administrator
  * @author dorian
  */
 public class Administrator extends IWindow{

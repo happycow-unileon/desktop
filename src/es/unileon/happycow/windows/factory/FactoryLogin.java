@@ -4,7 +4,6 @@ import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.LoginController;
 import es.unileon.happycow.gui.PanelLogin;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -27,6 +26,7 @@ public class FactoryLogin extends IFactory {
 
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
@@ -39,6 +39,7 @@ public class FactoryLogin extends IFactory {
     
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getPanel() 
      */
     @Override

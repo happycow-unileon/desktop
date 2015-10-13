@@ -1,7 +1,7 @@
 package es.unileon.happycow.windows;
 
 /**
- *
+ * List of windows
  * @author dorian
  */
 public enum Window {

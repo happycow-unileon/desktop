@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database;
 
 import java.sql.Connection;
@@ -9,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * Interface for all the objects to store in a database
  * @author dorian
  */
 public interface EntityDB {

@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database.mapper;
 
 import es.unileon.happycow.database.EntityDB;
@@ -12,17 +9,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Map file for valorations
  * @author dorian
  */
 public class ValorationMapper implements EntityDB {
-
+    /**
+     * Valoration
+     */
     private Valoration valoration;
 
+    /**
+     * Constructor
+     * @param valoration 
+     */
     public ValorationMapper(Valoration valoration) {
         this.valoration = valoration;
     }
 
+    /**
+     * Set valoration
+     * @param valoration 
+     */
     public void setValoration(Valoration valoration) {
         this.valoration = valoration;
     }
@@ -39,7 +46,7 @@ public class ValorationMapper implements EntityDB {
         sql.setFloat(5, valoration.getWeighing());
         
         //y guardo su ponderación
-        //en este caso, no se guardan
+        //en este caso, no se guardan (no hay ponderaciones en valoraciones
 
         LinkedList<PreparedStatement> list = new LinkedList<>();
         list.add(sql);

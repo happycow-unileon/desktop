@@ -9,24 +9,31 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Controller of the panel to remove users
  * @author dorian
  */
 public class RemoveUserController extends Controller {
-
+    /**
+     * panel
+     */
     private final RemoveUser panel;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public RemoveUserController(RemoveUser panel) {
         this.panel = panel;
-
-//                JFrameApplication.getInstance().getHelp().setHelpOnButton(panel.getButtonHelp(), "AyudaAdminEliminarUsuario");
-//                JFrameApplication.getInstance().getHelp().setHelp(panel, "AyudaAdminEliminarUsuario");
     }
 
+    /**
+     * Remove user
+     */
     public void remove() {
         String target = panel.getElement();
         boolean resultado;
 
+        //search the user in database, with a random password
         resultado = Database.getInstance().removeUser(new User(target, "something", Rol.VETERINARIO));
         if (resultado) {
             panel.removeElement(target);
@@ -36,6 +43,9 @@ public class RemoveUserController extends Controller {
 
     }
 
+    /**
+     * Update the information from model to panel
+     */
     public void update() {
         LinkedList<String> list = new LinkedList<>();
 

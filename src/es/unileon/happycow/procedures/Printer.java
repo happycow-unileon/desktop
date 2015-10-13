@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.procedures;
 
 import javax.swing.*;
@@ -18,7 +15,8 @@ import javax.imageio.*;
 import javax.imageio.stream.*;
 
 /**
- *
+ * Printer class
+ * Cloned from example
  * @author dorian
  */
 public class Printer {

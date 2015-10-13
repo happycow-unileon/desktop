@@ -3,14 +3,9 @@ package es.unileon.happycow.windows.factory.admin;
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.admin.AdminController;
-import es.unileon.happycow.database.Database;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.Administrator;
-import es.unileon.happycow.model.Farm;
-import es.unileon.happycow.model.User;
 import es.unileon.happycow.windows.factory.FactoryExcel;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import javax.swing.JPanel;
 
 /**

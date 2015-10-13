@@ -56,12 +56,12 @@ public class AverageEvaluation extends EvaluationAlgorithm{
     private String evaluationDetails(){
         StringBuilder result=new StringBuilder();
         result.append("Resultados detallados<br>");
-        result.append("Mejor Categoria: ");
+        result.append(" Mejor Categoria: ");
         result.append(Category.getName(bestCategory));
         result.append(" ");
         result.append(bestCategoryResult);
-        
-        result.append("Peor Categoría: ");
+        result.append("<br>");
+        result.append(" Peor Categoría: ");
         result.append(Category.getName(worstCategory));
         result.append(" ");
         result.append(worstCategoryResult);
@@ -70,10 +70,10 @@ public class AverageEvaluation extends EvaluationAlgorithm{
         for (Category category : Category.values()) {
             result.append(Category.getName(category));
             result.append("<br>");
-            result.append("Criterio mejor evaluado: ");
+            result.append(" Criterio mejor evaluado: ");
             result.append(bestCriterion(category));
             result.append("<br>");
-            result.append("Criterio peor evaluado: ");
+            result.append(" Criterio peor evaluado: ");
             result.append(worstCriterion(category));
             result.append("<br><br>");
         }

@@ -5,7 +5,6 @@ import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.admin.NewCriterionController;
 import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.gui.admin.NewCriterion;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**

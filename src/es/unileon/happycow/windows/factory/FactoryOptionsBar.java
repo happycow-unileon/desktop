@@ -5,7 +5,6 @@ import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.BarOptionsController;
 import es.unileon.happycow.gui.PanelOptions;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**

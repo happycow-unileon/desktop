@@ -7,7 +7,7 @@ import es.unileon.happycow.gui.PanelEnableFarm;
 import es.unileon.happycow.handler.IdHandler;
 
 /**
- *
+ * Controller of the list of disabled farms
  * @author dorian
  */
 public class EnableFarmController extends ButtonFarmDetailsIController{
@@ -16,10 +16,17 @@ public class EnableFarmController extends ButtonFarmDetailsIController{
      */
     private final PanelEnableFarm panel;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public EnableFarmController(PanelEnableFarm panel) {
         this.panel = panel;
     }
 
+    /**
+     * Come back
+     */
     public void comeBack(){
         controller.setState(Window.LIST_FARMS);
     }

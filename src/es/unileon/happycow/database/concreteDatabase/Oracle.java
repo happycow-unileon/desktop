@@ -6,12 +6,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Class for an oracle database
+ * Not correctly implemented
+ * TODO
  * @author dorian
  */
 public class Oracle extends DatabaseObject {
 
-
+    /**
+     * Constructor
+     */
     public Oracle() {
         try {
             conection = DriverManager.getConnection("jdbc:oracle:thin:@-PC:1521:XE", "vaca", "vaca");

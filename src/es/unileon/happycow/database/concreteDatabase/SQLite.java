@@ -10,13 +10,22 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Class for a sqlite database
  * @author dorian
  */
 public class SQLite extends DatabaseObject {
+    /**
+     * String of conexion
+     */
     private static final String stringConexion = "jdbc:sqlite::resource:database/database.sqlite";
+    /**
+     * String of path
+     */
     private static final String pathDatabase= "database/database.sqlite";
 
+    /**
+     * Constructor
+     */
     public SQLite() {
         super();
     }
@@ -65,7 +74,7 @@ public class SQLite extends DatabaseObject {
         //configuramos parámetros
         try {
             PreparedStatement sql=conection.prepareStatement("PRAGMA foreign_keys = ON");
-            executeSQL(sql, TIPOSQL.MODIFICACION);
+            executeSQL(sql, TYPESQL.MODIFICACION);
         } catch (SQLException ex) {
             Logger.getLogger(SQLite.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

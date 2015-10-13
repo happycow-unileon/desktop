@@ -6,18 +6,32 @@ import java.io.File;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Controller of the backup panel
  * @author dorian
  */
 public class BackupController extends Controller{
+    /**
+     * Panel
+     */
     private final Backup panel;
+    /**
+     * Procedure of backup
+     */
     private final es.unileon.happycow.procedures.Backup procedure;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public BackupController(Backup panel) {
         this.panel = panel;
         procedure=new es.unileon.happycow.procedures.Backup();
     }
     
+    /**
+     * Export the data in the file
+     * @param export folder to store the backup
+     */
     public void export(File export){
         if(export!=null){
             if(export.exists() && export.isDirectory()){
@@ -36,6 +50,10 @@ public class BackupController extends Controller{
         }
     }
     
+    /**
+     * Import the backup from the file
+     * @param importBackup file backup
+     */
     public void importBackup(File importBackup){
         if(importBackup!=null){
             if(importBackup.exists() && importBackup.isFile()){

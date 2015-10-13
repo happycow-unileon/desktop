@@ -16,17 +16,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Class map for a farm
  * @author dorian
  */
 public class FarmMapper implements EntityDB {
-
+    /**
+     * Farm
+     */
     private Farm farm;
 
+    /**
+     * Constructor
+     * @param farm 
+     */
     public FarmMapper(Farm farm) {
         this.farm = farm;
     }
 
+    /**
+     * Set a farm
+     * @param farm 
+     */
     public void setFarm(Farm farm) {
         this.farm = farm;
     }
@@ -92,12 +102,26 @@ public class FarmMapper implements EntityDB {
         return listSql;
     }
 
+    /**
+     * Restore a farm given an id
+     * @param id
+     * @param connection
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getObject(IdHandler id, Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE IDGRANJA=?");
         sql.setInt(1, Integer.parseInt(id.getValue()));
         return sql;
     }
 
+    /**
+     * Get all farms from a given id user
+     * @param idUser
+     * @param connection
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getAllObject(IdHandler idUser, Connection connection) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE NOMBREUSUARIO=? AND ENABLED=?");
         sql.setString(1, idUser.getValue());
@@ -105,6 +129,13 @@ public class FarmMapper implements EntityDB {
         return sql;
     }
     
+    /**
+     * Get all disabled farms given an id user
+     * @param idUser
+     * @param connection
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getDisabledFarms(IdHandler idUser, Connection connection) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM FARM WHERE ENABLED=? AND NOMBREUSUARIO=?");
         sql.setBoolean(1, false);
@@ -112,12 +143,25 @@ public class FarmMapper implements EntityDB {
         return sql;
     }
     
+    /**
+     * get the cows of a farm
+     * @param id
+     * @param connection
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getNumberCows(IdHandler id, Connection connection) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT NUMEROVACAS FROM FARM WHERE IDGRANJA=?");
         sql.setString(1, id.getValue());
         return sql;
     }
 
+    /**
+     * Restore a farm
+     * @param result
+     * @return
+     * @throws SQLException 
+     */
     public static Farm restoreObject(ResultSet result) throws SQLException {
         return new Farm(new IdFarm(result.getInt("IDGRANJA")), 
                 result.getString("NOMBREGRANJA"),

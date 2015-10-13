@@ -26,6 +26,7 @@ public class FactoryExcel extends IFactory {
 
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
@@ -38,6 +39,7 @@ public class FactoryExcel extends IFactory {
     
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getPanel() 
      */
     @Override

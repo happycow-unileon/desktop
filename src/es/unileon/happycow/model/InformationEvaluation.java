@@ -5,22 +5,64 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- *
+ * Represent the information of an evaluation
  * @author dorian
  */
 public class InformationEvaluation  implements Serializable {
-
+/**
+ * Id of evaluation
+ */
     private IdHandler idEvaluation;
+    /**
+     * id of farm
+     */
     private IdHandler idFarm;
+    /**
+     * id of user
+     */
     private IdHandler idUser;
+    /**
+     * note
+     */
     private float nota;
+    /**
+     * food
+     */
     private float alimentacion;
+    /**
+     * health
+     */
     private float salud;
+    /**
+     * comfort
+     */
     private float comfort;
+    /**
+     * behaviour
+     */
     private float comportamiento;
+    /**
+     * date
+     */
     private Date fecha;
+    /**
+     * number of cows
+     */
     private int numberCows;
 
+    /**
+     * 
+     * @param idEvaluation
+     * @param idFarm
+     * @param user
+     * @param nota
+     * @param alimentacion
+     * @param salud
+     * @param comfort
+     * @param comportamiento
+     * @param fecha
+     * @param number 
+     */
     public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
             float nota, float alimentacion, float salud, float comfort,
             float comportamiento, Date fecha, int number) {
@@ -36,6 +78,18 @@ public class InformationEvaluation  implements Serializable {
         this.numberCows = number;
     }
 
+    /**
+     * 
+     * @param idEvaluation
+     * @param idFarm
+     * @param user
+     * @param alimentacion
+     * @param salud
+     * @param comfort
+     * @param comportamiento
+     * @param fecha
+     * @param number 
+     */
     public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
             float alimentacion, float salud, float comfort, float comportamiento,
             Date fecha, int number) {
@@ -44,23 +98,50 @@ public class InformationEvaluation  implements Serializable {
                 alimentacion, salud, comfort, comportamiento, fecha, number);
     }
 
+    /**
+     * 
+     * @param idEvaluation
+     * @param idFarm
+     * @param user
+     * @param fecha
+     * @param number 
+     */
     public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user,
             Date fecha, int number) {
         this(idEvaluation, idFarm, user, 0, 0, 0, 0, fecha, number);
     }
 
+    /**
+     * 
+     * @param idEvaluation
+     * @param idFarm
+     * @param user
+     * @param number 
+     */
     public InformationEvaluation(IdHandler idEvaluation, IdHandler idFarm, IdHandler user, int number) {
         this(idEvaluation, idFarm, user, 0, 0, 0, 0, new Date(new java.util.Date().getTime()), number);
     }
 
+    /**
+     * Get number of cows during this evaluation
+     * @return 
+     */
     public int getNumberCows() {
         return numberCows;
     }
 
+    /**
+     * Get the id of evaluation
+     * @return 
+     */
     public IdHandler getIdEvaluation() {
         return idEvaluation;
     }
 
+    /***
+     * Get the associated farm's id
+     * @return 
+     */
     public IdHandler getIdFarm() {
         return idFarm;
     }

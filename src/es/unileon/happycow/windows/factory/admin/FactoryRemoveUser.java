@@ -15,8 +15,13 @@ import javax.swing.JPanel;
  * @author dorian
  */
 public class FactoryRemoveUser extends IFactory {
-
+    /**
+     * Panel
+     */
     private RemoveUser panel;
+    /**
+     * Controller
+     */
     private RemoveUserController controller;
 
     public FactoryRemoveUser(Parameters parameters) {

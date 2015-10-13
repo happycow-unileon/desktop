@@ -4,7 +4,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdWindow;
 
 /**
- *
+ * Window new farm
  * @author dorian
  */
 public class NewFarm extends IWindow{

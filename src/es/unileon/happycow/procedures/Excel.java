@@ -30,19 +30,40 @@ import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 
 /**
- *
+ * Class for generate an excel
  * @author amdiaz8
  */
 public class Excel {
-
+    /**
+     * Excel
+     */
     private WritableWorkbook workbook;
+    /**
+     * actual hoja de excel
+     */
     private WritableSheet actualSheet;
 
+    /**
+     * Formato de celda rojo
+     */
     private WritableCellFormat redBackground;
+    /**
+     * Formato de celda azul
+     */
     private WritableCellFormat blueBackground;
+    /**
+     * Formato de celda amarillo
+     */
     private WritableCellFormat yellowBackground;
+    /**
+     * Formato de celda dorado
+     */
     private WritableCellFormat goldBackground;
 
+    /**
+     * Constructor
+     * @param file in which we write 
+     */
     public Excel(File file) {
         try {
             workbook = Workbook.createWorkbook(file);
@@ -52,6 +73,9 @@ public class Excel {
         }
     }
 
+    /**
+     * Create the colors for the cels
+     */
     private void createColors() {
         redBackground = new WritableCellFormat();
         blueBackground = new WritableCellFormat();
@@ -68,26 +92,37 @@ public class Excel {
         }
     }
 
+    /**
+     * Export the data of the given users with their farms
+     * @param list
+     * @return 
+     */
     public boolean exportDataUsers(LinkedHashMap<User, LinkedList<Farm>> list) {
         int numberUser = 0;
         int row = 1;
         try {
+            //for every user...
             for (User user : list.keySet()) {
-
+                //create a sheet
                 actualSheet = workbook.createSheet(user.getName(), numberUser);
+                //write the header of the sheet
                 writeHeader();
+                //export the data of the farms
                 row = exportDataFarm(row, list.get(user));
                 if (row < 0) {
                     return false;
                 }
                 numberUser++;
                 row++;
+                //recalculate size of cells
                 resizeCells();
             }
         } catch (ExcelException ex) {
             Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         try {
+            //get the last cell and write color
             WritableCell c = actualSheet.getWritableCell(0, 18);
             WritableCellFormat newFormat = new WritableCellFormat();
             try {
@@ -106,6 +141,9 @@ public class Excel {
         return true;
     }
 
+    /**
+     * Resize cell
+     */
     private void resizeCells() {
         for (int x = 0; x < ColumnExcel.values().length; x++) {
             CellView cell = actualSheet.getColumnView(x);
@@ -114,6 +152,10 @@ public class Excel {
         }
     }
 
+    /**
+     * Write the header of the sheet
+     * @throws ExcelException 
+     */
     private void writeHeader() throws ExcelException {
         for (ColumnExcel columnExcel : ColumnExcel.values()) {
 
@@ -127,6 +169,13 @@ public class Excel {
         }
     }
 
+    /**
+     * Paint the cells given
+     * @param row
+     * @param init
+     * @param end
+     * @param format 
+     */
     private void paintCells(int row, int init, int end, WritableCellFormat format) {
         for (int i = init; i < end; i++) {
             WritableCell c = actualSheet.getWritableCell(i, row);
@@ -152,14 +201,29 @@ public class Excel {
         }
     }
 
+    /**
+     * Export the data of the farms
+     * @param row
+     * @param list
+     * @return
+     * @throws ExcelException 
+     */
     private int exportDataFarm(int row, LinkedList<Farm> list) throws ExcelException {
         for (Farm farm : list) {
+            //for every farm, write the farm
             row = writeFarm(row, farm);
             row++;
         }
         return row;
     }
 
+    /**
+     * Write the data of a farm
+     * @param row
+     * @param farm
+     * @return
+     * @throws ExcelException 
+     */
     private int writeFarm(int row, Farm farm) throws ExcelException {
 
         Label name = new Label(ColumnExcel.FARM_NAME.ordinal(), row,
@@ -172,8 +236,9 @@ public class Excel {
 
         paintCells(row, ColumnExcel.FARM_NAME.ordinal(), ColumnExcel.values().length, yellowBackground);
         row++;
+        //for every evaluation it has
         for (InformationEvaluation interfaceEvaluationModel : Database.getInstance().getListEvaluations(farm.getIdFarm())) {
-
+            //write the evaluation
             row = writeEvaluation(row, new DefaultEvaluationModel(
                     Database.getInstance().getEvaluation(interfaceEvaluationModel.getIdEvaluation())));
             row++;
@@ -182,6 +247,13 @@ public class Excel {
         return row;
     }
 
+    /**
+     * Write the given evaluation
+     * @param row
+     * @param evaluation
+     * @return
+     * @throws ExcelException 
+     */
     private int writeEvaluation(int row, IEvaluationModel evaluation) throws ExcelException {
         jxl.write.Number number = new jxl.write.Number(ColumnExcel.COW_NUMBER.ordinal(),
                 row, evaluation.getInformation().getNumberCows());
@@ -209,6 +281,14 @@ public class Excel {
         return row;
     }
 
+    /**
+     * Write the data under a category
+     * @param row
+     * @param category
+     * @param evaluation
+     * @return
+     * @throws ExcelException 
+     */
     private int writeCategory(int row, Category category, IEvaluationModel evaluation) throws ExcelException {
         //escribir la categoria y su ponderacion
         Label name = new Label(ColumnExcel.CATEGORY.ordinal(), row,
@@ -229,6 +309,14 @@ public class Excel {
         return row;
     }
 
+    /**
+     * Write the data under a criterion
+     * @param row
+     * @param evaluation
+     * @param criterion
+     * @return
+     * @throws ExcelException 
+     */
     private int writeCriterion(int row,
             IEvaluationModel evaluation, Criterion criterion) throws ExcelException {
         LinkedList<Valoration> valorations = evaluation.listOfCriterion(criterion.getId());
@@ -254,6 +342,13 @@ public class Excel {
         return row;
     }
 
+    /**
+     * write the valoration
+     * @param row
+     * @param valoration
+     * @return
+     * @throws ExcelException 
+     */
     private int writeValoration(int row, Valoration valoration) throws ExcelException {
         //escribir valoracion
         jxl.write.Number number = new jxl.write.Number(ColumnExcel.VALORATION.ordinal(),

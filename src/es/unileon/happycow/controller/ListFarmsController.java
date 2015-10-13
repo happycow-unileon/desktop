@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Controller of the list of farms
  * @author dorian
  */
 public class ListFarmsController extends ButtonListFarmIController{

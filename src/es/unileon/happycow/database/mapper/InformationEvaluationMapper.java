@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database.mapper;
 
 import es.unileon.happycow.database.EntityDB;
@@ -17,17 +14,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Class map for an information of an evaluation
  * @author dorian
  */
 public class InformationEvaluationMapper implements EntityDB {
-
+    /**
+     * Evaluation's information
+     */
     private InformationEvaluation info;
 
+    /**
+     * Constructor
+     * @param info 
+     */
     public InformationEvaluationMapper(InformationEvaluation info) {
         this.info = info;
     }
 
+    /**
+     * Set information
+     * @param info 
+     */
     public void setInfo(InformationEvaluation info) {
         this.info = info;
     }
@@ -71,12 +78,25 @@ public class InformationEvaluationMapper implements EntityDB {
         return list;
     }
     
+    /**
+     * Get the list of evaluations' information given the id farm
+     * @param connection
+     * @param farm
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getListEvaluations(Connection connection, IdHandler farm) throws SQLException{
         PreparedStatement sql = connection.prepareStatement("SELECT * FROM EVALUATION WHERE IDGRANJA=?");
             sql.setInt(1, Integer.parseInt(farm.getValue()));
         return sql;
     }
 
+    /**
+     * Retrieve an evaluation's information
+     * @param result
+     * @return
+     * @throws SQLException 
+     */
     public static InformationEvaluation restoreObject(ResultSet result) throws SQLException {
         return new InformationEvaluation(
                 (IdHandler) new IdEvaluation(result.getInt("IDEVALUATION")),

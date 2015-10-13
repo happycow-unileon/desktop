@@ -4,9 +4,6 @@ import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.gui.PanelListFarms;
-import es.unileon.happycow.model.Farm;
-import java.util.HashMap;
-import java.util.LinkedList;
 import javax.swing.JPanel;
 
 /**
@@ -28,7 +25,6 @@ public class FactoryListFarm extends IFactory{
     /**
      * 
      * @param parameters
-     * @param list list of farms to show
      */
     public FactoryListFarm(Parameters parameters) {
         super(parameters);
@@ -38,6 +34,7 @@ public class FactoryListFarm extends IFactory{
     
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getController() 
      */
     @Override
@@ -50,6 +47,7 @@ public class FactoryListFarm extends IFactory{
 
     /**
      * 
+     * @return 
      * @see es.unileon.happycow.abstractFactory.FactoryWindows#getPanel() 
      */
     @Override

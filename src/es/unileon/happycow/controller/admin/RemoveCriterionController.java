@@ -13,21 +13,26 @@ import javax.swing.JOptionPane;
  * @author dorian
  */
 public class RemoveCriterionController extends Controller {
-//    private JFrameController fatherController;
-
+    /**
+     * panel
+     */
     private final RemoveCriterion panel;
 
+    /**
+     * Constructor
+     * @param panel 
+     */
     public RemoveCriterionController(RemoveCriterion panel) {
         this.panel = panel;
-//                JFrameApplication.getInstance().getHelp().setHelpOnButton(panel.getButtonHelp(), "AyudaAdminEliminarCriterio");
-//                JFrameApplication.getInstance().getHelp().setHelp(panel, "AyudaAdminEliminarCriterio");
-//                break;
-//           
     }
 
+    /**
+     * Remove the criterion
+     */
     public void remove() {
         String target = panel.getElement();
         boolean resultado;
+        //get the name of criterion without category
         String targetModified = target.split("-")[0];
         resultado = Database.getInstance().removeCriterion(new IdCriterion(targetModified));
         if (resultado) {
@@ -38,6 +43,9 @@ public class RemoveCriterionController extends Controller {
 
     }
 
+    /**
+     * Update the information from model to panel
+     */
     public void update() {
         LinkedList<String> list = new LinkedList<>();
 

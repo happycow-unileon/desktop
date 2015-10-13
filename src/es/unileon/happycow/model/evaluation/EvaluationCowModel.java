@@ -1,12 +1,7 @@
-/*
- * 
- */
 package es.unileon.happycow.model.evaluation;
 
-import es.unileon.happycow.gui.evaluation.criterion.IconList;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.model.Cow;
-import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Evaluation;
 import es.unileon.happycow.model.composite.Valoration;

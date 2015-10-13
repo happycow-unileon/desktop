@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.database.mapper;
 
 import es.unileon.happycow.database.EntityDB;
@@ -14,17 +11,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Map class for a criterion
  * @author dorian
  */
 public class CriterionMapper implements EntityDB {
-
+    /**
+     * Criterion
+     */
     private Criterion criterion;
 
+    /**
+     * Constructor
+     * @param criterion 
+     */
     public CriterionMapper(Criterion criterion) {
         this.criterion = criterion;
     }
 
+    /**
+     * Set the criterion
+     * @param criterion 
+     */
     public void setCriterion(Criterion criterion) {
         this.criterion = criterion;
     }
@@ -57,10 +64,22 @@ public class CriterionMapper implements EntityDB {
         return list;
     }
 
+    /**
+     * get all criterions
+     * @param connection
+     * @return
+     * @throws SQLException 
+     */
     public static PreparedStatement getAllObject(Connection connection)throws SQLException{
         return connection.prepareStatement("SELECT * FROM CRITERION");
     }
     
+    /**
+     * Restore a criterion
+     * @param result
+     * @return
+     * @throws SQLException 
+     */
     public static Criterion restoreObject(ResultSet result) throws SQLException {
         return new Criterion(
                             result.getString("NOMBRECRITERIO"),

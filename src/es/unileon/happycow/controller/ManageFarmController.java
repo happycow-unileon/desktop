@@ -13,11 +13,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 /**
- *
+ * Controller of the farm's management panel
  * @author dorian
  */
 public class ManageFarmController extends ButtonFarmDetailsIController {
-
     /**
      * Panel concreto
      */
@@ -37,11 +36,19 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         this.idFarm = null;
     }
 
+    /**
+     * Delete the selected evaluation
+     * @param id 
+     */
     public void removeEvaluation(IdHandler id) {
         Database.getInstance().removeEvaluation(id);
         panel.removeEvaluation(id);
     }
 
+    /**
+     * See the report of the selected evaluation
+     * @param id 
+     */
     public void report(IdHandler id) {
         controller.clearParameters();
         controller.addParameter("idFarm", idFarm.toString());
@@ -52,7 +59,7 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
     /**
      * Selecciona una evaluación y la modifica
      *
-     * @param id
+     * @param info the information of the evaluation selected
      */
     public void evaluationSelected(InformationEvaluation info) {
         //llama al padre y le indica la evaluación seleccionada
@@ -88,7 +95,7 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         controller.addParameter("isNew", true);
         controller.addParameter("idFarm", idFarm.toString());
         controller.addParameter("user", Database.getInstance().getUser().getId().toString());
-        //TODO
+        //TODO implement the options per user and improve this
         if(controller.isCowView()){
             controller.addParameter("mode", "COW");
         }else{

@@ -2,11 +2,8 @@ package es.unileon.happycow.windows.factory;
 
 import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
-import es.unileon.happycow.controller.LoginController;
 import es.unileon.happycow.controller.ReportController;
-import es.unileon.happycow.gui.PanelLogin;
 import es.unileon.happycow.gui.PanelReport;
-import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**

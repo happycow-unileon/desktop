@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.model;
 
 import es.unileon.happycow.database.Database;
@@ -9,12 +6,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- *
+ * List of information of evaluations
  * @author dorian
  */
 public class ListEvaluations {
+    /**
+     * List information evaluation
+     */
     private LinkedList<InformationEvaluation> list;
+    /**
+     * Has the list loaded?
+     */
     private boolean listLoaded;
+    /**
+     * Id of associated farm
+     */
     private IdHandler farm;
 
     public ListEvaluations(IdHandler farm) {
@@ -28,6 +34,10 @@ public class ListEvaluations {
         listLoaded=true;
     }
     
+    /**
+     * Add an evaluation's information
+     * @param evaluation 
+     */
     public void addEvaluation(InformationEvaluation evaluation){
         if (!listLoaded) {
             getListEvaluation();
@@ -37,6 +47,10 @@ public class ListEvaluations {
         }
     }
     
+    /**
+     * Remove an evaluation
+     * @param evaluation 
+     */
     public void removeEvaluation(IdHandler evaluation) {
         InformationEvaluation target = null;
         if (!listLoaded) {
@@ -51,6 +65,11 @@ public class ListEvaluations {
         list.remove(target);
     }
 
+    /**
+     * Get information of given evaluation id
+     * @param evaluation
+     * @return 
+     */
     public InformationEvaluation getEvaluation(IdHandler evaluation) {
         int target = -1;
         if (!listLoaded) {
@@ -71,6 +90,10 @@ public class ListEvaluations {
         }
     }
     
+    /**
+     * Get the list of evaluations' info
+     * @return 
+     */
     public LinkedList<InformationEvaluation> getListEvaluation() {
         if (!listLoaded) {
             list = Database.getInstance().getListEvaluations(farm);
@@ -79,6 +102,10 @@ public class ListEvaluations {
         return list;
     }
     
+    /**
+     * Number of evaluations
+     * @return 
+     */
     public int size(){
         return getListEvaluation().size();
     }

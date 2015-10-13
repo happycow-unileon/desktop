@@ -4,7 +4,7 @@ import es.unileon.happycow.windows.factory.IFactory;
 import es.unileon.happycow.handler.IdWindow;
 
 /**
- *
+ *Window evaluation
  * @author dorian
  */
 public class Evaluation extends IWindow{

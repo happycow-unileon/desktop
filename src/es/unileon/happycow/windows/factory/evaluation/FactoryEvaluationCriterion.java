@@ -1,6 +1,3 @@
-/*
- * 
- */
 package es.unileon.happycow.windows.factory.evaluation;
 
 import es.unileon.happycow.application.Parameters;

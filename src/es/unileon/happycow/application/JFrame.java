@@ -14,27 +14,46 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 /**
- *
+ * Principal JFrame where all windows will be displayed
  * @author dorian
  */
 public class JFrame extends javax.swing.JFrame implements Observer {
-
+    /**
+     * Queue of windows, only showed the first of them
+     */
     private GuiQueue queue;
+    /**
+     * Controller of the jframe
+     */
     private JFrameController controller;
+    /**
+     * Menu options
+     */
     private final JPanel menuBar;
 
+    /**
+     * Constructor
+     */
     public JFrame() {
+        //create the controller and add the jframe as an observer to the changes
+        //of the controller
         controller = new JFrameController();
         controller.addObserver(this);
+        //set the controller of the queue
         queue = new GuiQueue(controller);
 
+        //init the components of the jframe
         initComponents();
+        
+        //Create the menu bar, get the panel and set the controller (same controller
+        //as jframe)
         IFactory factory=FactoryWindows.create(Window.BAR_OPTIONS, new Parameters())
                 .getFactory();
         factory.createElements();
         menuBar = factory.getPanel();
         factory.getController().setFrameController(controller);
         
+        //control the closing of application
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent evt) {
@@ -42,15 +61,16 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             }
         });
 
-        //inicializo el login
+        //create and start the login
         queue.addWindow(FactoryWindows.create(Window.LOGIN, new Parameters()));
-        //seteo el estado
+        //set the state
         changePanel(queue.peek());
 
+        //positioning window
         setLocationByPlatform(true);
         setVisible(true);
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
     }
 
     /**
@@ -60,12 +80,16 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         //cambio el titulo
         setTitle(factory.getTitle());
 
+        //remove everything
         this.getContentPane().removeAll();
+        //add the window created by the factory
         this.add(factory.getPanel(), BorderLayout.CENTER);
+        //set the menu bar on jframe if necessary
         if (factory.getType() != Window.LOGIN) {
             this.add(menuBar, BorderLayout.NORTH);
         }
         
+        //pack and give some more space
         pack();
         Dimension size = getSize();
         setSize((int) size.getWidth() + 20, (int) size.getHeight() + 20);
@@ -73,6 +97,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        //changes of the state!
         switch (controller.getAction()) {
             case BACK:
                 queue.back();
@@ -83,7 +108,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             case STATE:
                 Window newState = controller.getState();
                 Window actualState = queue.peek().getType();
-                
+                //control if i need to change
                 if (newState != actualState) {
                     IWindow newWindow = FactoryWindows.create(newState, controller.getParameters());
                     queue.addWindow(newWindow);
@@ -94,7 +119,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }
 
     private void initComponents() {
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //controlled by controllers
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         setIconImage(Toolkit.getDefaultToolkit().getImage(
                 this.getClass().getResource("/images/icon.png")));
