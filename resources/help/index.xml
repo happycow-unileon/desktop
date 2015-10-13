@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<index version="1.0">
+  <indexitem text="Ayuda login">
+    <indexentry text="Ayuda login" target="AyudaLogin" />
+  </indexitem>
+  <indexitem text="Ayuda evaluación criterios">
+    <indexentry text="Ayuda evaluación criterios" target="AyudaEvaluacionCriterio" />
+  </indexitem>
+  <indexitem text="Ayuda evaluación vacas">
+    <indexentry text="Ayuda evaluación vacas" target="AyudaEvaluacionVaca" />
+  </indexitem>
+  <indexitem text="Ayuda excel">
+    <indexentry text="Ayuda excel" target="AyudaExcel" />
+  </indexitem>
+  <indexitem text="Ayuda gestion granjas">
+    <indexentry text="Ayuda gestion granjas" target="AyudaGestionGranja" />
+  </indexitem>
+  <indexitem text="Ayuda habilitar o deshabilitar">
+    <indexentry text="Ayuda habilitar o deshabilitar" target="AyudaHabilitarDeshabilitar" />
+  </indexitem>
+  <indexitem text="Ayuda lista de granjas">
+    <indexentry text="Ayuda lista de granjas" target="AyudaListaGranjas" />
+  </indexitem>
+  <indexitem text="Ayuda modificar datos de la granja">
+    <indexentry text="Ayuda modificar datos de la granja" target="AyudaModificarDatosGranja" />
+  </indexitem>
+  <indexitem text="Ayuda añadir nueva granja">
+      <indexentry text="Ayuda añadir nueva granja" target="AyudaNuevaGranjaAnhadir" />
+  </indexitem>
+  <indexitem text="Ayuda reporte">
+    <indexentry text="Ayuda reporte" target="AyudaReporte" />
+  </indexitem>
+  <indexitem text="Ayuda añadir nuevo usuario">
+      <indexentry text="Ayuda añadir nuevo usuario" target="AyudaAdminNuevoUsuario" />
+  </indexitem>
+  <indexitem text="Ayuda añadir nuevo criterio">
+    <indexentry text="Ayuda añadir nuevo criterio" target="AyudaAdminNuevoCriterio" />
+  </indexitem>
+  <indexitem text="Ayuda excel admin">
+    <indexentry text="Ayuda excel admin" target="AyudaAdminExcel" />
+  </indexitem>
+  <indexitem text="Ayuda eliminar usuario">
+    <indexentry text="Ayuda eliminar usuario" target="AyudaAdminEliminarUsuario" />
+  </indexitem>
+  <indexitem text="Ayuda eliminar criterio">
+    <indexentry text="Ayuda eliminar criterio" target="AyudaAdminEliminarCriterio" />
+  </indexitem>
+  <indexitem text="Ayuda backup administrador">
+    <indexentry text="Ayuda backup administrador" target="AyudaAdminBackup" />
+  </indexitem>
+  <indexitem text="Ayuda barra opciones">
+    <indexentry text="Ayuda barra opciones" target="AyudaBarraOpciones" />
+  </indexitem>
+</index>

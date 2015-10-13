@@ -2,6 +2,8 @@ package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.AdminController;
 import es.unileon.happycow.controller.admin.RemoveCriterionController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -78,7 +80,7 @@ public class RemoveCriterion extends javax.swing.JPanel implements InterfaceTabs
     }
 
     private void buttonHelp() {
-
+        HelpSystem.getInstance().seeHelp(HelpTheme.RemoveCriterion);
     }
 
     private void buttonRemove() {

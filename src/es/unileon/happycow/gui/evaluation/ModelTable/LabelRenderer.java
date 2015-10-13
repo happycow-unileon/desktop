@@ -1,7 +1,7 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion.valorations;
+package es.unileon.happycow.gui.evaluation.ModelTable;
 
 import java.awt.Component;
 import javax.swing.BorderFactory;

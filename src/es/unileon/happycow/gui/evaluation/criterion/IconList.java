@@ -21,13 +21,10 @@ public class IconList {
 
     public ImageIcon getImagenCheck() {
         if(checked){
-//            System.out.println("ckequeado");
             return imagenCheck;
         }else{
-//            System.out.println("NOOOOOO");
             return imagenNoCheck;
         }
-        //return (checked)? imagenCheck:imagenNoCheck;
     }
 
     public String getNombreCriterio() {

@@ -14,7 +14,6 @@ import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.CompositeException;
 import es.unileon.happycow.model.composite.Evaluation;
 import es.unileon.happycow.model.composite.iterator.IteratorEvaluation;
-import es.unileon.happycow.model.composite.iterator.IteratorException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -163,7 +162,7 @@ public class DefaultEvaluationModel implements IEvaluationModel {
         if (component != null) {
             return component.getWeighing();
         } else {
-            throw new RuntimeException();
+            return 1.0f;
         }
     }
 

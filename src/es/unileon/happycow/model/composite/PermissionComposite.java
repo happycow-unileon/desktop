@@ -16,7 +16,6 @@ public class PermissionComposite {
         this._hashMap.put(Entity.EVALUATION.toString() + Entity.VALORATION.toString(), false);
         this._hashMap.put(Entity.EVALUATION.toString() + Entity.EVALUATION.toString(), false);
         // Categoria
-
         this._hashMap.put(Entity.CATEGORY.toString() + Entity.CRITERION.toString(), true);
         this._hashMap.put(Entity.CATEGORY.toString() + Entity.VALORATION.toString(), false);
         this._hashMap.put(Entity.CATEGORY.toString() + Entity.EVALUATION.toString(), false);

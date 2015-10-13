@@ -3,6 +3,8 @@ package es.unileon.happycow.gui;
 import es.unileon.happycow.controller.ExcelController;
 import es.unileon.happycow.gui.admin.InterfaceTabs;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.User;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -112,9 +114,6 @@ public class PanelExcel extends javax.swing.JPanel implements InterfaceTabs {
     }
 
     private void addEvents() {
-//        JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaListaGranjas");
-//        JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaListaGranjas");
-
         buttonExport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,6 +127,17 @@ public class PanelExcel extends javax.swing.JPanel implements InterfaceTabs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.changeUser();
+            }
+        });
+
+        buttonHelp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (comboUsers.isVisible()) {
+                    HelpSystem.getInstance().seeHelp(HelpTheme.ExcelAdmin);
+                } else {
+                    HelpSystem.getInstance().seeHelp(HelpTheme.Excel);
+                }
             }
         });
 

@@ -1,6 +1,8 @@
 package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.NewUserController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Rol;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +26,7 @@ public class NewUser extends javax.swing.JPanel implements InterfaceTabs{
     }
 
     private void buttonHelp(){
-        
+        HelpSystem.getInstance().seeHelp(HelpTheme.NewUser);
     }
     
     private void saveUser(){

@@ -1,11 +1,12 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion.valorations;
+package es.unileon.happycow.gui.evaluation.ModelTable;
 
 import java.awt.Component;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 
 
@@ -32,7 +33,7 @@ public class CopyButtonRenderer extends JButton
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
-
+        this.setBorder(new EmptyBorder(2, 2, 2, 2));
     }
     
     @Override

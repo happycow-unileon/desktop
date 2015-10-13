@@ -2,6 +2,8 @@ package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.EnableFarmController;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Farm;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -109,7 +111,7 @@ public class PanelEnableFarm extends javax.swing.JPanel {
      * Botón de ayuda
      */
     private void buttonHelpActionPerformed(){
-    
+        HelpSystem.getInstance().seeHelp(HelpTheme.EnableDisableFarm);
     }
 
    /**

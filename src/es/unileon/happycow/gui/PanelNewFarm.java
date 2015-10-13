@@ -1,6 +1,8 @@
 package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.NewFarmController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import java.awt.event.ActionEvent;
 
 /**
@@ -18,10 +20,7 @@ public class PanelNewFarm extends javax.swing.JPanel {
      */
     public PanelNewFarm(NewFarmController controller) {
         this.controller = controller;
-        initComponents();
-
-//            JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaNuevaGranjaAnhadir");
-//            JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaNuevaGranjaAnhadir");  
+        initComponents(); 
     }
 
     public PanelNewFarm() {
@@ -68,7 +67,6 @@ public class PanelNewFarm extends javax.swing.JPanel {
     }
 
     private void createComponents() {
-        jScrollPane1 = new javax.swing.JScrollPane();
         labelNameFarm = new javax.swing.JLabel("Nombre de la granja");
         textNameFarm = new javax.swing.JTextField();
         labelIdFarm = new javax.swing.JLabel("Identificación granja");
@@ -319,13 +317,12 @@ public class PanelNewFarm extends javax.swing.JPanel {
     }
 
     private void buttonHelp() {
-
+        HelpSystem.getInstance().seeHelp(HelpTheme.NewFarm);
     }
 
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonHelp;
     private javax.swing.JButton buttonSave;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelFarmPlace;
     private javax.swing.JLabel labelIdFarm;

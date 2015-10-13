@@ -54,4 +54,14 @@ public class IdCategory implements IdHandler {
     public String getValue() {
         return category.getName(category);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString())==0;
+    }
+
+    @Override
+    public int hashCode() {
+           return category.hashCode();
+    }
 }

@@ -10,4 +10,7 @@ public interface IdHandler extends Serializable {
     public String toString();
     
     public String getValue();
+
+    @Override
+    public boolean equals(Object obj);
 }

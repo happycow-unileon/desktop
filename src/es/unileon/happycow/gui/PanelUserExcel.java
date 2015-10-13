@@ -4,6 +4,8 @@
 package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.ExcelController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import java.util.LinkedList;
@@ -48,6 +50,7 @@ public class PanelUserExcel extends javax.swing.JPanel {
     }
 
     public void setListEvaluations(LinkedList<IEvaluationModel> list) {
+        //TODO
         //bueno, la lista es de evaluaciones y hago lo mismo que en setListFarm
     }
 
@@ -60,7 +63,7 @@ public class PanelUserExcel extends javax.swing.JPanel {
     }
 
     public void buttonHelp() {
-
+        HelpSystem.getInstance().seeHelp(HelpTheme.Excel);
     }
 
 

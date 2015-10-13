@@ -2,6 +2,8 @@ package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.NewCriterionController;
 import es.unileon.happycow.handler.Category;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +27,7 @@ public class NewCriterion extends javax.swing.JPanel implements InterfaceTabs{
     }
     
     private void buttonHelp(){
-        
+        HelpSystem.getInstance().seeHelp(HelpTheme.NewCriterion);
     }
     
     private void buttonSave(){

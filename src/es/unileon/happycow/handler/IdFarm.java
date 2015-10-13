@@ -49,4 +49,15 @@ public class IdFarm implements IdHandler {
     public String getValue() {
         return String.valueOf(idFarm);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return idFarm;
+    }
+
 }

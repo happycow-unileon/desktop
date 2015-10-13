@@ -1,6 +1,8 @@
 package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.LoginController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -166,16 +168,13 @@ public class PanelLogin extends javax.swing.JPanel {
                ((JTextField)e.getComponent()).setText("");
             }
          });
-        
-//        JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaLogin");
-//        JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaLogin");
 	
-//	buttonHelp.addActionListener(new java.awt.event.ActionListener() {
-//            @Override
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                buttonHelpActionPerformed();
-//            }
-//        });
+	buttonHelp.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HelpSystem.getInstance().seeHelp(HelpTheme.Login);
+            }
+        });
 	
 	buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             @Override

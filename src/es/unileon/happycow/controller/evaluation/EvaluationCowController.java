@@ -1,198 +1,235 @@
 package es.unileon.happycow.controller.evaluation;
 
+import es.unileon.happycow.application.Parameters;
 import es.unileon.happycow.controller.Controller;
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.gui.evaluation.cow.PanelEvaluationCow;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdCategory;
 import es.unileon.happycow.handler.IdCriterion;
+import es.unileon.happycow.handler.IdEvaluation;
+import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.handler.IdUser;
+import es.unileon.happycow.model.Cow;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
-import es.unileon.happycow.model.evaluation.IEvaluationModel;
+import es.unileon.happycow.model.evaluation.EvaluationCowModel;
+import es.unileon.happycow.strategy.EvaluationAlgorithm;
+import es.unileon.happycow.windows.Window;
+import java.awt.Color;
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedList;
-import javax.swing.Icon;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 
 /**
  *
  * @author dorian
  */
-public class EvaluationCowController extends Controller implements IEvaluationCowController{
+public class EvaluationCowController extends Controller implements IEvaluationCowController {
 
-    private PanelEvaluationCow gui;
-    private IEvaluationModel model;
+    private PanelEvaluationCow panel;
+    private EvaluationCowModel model;
     private boolean newEvaluation;
 
+    private LinkedList<String> modelComboFood;
+    private LinkedList<String> modelComboHealth;
+    private LinkedList<String> modelComboBehaviour;
+    private LinkedList<String> modelComboHouse;
+
     public EvaluationCowController(PanelEvaluationCow panel) {
-        this.gui = null;
+        this.panel = panel;
         this.newEvaluation = false;
+        setCombos();
     }
-//    
-//    
-//
-////    public EvaluationController(InterfaceEvaluationCriterionPanel panel, InterfaceEvaluationModel model) {
-////        this.panel = panel;
-////        this.model = model;
-////        newEvaluation = false;
-////        setComboCriterion();
-////        setNumberCows();
-////        panel.deshabilitarValoraciones();
-////        configurePanel();
-////        if (model != null) {
-////            addAll();
-////        }
-////    }
-////
-////    public EvaluationController(InterfaceEvaluationCriterionPanel panel, IdHandler farm) {
-////        this.panel = panel;
-////        this.model = new EvaluationModel(true, farm);
-////        this.newEvaluation = true;
-////        setComboCriterion();
-////        setNumberCows();
-////        panel.deshabilitarValoraciones();
-////        configurePanel();
-////    }
-//
-//    private void addAll() {
-////        for (Category category : Category.values()) {
-////            LinkedList<String> criterios = new LinkedList<>();
-////            for (Criterion criterion : model.getListCriterion(category)) {
-////                criterios.add(criterion.getName());
-////            }
-////            panel.setCriterion(category, criterios);
-////        }
-////
-////        List<String> list = Database.getInstance().getFileNames(model.getIdHandler());
-////        panel.setListFiles(list);
-//    }
-//
-//    private void configurePanel() {
-////        panel.setPonderationCategory(model.getWeighing(new IdCategory(panel.getSelectedCategory())));
-//    }
-//
-//    private void setNumberCows() {
-////        Farm farm = Database.getInstance().getFarm(model.getInformation().getIdFarm());
-////        int cows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
-////        panel.setNumberCow(cows);
-//    }
-//
-//    private void setComboCriterion() {
-//        LinkedList<String> modelComboFood = new LinkedList<>();
-//        LinkedList<String> modelComboHealth = new LinkedList<>();
-//        LinkedList<String> modelComboBehaviour = new LinkedList<>();
-//        LinkedList<String> modelComboHouse = new LinkedList<>();
-//
-//        LinkedList<Criterion> lista = Database.getInstance().getListCriterion();
-//        for (Criterion criterion : lista) {
-//            IdCategory id = (IdCategory) criterion.getCategory();
-//            switch (id.getCategory()) {
-//                case FOOD:
-//                    modelComboFood.add(criterion.getName());
-//                    break;
-//                case HEALTH:
-//                    modelComboHealth.add(criterion.getName());
-//                    break;
-//                case HOUSE:
-//                    modelComboHouse.add(criterion.getName());
-//                    break;
-//                case BEHAVIOUR:
-//                    modelComboBehaviour.add(criterion.getName());
-//                    break;
-//            }
-//        }
-//
-////        panel.setComboCriterion(Category.FOOD, modelComboFood);
-////        panel.setComboCriterion(Category.HEALTH, modelComboHealth);
-////        panel.setComboCriterion(Category.HOUSE, modelComboHouse);
-////        panel.setComboCriterion(Category.BEHAVIOUR, modelComboBehaviour);
-//    }
-//
-////    public void addValoration(float valoration) {
-////        String nombre = panel.getCriterion();
-////        if (nombre != null) {
-////            IdHandler criterion = new IdCriterion(nombre);
-////            IdHandler category = new IdCategory(panel.getSelectedCategory());
-////            Valoration val = new Valoration(valoration);
-//////            model.add(category, criterion, val);
-////        }
-////    }
-////
-////    public void addCriterion(String criterion) {
-////        IdHandler category = new IdCategory(panel.getSelectedCategory());
-////        Criterion cri = Database.getInstance().getCriterion(new IdCriterion(criterion));
-//////        model.add(category, cri);
-////        panel.addCriterion(criterion);
-////    }
-////
-////    public void removeCriterion(String criterion) {
-//////        model.remove(new IdCriterion(criterion));
-////        panel.removeValorations();
-////        panel.deshabilitarValoraciones();
-////        panel.setHelp("");
-////    }
-////
-////    public void removeValoration(String valoration) {
-////        String cortes[] = valoration.split(":");
-////        float nota = Integer.parseInt(cortes[cortes.length - 1].trim());
-////        LinkedList<Valoration> val = model.listOfCriterion(new IdCriterion(panel.getCriterion()));
-////        IdHandler idValoration = null;
-////        for (Iterator<Valoration> it = val.iterator(); it.hasNext() && idValoration == null;) {
-////            Valoration valoration1 = it.next();
-////            if (valoration1.getNota() == nota) {
-////                idValoration = valoration1.getId();
-////            }
-////        }
-////        if (idValoration != null) {
-////            model.remove(idValoration);
-////            IdCriterion idCri = new IdCriterion(panel.getCriterion());
-////            int i = 1;
-////            DefaultListModel list = new DefaultListModel();
-////            for (Valoration valo : model.listOfCriterion(idCri)) {
-////                String element = "Vaca " + String.valueOf(i) + " - Valoración: " + String.valueOf((int) valo.getNota());
-////                list.addElement(element);
-////                i++;
-////            }
-////            panel.setModelValoration(list);
-////        }
-////    }
-////
-////    public void CriterionSelected(String criterion) {
-////        IdCriterion id = new IdCriterion(criterion);
-////        DefaultListModel list = new DefaultListModel();
-////        int i = 1;
-////        for (Valoration val : model.listOfCriterion(id)) {
-////            String element = "Vaca " + String.valueOf(i) + " - Valoración: " + String.valueOf((int) val.getNota());
-////            list.addElement(element);
-////            i++;
-////        }
-////        panel.setModelValoration(list);
-////        panel.habilitarValoraciones();
-////        panel.setHelp(model.getCriterion(id).getHelp());
-////        panel.setPonderationCriterion(model.getWeighing(id));
-//    }
-//
-//    public void changeCategory() {
-////        IdHandler category = new IdCategory(panel.getSelectedCategory());
-////        panel.setPonderationCategory(model.getWeighing(category));
-////        if (panel.getCriterion() == null) {
-////            panel.deshabilitarValoraciones();
-////        }
-//    }
-//
-//    public void setPonderationCategory(float ponderation) {
-////        IdHandler category = new IdCategory(panel.getSelectedCategory());
-////        model.setWeighing(category, ponderation);
-////        panel.setPonderationCategory(ponderation);
-//    }
-//
-//    public void setPonderationCriterion(float ponderation) {
-////        IdHandler criterion = new IdCriterion(panel.getCriterion());
-////        model.setWeighing(criterion, ponderation);
-////        panel.setPonderationCriterion(ponderation);
-//    }
-//
+
+    private void setCombos() {
+        modelComboBehaviour = new LinkedList<>();
+        modelComboFood = new LinkedList<>();
+        modelComboHealth = new LinkedList<>();
+        modelComboHouse = new LinkedList<>();
+
+        LinkedList<Criterion> lista = Database.getInstance().getListCriterion();
+        for (Criterion criterion : lista) {
+            IdCategory id = (IdCategory) criterion.getCategory();
+            switch (id.getCategory()) {
+                case FOOD:
+                    modelComboFood.add(criterion.getName());
+                    break;
+                case HEALTH:
+                    modelComboHealth.add(criterion.getName());
+                    break;
+                case HOUSE:
+                    modelComboHouse.add(criterion.getName());
+                    break;
+                case BEHAVIOUR:
+                    modelComboBehaviour.add(criterion.getName());
+                    break;
+            }
+        }
+    }
+
+    private void setPonderationsInfo() {
+        selectedCategoryPonderation();
+    }
+
+    @Override
+    public void selectedCategoryPonderation() {
+        IdHandler category = panel.getCategoryPonderationSelected();
+        float ponderation = model.getWeighing(category);
+        panel.setPonderationCategory(ponderation);
+
+        switch (Category.getEnum(category.getValue())) {
+            case BEHAVIOUR:
+                panel.setComboCriterionPonderation(modelComboBehaviour);
+                break;
+            case FOOD:
+                panel.setComboCriterionPonderation(modelComboFood);
+                break;
+            case HEALTH:
+                panel.setComboCriterionPonderation(modelComboHealth);
+                break;
+            case HOUSE:
+                panel.setComboCriterionPonderation(modelComboHouse);
+                break;
+        }
+        selectedCriterionPonderation();
+    }
+
+    @Override
+    public void selectedCriterionPonderation() {
+        float ponderation = 1.0f;
+        IdHandler selected = panel.getCriterionPonderationSelected();
+        if (selected != null) {
+            ponderation = model.getWeighing(selected);
+        }
+        panel.setPonderationCriterion(ponderation);
+    }
+
+    @Override
+    public void onResume(Parameters parameters) {
+        super.onResume(parameters);
+        changeCategory();
+
+        IdHandler farm = new IdFarm(parameters.getString("idFarm"));
+        boolean isNew = parameters.getBoolean("isNew");
+        newEvaluation = isNew;
+        if (!isNew) {
+            //rellenar los datos de evaluación
+            IdHandler idEvaluation = new IdEvaluation(parameters.getString("idEvaluation"));
+            model = new EvaluationCowModel(Database.getInstance().getEvaluation(idEvaluation));
+        } else {
+            IdHandler user = new IdUser(parameters.getString("user"));
+            model = new EvaluationCowModel(farm, user);
+        }
+
+        if (model != null) {
+            setNumberCows();
+            addAll();
+        }
+
+        //pongo la ponderacion de la categoria y su color correcto
+        setPonderationsInfo();
+
+        //si hay vaca establecido pongo los datos
+        selectedCow();
+    }
+
+    private void addAll() {
+        for (int i = 0; i < model.getNumberCows(); i++) {
+            panel.addCow();
+        }
+    }
+
+    private void setNumberCows() {
+        int cows = EvaluationAlgorithm.necesaryNumberOfCows(model.getInformation().getNumberCows());
+        panel.setNumberCows(cows);
+    }
+
+    @Override
+    public void setPonderationCriterion(IdHandler id, String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(id, pon);
+            panel.setColorPonderationCriterion(Color.BLACK);
+        } else {
+            panel.setColorPonderationCriterion(Color.RED);
+        }
+    }
+
+    @Override
+    public void setCategoryPonderation(IdHandler id, String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(id, pon);
+            panel.setColorPonderationCategory(Color.BLACK);
+        } else {
+            panel.setColorPonderationCategory(Color.RED);
+        }
+    }
+
+    private boolean isFloatUnit(String ponderation) {
+        final String Digits = "(\\p{Digit}+)";
+        final String HexDigits = "(\\p{XDigit}+)";
+        // an exponent is 'e' or 'E' followed by an optionally 
+        // signed decimal integer.
+        final String Exp = "[eE][+-]?" + Digits;
+        final String fpRegex
+                = ("[\\x00-\\x20]*" + // Optional leading "whitespace"
+                "[+-]?(" + // Optional sign character
+                "NaN|" + // "NaN" string
+                "Infinity|"
+                + // "Infinity" string
+                // A decimal floating-point string representing a finite positive
+                // number without a leading sign has at most five basic pieces:
+                // Digits . Digits ExponentPart FloatTypeSuffix
+                // 
+                // Since this method allows integer-only strings as input
+                // in addition to strings of floating-point literals, the
+                // two sub-patterns below are simplifications of the grammar
+                // productions from the Java Language Specification, 2nd 
+                // edition, section 3.10.2.
+                // Digits ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
+                "(((" + Digits + "(\\.)?(" + Digits + "?)(" + Exp + ")?)|"
+                + // . Digits ExponentPart_opt FloatTypeSuffix_opt
+                "(\\.(" + Digits + ")(" + Exp + ")?)|"
+                + // Hexadecimal strings
+                "(("
+                + // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HexDigits + "(\\.)?)|"
+                + // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")"
+                + ")[pP][+-]?" + Digits + "))"
+                + "[fFdD]?))"
+                + "[\\x00-\\x20]*");// Optional trailing "whitespace"
+
+        return Pattern.matches(fpRegex, ponderation);
+        //Double.valueOf(ponderation); // Will not throw NumberFormatException
+
+    }
+
+    @Override
+    public void changeCategory() {
+        switch (panel.getSelectedCategory()) {
+            case BEHAVIOUR:
+                panel.setComboCriterion(modelComboBehaviour);
+                break;
+            case FOOD:
+                panel.setComboCriterion(modelComboFood);
+                break;
+            case HEALTH:
+                panel.setComboCriterion(modelComboHealth);
+                break;
+            case HOUSE:
+                panel.setComboCriterion(modelComboHouse);
+                break;
+        }
+    }
+
 //    public void saveValoration() {
 ////        if (newEvaluation) {
 ////            Database.getInstance().saveEvaluation(model);
@@ -201,44 +238,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
 ////        }
 ////        JFrameController.getInstance().report(new Report(model), model.getInformation().getIdFarm());
 //    }
-//
-//    public void criterionSaved() {
-////        EvaluationAlgorithm calc = new AverageEvaluation(model);
-////        calc.calcular();
-////        String total = "Total: " + Float.toString(calc.getTotal()) + " * ";
-////        String food = "Alimentación: " + Float.toString(calc.getFood()) + " * ";
-////        String health = "Salud: " + Float.toString(calc.getHealth()) + " * ";
-////        String house = "Refugio: " + Float.toString(calc.getHouse()) + " * ";
-////        String behaviour = "Comportamiento: " + Float.toString(calc.getBehaviour()) + " * ";
-////
-////        panel.setInformation(total, food, health, house, behaviour);
-//    }
-//
-//    public void addFile() {
-////        JFileChooser fileChooser = new JFileChooser();
-////        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-////        int seleccion = fileChooser.showOpenDialog(null);
-////        if (seleccion == JFileChooser.APPROVE_OPTION) {
-////            File fichero = fileChooser.getSelectedFile();
-////            Database.getInstance().saveFile(model.getIdHandler(), fichero);
-////            panel.addFilePanel(fichero.getName());
-////        }
-//    }
-//
-//    public void downloadFile(String name) {
-////        JFileChooser fileChooser = new JFileChooser();
-////        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-////        int seleccion = fileChooser.showSaveDialog(null);
-////        if (seleccion == JFileChooser.APPROVE_OPTION) {
-////            File fichero = fileChooser.getSelectedFile();
-////            File downloaded=new File(fichero.getPath()+File.separator+name);
-////            System.out.println(downloaded.getAbsolutePath());
-////            byte[] data=Database.getInstance().getFile(model.getIdHandler(), name);
-////            Database.getInstance().saveFileToTheSystem(data, downloaded);
-////        }
-//    }
-
-     /**
+    /**
      * Recibo la orden de descargar el fichero, hago lo necesario
      *
      * @param id
@@ -267,7 +267,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
     public void removeFile(IdHandler id) {
         //borrar fichero del modelo
         //borro dicho fichero en la vista
-        gui.removeFile(id);
+        panel.removeFile(id);
     }
 
     @Override
@@ -279,62 +279,128 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
             File fichero = fileChooser.getSelectedFile();
             Database.getInstance().saveFile(model.getIdHandler(), fichero);
             //añado el fichero al gui
-            gui.addFile(fichero.getName());
+            panel.addFile(fichero.getName());
         }
     }
 
     @Override
-    public void removeValoration(IdHandler valoration) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void removeValoration(IdHandler val) {
+        int index = panel.getSelectedCow();
+        boolean result = false;
+        String valoration = "";
+        if (index >= 0) {
+            Cow cow = model.getCow(index);
+            valoration = panel.getSelectedValoration();
 
-    @Override
-    public void copyValoration(IdHandler valoration) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            String parts[] = valoration.split("/");
+            String part = parts[1].split(":")[0];
+
+            IdHandler criterion = new IdCriterion(part);
+            System.out.println(part);
+            Valoration target = cow.getValoration(criterion);
+
+            //elimino la valoracion del modelo
+            result = model.remove(target.getId());
+        }
+
+        //y lo quito de la gui también
+        if (result) {
+            panel.removeValoration(valoration);
+        }
     }
 
     @Override
     public void addNewValoration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (panel.getSelectedCow() >= 0) {
+
+            //compruebo que dicho criterio no esté evaluado
+            IdHandler criterion = panel.getCriterion();
+            IdHandler category = panel.getCategory();
+            //añado el criterio al modelo por si acaso
+            model.add(category, Database.getInstance().getCriterion(criterion));
+
+            float valoration = panel.getValoration();
+            Valoration val = new Valoration(criterion, valoration);
+
+            if (model.add(panel.getSelectedCow(), category, criterion, val)) {
+                addValorationPanel(category, criterion, valoration);
+            }
+        }
+    }
+
+    private void addValorationPanel(IdHandler category, IdHandler criterion, float valoration) {
+        panel.addValoration(category.getValue().concat("/")
+                .concat(criterion.getValue()
+                        .concat(": ").concat(Float.toString(valoration))));
+    }
+
+    private void addValoration(Valoration val) {
+        IdHandler criterion = val.getIdCriterion();
+        IdHandler category = val.getIdCategory();
+        float valoration = val.getNota();
+        Valoration valor = new Valoration(criterion, valoration);
+
+        model.add(panel.getSelectedCow(), category, criterion, valor);
+        addValorationPanel(category, criterion, valoration);
     }
 
     @Override
     public void help(IdHandler id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void evaluated(IdHandler id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setPonderationCriterion(IdHandler id, String ponderation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void criterionSelected() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeCriterion(IdHandler idCriterion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addCriterions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCategoryPonderation(String ponderation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void finishEvaluation() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (newEvaluation) {
+            if (Database.getInstance().saveEvaluation(model)) {
+                controller.clearParameters();
+                controller.addParameter("idFarm", model.getInformation().getIdFarm().toString());
+                controller.addParameter("idEvaluation", model.getIdHandler().toString());
+                controller.setState(Window.REPORT);
+            }
+        } else {
+
+        }
+    }
+
+    @Override
+    public void addCow() {
+        model.addCow();
+        panel.addCow();
+        //seleccionar la vaca
+        panel.setSelectedCow(panel.getNumberCows() - 1);
+        //mostrar valoraciones de la vaca
+        panel.clearValorations();
+    }
+
+    @Override
+    public void duplicateCow() {
+        int index = panel.getSelectedCow();
+        if (index >= 0) {
+            Cow cow = model.getCow(index);
+            //añado nueva vaca
+            addCow();
+            //añado las valoraciones
+            Collection<Valoration> col = cow.getValorations();
+            for (Valoration val : col) {
+                addValoration(val);
+            }
+        }
+
+    }
+
+    @Override
+    public void selectedCow() {
+        int index = panel.getSelectedCow();
+        if (index >= 0) {
+            panel.clearValorations();
+            Collection<Valoration> col = model.getCowValorations(index);
+            for (Valoration valoration : col) {
+                IdHandler category = valoration.getIdCategory();
+                IdHandler criterion = valoration.getIdCriterion();
+                float note = valoration.getNota();
+                addValorationPanel(category, criterion, note);
+            }
+        }
     }
 }

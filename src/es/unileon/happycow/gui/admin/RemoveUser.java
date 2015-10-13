@@ -2,6 +2,8 @@ package es.unileon.happycow.gui.admin;
 
 import es.unileon.happycow.controller.admin.AdminController;
 import es.unileon.happycow.controller.admin.RemoveUserController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -76,7 +78,7 @@ public class RemoveUser extends javax.swing.JPanel implements InterfaceTabs{
     }
     
     private void buttonHelp(){
-        
+        HelpSystem.getInstance().seeHelp(HelpTheme.RemoveUser);
     }
     
     private void buttonRemove(){

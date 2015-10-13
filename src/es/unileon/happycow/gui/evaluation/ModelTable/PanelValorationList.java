@@ -1,7 +1,7 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion.valorations;
+package es.unileon.happycow.gui.evaluation.ModelTable;
 
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.IdHandler;

@@ -6,6 +6,8 @@ package es.unileon.happycow.gui.evaluation.criterion;
 import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
 import es.unileon.happycow.handler.Category;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.composite.Valoration;
 import java.awt.Color;
 import java.awt.Insets;
@@ -31,13 +33,14 @@ public class PanelEvaluationCriterion extends JPanel {
 
     //paneles que forman la ventana
     private PanelFileList panelFileList;
-    private es.unileon.happycow.gui.evaluation.criterion.valorations.PanelValorationList panelValorations;
+    private es.unileon.happycow.gui.evaluation.ModelTable.PanelValorationList panelValorations;
     private PanelCriterion panelCriterionInformation;
     private PanelListCriterion panelListCriterion;
     private PanelCategory panelCategory;
     private PanelListCategory panelListCategory;
     //algunos botones y combos extras
     private JButton addValorationButton;
+    private JButton btnHelp;
     private JComboBox comboValoration;
     private JButton addFile;
     
@@ -57,6 +60,7 @@ public class PanelEvaluationCriterion extends JPanel {
         panelCategory.setController(controller);
         panelListCategory.setController(controller);
     }
+    
     
     public String getSelectedCriterion() {
         return panelListCriterion.getCriterion();
@@ -173,8 +177,10 @@ public class PanelEvaluationCriterion extends JPanel {
         addValorationButton = new JButton("Add");
         comboValoration = new javax.swing.JComboBox();
         JComponent[] components = {comboValoration, addValorationButton};
-        panelValorations = new es.unileon.happycow.gui.evaluation.criterion.valorations.PanelValorationList(components);
-
+        panelValorations = new es.unileon.happycow.gui.evaluation.ModelTable.PanelValorationList(components);
+        
+        btnHelp=new javax.swing.JButton(new javax.swing.ImageIcon(
+                getClass().getResource("/images/help.png")));
     }
 
     private void configureComponents() {
@@ -190,6 +196,10 @@ public class PanelEvaluationCriterion extends JPanel {
         comboValoration.setModel(
                 new javax.swing.DefaultComboBoxModel(
                         new String[]{"1", "2", "3", "4", "5"}));
+        
+        btnHelp.setBorderPainted(false);
+        btnHelp.setContentAreaFilled(false);
+        btnHelp.setFocusPainted(false);
 
     }
 
@@ -207,6 +217,15 @@ public class PanelEvaluationCriterion extends JPanel {
                 controller.addNewValoration();
             }
         });
+        
+        btnHelp.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                HelpSystem.getInstance().seeHelp(HelpTheme.EvaluationCriterion);
+            }
+        });
+        
     }
 
     private void addLayout() {
@@ -214,7 +233,17 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor=java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnHelp, gridBagConstraints);
+        
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
@@ -224,7 +253,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
@@ -234,7 +263,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
@@ -244,7 +273,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -255,7 +284,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
@@ -265,7 +294,7 @@ public class PanelEvaluationCriterion extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.25;

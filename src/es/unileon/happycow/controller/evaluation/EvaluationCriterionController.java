@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -294,6 +295,11 @@ public class EvaluationCriterionController extends Controller implements IEvalua
     @Override
     public void help(IdHandler id) {
         //mostrar información
+        String help=model.getCriterion(id).getHelp();
+        System.out.println(help);
+        help="<html><body width='450'".concat(help).concat("</body></html>");
+        System.out.println(help);
+        JOptionPane.showMessageDialog(gui, help);
     }
 
     @Override
@@ -355,18 +361,6 @@ public class EvaluationCriterionController extends Controller implements IEvalua
         }
     }
 
-    @Override
-    public void setCategoryPonderation(String ponderation) {
-        if (isFloatUnit(ponderation)) {
-            //seteo en el modelo la ponderación
-            float pon = Float.valueOf(ponderation);
-            model.setWeighing(new IdCategory(actualCategory), pon);
-            gui.setColorPonderationCategory(Color.BLACK);
-        } else {
-            gui.setColorPonderationCategory(Color.RED);
-        }
-    }
-
     private boolean isFloatUnit(String ponderation) {
         final String Digits = "(\\p{Digit}+)";
         final String HexDigits = "(\\p{XDigit}+)";
@@ -405,5 +399,17 @@ public class EvaluationCriterionController extends Controller implements IEvalua
         return Pattern.matches(fpRegex, ponderation);
         //Double.valueOf(ponderation); // Will not throw NumberFormatException
 
+    }
+
+    @Override
+    public void setCategoryPonderation(IdHandler id, String ponderation) {
+        if (isFloatUnit(ponderation)) {
+            //seteo en el modelo la ponderación
+            float pon = Float.valueOf(ponderation);
+            model.setWeighing(new IdCategory(actualCategory), pon);
+            gui.setColorPonderationCategory(Color.BLACK);
+        } else {
+            gui.setColorPonderationCategory(Color.RED);
+        }
     }
 }

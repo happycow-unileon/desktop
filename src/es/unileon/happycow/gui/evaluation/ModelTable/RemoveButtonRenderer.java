@@ -1,11 +1,12 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion.valorations;
+package es.unileon.happycow.gui.evaluation.ModelTable;
 
 import java.awt.Component;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -24,19 +25,19 @@ public class RemoveButtonRenderer extends JButton
      * @param column the column to which the button renderer/editor is added
      */
     public RemoveButtonRenderer() {
-        this.setIcon(new javax.swing.ImageIcon
-                        (getClass().getResource("/images/unchecked.png")));
-       
+        this.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/unchecked.png")));
+
         this.setToolTipText("Eliminar");
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
+        this.setBorder(new EmptyBorder(2, 2, 2, 2));
     }
-
 
     @Override
     public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JTable table, Object value, boolean isSelected, 
+            boolean hasFocus, int row, int column) {
         return this;
     }
 }

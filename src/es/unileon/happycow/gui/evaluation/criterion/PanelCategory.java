@@ -107,7 +107,7 @@ public class PanelCategory extends JPanel {
         ponderationText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                controller.setCategoryPonderation(ponderationText.getText());
+                controller.setCategoryPonderation(null,ponderationText.getText());
             }
         });
     }

@@ -2,6 +2,8 @@ package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.ManageFarmController;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Farm;
 import es.unileon.happycow.model.InformationEvaluation;
 import java.awt.FlowLayout;
@@ -74,6 +76,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
 
     private void help() {
         //boton de ayuda
+        HelpSystem.getInstance().seeHelp(HelpTheme.ManageFarm);
     }
 
     private void disableFarm() {
@@ -227,9 +230,6 @@ public class PanelManageFarm extends javax.swing.JPanel {
      * Añado los eventos
      */
     private void addEvents() {
-//        JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaGestionGranja");
-//        JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaGestionGranja");
-
         buttonRemove.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {

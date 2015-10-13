@@ -44,4 +44,14 @@ public class IdUser implements IdHandler {
     public int compareTo(IdHandler another) {
         return this.toString().compareTo(another.toString());
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString())==0;
+    }
+
+    @Override
+    public int hashCode() {
+        return user.hashCode();
+    }
 }

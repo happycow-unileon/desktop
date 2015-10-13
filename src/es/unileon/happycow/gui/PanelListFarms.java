@@ -3,17 +3,22 @@ package es.unileon.happycow.gui;
 import es.unileon.happycow.controller.ButtonListFarmIController;
 import es.unileon.happycow.controller.ListFarmsController;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Farm;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.BoxLayout;
 
 /**
  * Panel from the list of farms to select
+ *
  * @author dorian
  */
 public class PanelListFarms extends javax.swing.JPanel {
+
     /**
      * Controller of the panel
      */
@@ -24,42 +29,45 @@ public class PanelListFarms extends javax.swing.JPanel {
      */
     public PanelListFarms() {
         initComponents();
-        this.controller=null;
+        this.controller = null;
     }
-    
+
     /**
      * set the controller
+     *
      * @param controller the controller
      */
-    public void setController(ListFarmsController controller){
-        this.controller=controller;
+    public void setController(ListFarmsController controller) {
+        this.controller = controller;
         //for every component of the panel
         for (int i = 0; i < panelList.getComponentCount(); i++) {
             //get the panel of the farm
-            PanelFarmList panelFarm = (PanelFarmList)panelList.getComponent(i);
+            PanelFarmList panelFarm = (PanelFarmList) panelList.getComponent(i);
             //set the controller to the farm's panel
-            panelFarm.setController((ButtonListFarmIController)controller);
+            panelFarm.setController((ButtonListFarmIController) controller);
         }
     }
-    
+
     /**
      * Change the farm's list
+     *
      * @param list new farm's list
      */
-    public void changeList(List<Farm> list){
+    public void changeList(List<Farm> list) {
         //remove all components
         panelList.removeAll();
         //add the new list
         addList(list);
     }
-    
+
     /**
      * add the list of farms to the panel
+     *
      * @param list farm's list
      */
-    private void addList(List<Farm> list){
+    private void addList(List<Farm> list) {
         //if not null...
-        if(list!=null){
+        if (list != null) {
             //for every farm
             for (Farm farm : list) {
                 //create a new panel with its controller and add it to the list of the panel
@@ -70,44 +78,46 @@ public class PanelListFarms extends javax.swing.JPanel {
 
     /**
      * Remove a farm from the list
+     *
      * @param id farm's identifier
      */
-    public void removeFarm(IdHandler id){
+    public void removeFarm(IdHandler id) {
         //farm's index
-        int target=-1;
+        int target = -1;
         //looking in every component
-        for (int i = 0; i < panelList.getComponentCount() && target<0; i++) {
+        for (int i = 0; i < panelList.getComponentCount() && target < 0; i++) {
             //get the panel
-            PanelFarmList panelFarm = (PanelFarmList)panelList.getComponent(i);
+            PanelFarmList panelFarm = (PanelFarmList) panelList.getComponent(i);
             //check the identifier
-            if (panelFarm.getId().compareTo(id)==0){
+            if (panelFarm.getId().compareTo(id) == 0) {
                 //if is the farm, store the index
-                target=i;
+                target = i;
             }
         }
-        
+
         //if farm was found
-        if(target!=-1){
+        if (target != -1) {
             //remove it from the list
             panelList.remove(target);
             //repaint the list panel
             this.revalidate();
         }
     }
-    
+
     /**
      * Add a new farm to the list
+     *
      * @param farm farm to add
      */
-    public void addFarm(Farm farm){
+    public void addFarm(Farm farm) {
         //create the panel
-        PanelFarmList panel=new PanelFarmList(farm, null);
+        PanelFarmList panel = new PanelFarmList(farm, null);
         //add it
         panelList.add(panel);
         //repaint the list panel
         panelList.revalidate();
     }
-    
+
     /**
      * Init the components
      */
@@ -121,45 +131,39 @@ public class PanelListFarms extends javax.swing.JPanel {
     /**
      * Create the components
      */
-    private void createComponents(){
+    private void createComponents() {
         scrollFarms = new javax.swing.JScrollPane();
         panelList = new javax.swing.JPanel();
         buttonNewFarm = new javax.swing.JButton("Nueva granja");
         buttonHelp = new javax.swing.JButton(new javax.swing.ImageIcon(
                 getClass().getResource("/images/help.png")));
         buttonEnable = new javax.swing.JButton("Habilitar granja deshabilitada");
-        buttonExcel=new javax.swing.JButton("Exportar a excel");
-        
-        
+        buttonExcel = new javax.swing.JButton("Exportar a excel");
+
     }
-    
+
     /**
      * Configure the components
      */
-    private void configureComponents(){
+    private void configureComponents() {
         this.setPreferredSize(new Dimension(537, 419));
         this.setMinimumSize(new Dimension(537, 419));
         this.setMaximumSize(new Dimension(650, 500));
         //set a box layout
-        BoxLayout layout=new BoxLayout(panelList, BoxLayout.Y_AXIS);
+        BoxLayout layout = new BoxLayout(panelList, BoxLayout.Y_AXIS);
         panelList.setLayout(layout);
         buttonHelp.setBorderPainted(false);
         buttonHelp.setContentAreaFilled(false);
         buttonHelp.setFocusPainted(false);
         scrollFarms.setViewportView(panelList);
-        
-        
-        
+
     }
-    
+
     /**
      * Add the events to the components
      */
-    private void addEvents(){
-        //set the help of the window
-//        JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaListaGranjas");
-//        JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaListaGranjas");
-        
+    private void addEvents() {
+
         //button add new farm
         buttonNewFarm.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -167,7 +171,7 @@ public class PanelListFarms extends javax.swing.JPanel {
                 buttonNewFarmActionPerformed();
             }
         });
-        
+
         //button enable button
         buttonEnable.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -175,7 +179,7 @@ public class PanelListFarms extends javax.swing.JPanel {
                 buttonEnableActionPerformed();
             }
         });
-        
+
         //button excel
         buttonExcel.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -183,25 +187,22 @@ public class PanelListFarms extends javax.swing.JPanel {
                 buttonExcelActionPerformed();
             }
         });
+
+        buttonHelp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                HelpSystem.getInstance().seeHelp(HelpTheme.ListFarm);
+            }
+        });
     }
-    
+
     /**
      * Add the components to the panel with the layout
      */
-    private void addLayout(){
+    private void addLayout() {
         java.awt.GridBagConstraints gridBagConstraints;
         setLayout(new java.awt.GridBagLayout());
-        
-        //label welcome
-//        gridBagConstraints = new java.awt.GridBagConstraints();
-//        gridBagConstraints.gridx = 0;
-//        gridBagConstraints.gridy = 0;
-//        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-//        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-//        gridBagConstraints.weightx = 0.9;
-//        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-//        add(labelWelcome, gridBagConstraints);
-        
+
         // scroll farm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -212,7 +213,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(scrollFarms, gridBagConstraints);
-        
+
         //button enable
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -221,7 +222,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonEnable, gridBagConstraints);
-        
+
         //button new farm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -230,8 +231,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonNewFarm, gridBagConstraints);
-        
-        
+
         //button help
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -239,7 +239,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonHelp, gridBagConstraints);
-        
+
         //button excel
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -249,7 +249,7 @@ public class PanelListFarms extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(buttonExcel, gridBagConstraints);
     }
-    
+
     /**
      * Event of new farm
      */
@@ -263,11 +263,11 @@ public class PanelListFarms extends javax.swing.JPanel {
     private void buttonEnableActionPerformed() {
         controller.enableFarm();
     }
-    
+
     /**
      * Event export excel
      */
-    private void buttonExcelActionPerformed(){
+    private void buttonExcelActionPerformed() {
         controller.exportExcel();
     }
 
@@ -295,5 +295,5 @@ public class PanelListFarms extends javax.swing.JPanel {
      * button to export excel
      */
     private javax.swing.JButton buttonExcel;
-    
+
 }

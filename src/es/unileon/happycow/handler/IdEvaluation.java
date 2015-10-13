@@ -48,4 +48,15 @@ public class IdEvaluation implements IdHandler {
     public String getValue() {
         return String.valueOf(identifier);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier;
+    }
+
 }

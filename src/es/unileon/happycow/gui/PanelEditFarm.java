@@ -1,7 +1,8 @@
 package es.unileon.happycow.gui;
 
 import es.unileon.happycow.controller.EditFarmController;
-import es.unileon.happycow.controller.NewFarmController;
+import es.unileon.happycow.help.HelpSystem;
+import es.unileon.happycow.help.HelpTheme;
 import es.unileon.happycow.model.Farm;
 import java.awt.event.ActionEvent;
 
@@ -27,9 +28,6 @@ public class PanelEditFarm extends javax.swing.JPanel {
         if (farm != null) {
             setFarm(farm);
         }
-
-//            JFrameApplication.getInstance().getHelp().setHelpOnButton(buttonHelp, "AyudaModificarDatosGranja");
-//            JFrameApplication.getInstance().getHelp().setHelp(this, "AyudaModificarDatosGranja");
     }
 
     public PanelEditFarm(Farm farm) {
@@ -338,7 +336,7 @@ public class PanelEditFarm extends javax.swing.JPanel {
     }
 
     private void buttonHelp() {
-
+        HelpSystem.getInstance().seeHelp(HelpTheme.ModifyFarm);
     }
 
     private javax.swing.JButton buttonCancel;

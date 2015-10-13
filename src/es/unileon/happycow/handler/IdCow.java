@@ -1,6 +1,7 @@
 package es.unileon.happycow.handler;
 
 import java.io.Serializable;
+import javax.naming.ldap.HasControls;
 
 /**
  *
@@ -51,4 +52,14 @@ public class IdCow implements IdHandler, Serializable {
         return String.valueOf(id);
     }
 
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString())==0;
+    }
+
+    @Override
+    public int hashCode() {
+     return id;
+    }
 }

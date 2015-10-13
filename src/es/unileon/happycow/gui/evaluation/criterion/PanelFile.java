@@ -3,7 +3,7 @@
  */
 package es.unileon.happycow.gui.evaluation.criterion;
 
-import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
+import es.unileon.happycow.controller.evaluation.IEvaluationController;
 import es.unileon.happycow.handler.IdGeneric;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,7 +14,7 @@ import javax.swing.BoxLayout;
  */
 public class PanelFile extends javax.swing.JPanel {
 
-    private IEvaluationCriterionController controller;
+    private IEvaluationController controller;
     private String fileName;
     
     /**
@@ -29,7 +29,7 @@ public class PanelFile extends javax.swing.JPanel {
         this.name.setText(name);
     }
 
-    public void setController(IEvaluationCriterionController controller) {
+    public void setController(IEvaluationController controller) {
         this.controller = controller;
     }
 

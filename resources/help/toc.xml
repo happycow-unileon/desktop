@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<toc version="1.0">
+   <tocitem text="Ayuda de HappyCow"    target="HappyCowHelp">
+                <tocitem text="Ayuda login" target="AyudaLogin"/>
+                <tocitem text="Ayuda evaluación criterios" target="AyudaEvaluacionCriterio"/>
+                <tocitem text="Ayuda evaluación vacas" target="AyudaEvaluacionVaca"/>
+                <tocitem text="Ayuda excel" target="AyudaExcel"/>
+                <tocitem text="Ayuda gestión granjas" target="AyudaGestionGranja"/>
+                <tocitem text="Ayuda habilitar o deshabilitar" target="AyudaHabilitarDeshabilitar"/>
+                <tocitem text="Ayuda lista de granjas" target="AyudaListaGranjas"/>    
+                <tocitem text="Ayuda modificar datos de la granja" target="AyudaModificarDatosGranja"/>    
+                <tocitem text="Ayuda añadir nueva granja" target="AyudaNuevaGranjaAnhadir"/>
+                <tocitem text="Ayuda reporte" target="AyudaReporte"/>
+		<tocitem text="Ayuda barra opciones" target="AyudaBarraOpciones"/>
+                
+                <tocitem text="Ayuda administrador">
+			<tocitem text="Ayuda añadir nuevo usuario" target="AyudaAdminNuevoUsuario"/>
+			<tocitem text="Ayuda añadir nuevo criterio" target="AyudaAdminNuevoCriterio"/>
+			<tocitem text="Ayuda excel admin" target="AyudaAdminExcel"/>
+			<tocitem text="Ayuda eliminar usuario" target="AyudaAdminEliminarUsuario"/>
+			<tocitem text="Ayuda eliminar criterio" target="AyudaAdminEliminarCriterio"/>
+			<tocitem text="Ayuda backup administrador" target="AyudaAdminBackup"/>
+		</tocitem>
+        </tocitem>
+</toc>

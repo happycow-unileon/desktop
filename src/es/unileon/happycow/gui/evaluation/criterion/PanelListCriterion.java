@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 import org.japura.gui.TitlePanel;
 
 /**
@@ -167,13 +166,7 @@ public class PanelListCriterion extends TitlePanel {
         jListCriterion.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                if (SwingUtilities.isRightMouseButton(evt)) {   // right click
-                    //conceptual menu
-//                    controller.removeCriterion(((IconList)jListCriterion.getSelectedValue()).getNombreCriterio());
-//                    modelCriterion.remove(jListCriterion.getSelectedIndex());
-                }else{
                     jListCriterionMousePressed();
-                }
             }
         });
     }

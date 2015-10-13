@@ -1,9 +1,9 @@
 /*
  * 
  */
-package es.unileon.happycow.gui.evaluation.criterion.valorations;
+package es.unileon.happycow.gui.evaluation.ModelTable;
 
-import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
+import es.unileon.happycow.controller.evaluation.IEvaluationController;
 import es.unileon.happycow.model.composite.Valoration;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -14,6 +14,7 @@ import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellEditor;
 
 /**
@@ -27,9 +28,9 @@ public class RemoveButtonEditor extends AbstractCellEditor
     private ModelTable model;
     private JTable table;
     private boolean isButtonColumnEditor;
-    private IEvaluationCriterionController controller;
+    private IEvaluationController controller;
 
-    public RemoveButtonEditor(ModelTable model, JTable table, IEvaluationCriterionController controller) {
+    public RemoveButtonEditor(ModelTable model, JTable table, IEvaluationController controller) {
         buttonRemove = new JButton(new javax.swing.ImageIcon(
                 getClass().getResource("/images/unchecked.png")));
         buttonRemove.setToolTipText("Eliminar");

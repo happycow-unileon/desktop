@@ -26,5 +26,15 @@ public class IdGeneric implements IdHandler{
     public String getValue() {
         return this.id;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().compareTo(this.toString())==0;
+    }
+
+    @Override
+    public int hashCode() {
+     return id.hashCode();
+    }
 
 }

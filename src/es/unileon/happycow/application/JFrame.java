@@ -35,7 +35,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         menuBar = factory.getPanel();
         factory.getController().setFrameController(controller);
         
-//        helpSet = new HelpSet();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent evt) {
@@ -50,6 +49,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         setLocationByPlatform(true);
         setVisible(true);
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -75,6 +76,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         switch (controller.getAction()) {
             case BACK:
                 queue.back();
+                controller.setState(queue.peek().getType());
                 changePanel(queue.peek());
                 break;
 

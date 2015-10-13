@@ -3,7 +3,7 @@
  */
 package es.unileon.happycow.gui.evaluation.criterion;
 
-import es.unileon.happycow.controller.evaluation.IEvaluationCriterionController;
+import es.unileon.happycow.controller.evaluation.IEvaluationController;
 import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ import org.japura.gui.TitlePanel;
  * @author dorian
  */
 public class PanelFileList extends TitlePanel {
-    private IEvaluationCriterionController controller;
+    private IEvaluationController controller;
     private LinkedList<PanelFile> filePanels;
 
     public PanelFileList(JComponent[] components) {
@@ -30,7 +30,7 @@ public class PanelFileList extends TitlePanel {
         filePanels=new LinkedList<>();
     }
 
-    public void setController(IEvaluationCriterionController controller) {
+    public void setController(IEvaluationController controller) {
         this.controller = controller;
     }
 
