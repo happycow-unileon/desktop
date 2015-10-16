@@ -326,7 +326,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
             model.add(category, Database.getInstance().getCriterion(criterion));
 
             float valoration = panel.getValoration();
-            Valoration val = new Valoration(criterion, valoration);
+            Valoration val = new Valoration(model.nextIdValoration(), valoration);
 
             if (model.add(panel.getSelectedCow(), category, criterion, val)) {
                 addValorationPanel(category, criterion, valoration);

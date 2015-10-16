@@ -25,13 +25,14 @@ public class EvaluationCowModel extends DefaultEvaluationModel {
 
     public EvaluationCowModel(Evaluation evaluation) {
         super(evaluation);
-
+        cows=new ArrayList<>();
+        
         //add all to cows
         LinkedList<Criterion> list = getListCriterion();
         for (Iterator<Criterion> iterator = list.iterator(); iterator.hasNext();) {
             Criterion next = iterator.next();
             LinkedList<Valoration> vals = super.listOfCriterion(next.getId());
-
+            
             for (int i = cows.size(); i < vals.size(); i++) {
                 cows.add(new Cow());
             }

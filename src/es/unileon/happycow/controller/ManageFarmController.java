@@ -68,6 +68,12 @@ public class ManageFarmController extends ButtonFarmDetailsIController {
         controller.addParameter("isNew", false);
         controller.addParameter("idEvaluation", info.getIdEvaluation().toString());
         controller.addParameter("user", info.getIdUser().toString());
+        //TODO implement the options per user and improve this
+        if(controller.isCowView()){
+            controller.addParameter("mode", "COW");
+        }else{
+            controller.addParameter("mode", "CRITERION");
+        }
         controller.setState(Window.EVALUATION);
     }
 
