@@ -36,4 +36,6 @@ public class EvaluationCriterionModel extends DefaultEvaluationModel{
         Component val = cri.search(valoration);
         cri.remove(val);
     }
+    
+    
 }

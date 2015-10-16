@@ -332,6 +332,12 @@ public interface DataBaseOperations {
       * @param file 
       */
     public void saveFileToTheSystem(byte[] arr, File file);
+    /**
+     * Remove the file
+     * @param idEvaluation
+     * @param name 
+     */
+    public boolean removeFile(IdHandler idEvaluation, String name);
     
     
     //Backup

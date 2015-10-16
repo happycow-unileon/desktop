@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 
@@ -149,6 +150,12 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
         for (int i = 0; i < model.getNumberCows(); i++) {
             panel.addCow();
         }
+        setListFiles();
+    }
+    
+    private void setListFiles(){
+        List<String> files=Database.getInstance().getFileNames(model.getIdHandler());
+        panel.setFileList(files);
     }
 
     /**
@@ -368,8 +375,13 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
                 controller.addParameter("idEvaluation", model.getIdHandler().toString());
                 controller.setState(Window.REPORT);
             }
-        } else {
-
+        }  else {
+            if(Database.getInstance().updateEvaluation(model)){
+                controller.clearParameters();
+                controller.addParameter("idFarm", model.getInformation().getIdFarm().toString());
+                controller.addParameter("idEvaluation", model.getIdHandler().toString());
+                controller.setState(Window.REPORT);
+            }
         }
     }
 

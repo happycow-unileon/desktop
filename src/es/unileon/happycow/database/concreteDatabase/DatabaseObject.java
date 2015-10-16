@@ -37,9 +37,11 @@ import javax.swing.JOptionPane;
 
 /**
  * Main class for a database
+ *
  * @author dorian
  */
 public abstract class DatabaseObject implements DataBaseOperations {
+
     /**
      * Conection
      */
@@ -65,8 +67,8 @@ public abstract class DatabaseObject implements DataBaseOperations {
      */
     protected boolean criterionInitialized;
 
-    
     protected enum TYPESQL {
+
         CONSULTA, MODIFICACION
     };
 
@@ -112,6 +114,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Execute a sql
+     *
      * @param sqlConsulta the sql statement
      * @param modo consulta o modificación
      * @throws Exception
@@ -344,6 +347,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Encript a string
+     *
      * @param toEncript
      * @return the string encrypted
      */
@@ -359,6 +363,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Store an object to the database
+     *
      * @param object
      * @return true if stored
      */
@@ -386,16 +391,17 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Update a stored object in database
+     *
      * @param object
-     * @return 
+     * @return
      */
     public boolean updateObject(EntityDB object) {
         boolean result = false;
         try {
-            //get the statements needed
-            List<PreparedStatement> list = object.updateObject(conection);
             //start the transaction
             startTransaccion();
+            //get the statements needed
+            List<PreparedStatement> list = object.updateObject(conection);
             for (PreparedStatement sql : list) {
                 executeSQL(sql, TYPESQL.MODIFICACION);
             }
@@ -411,8 +417,9 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Delete an object in database
+     *
      * @param object
-     * @return 
+     * @return
      */
     public boolean removeObject(EntityDB object) {
         boolean result = false;
@@ -572,9 +579,10 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Change the enable/disable state of a farm
+     *
      * @param id
      * @param enabled
-     * @return 
+     * @return
      */
     protected boolean switchFarm(IdHandler id, boolean enabled) {
         boolean resultSwitch = false;
@@ -724,18 +732,22 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     @Override
     public boolean updateEvaluation(IEvaluationModel evaluation) {
-        return false;
+        EvaluationMapper map=new EvaluationMapper(evaluation);
+        return updateObject(map);
     }
 
     /**
      * TODO: MEJORAR CON LA ELIMINACIÓN EN CASCADA DE LA BASE DE DATOS
      *
      * @param id
+     * @param id
      * @return
      */
     @Override
-    public boolean removeEvaluation(IdHandler evaluation) {
-        return false;
+    public boolean removeEvaluation(IdHandler id) {
+        //TODO mejorar con la eliminación en cascada de la base de datos
+        EvaluationMapper map=new EvaluationMapper(id);
+        return removeObject(map);
     }
 
     //identificadores
@@ -788,6 +800,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Check if criterions are initialized
+     *
      * @return true if are initialized, false otherwise
      */
     protected boolean isCriterionInitialized() {
@@ -841,6 +854,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Save the file in the database
+     *
      * @param handler id of evaluation
      * @param arr data file
      * @param name of the file
@@ -948,6 +962,22 @@ public abstract class DatabaseObject implements DataBaseOperations {
             ex.printStackTrace();
         }
         return bFile;
+    }
+
+    @Override
+    public boolean removeFile(IdHandler idEvaluation, String name) {
+        boolean resultRemove = false;
+        try {
+            StringBuilder borrar = new StringBuilder();
+            borrar.append("delete from files where idevaluation = " + idEvaluation.getValue() + " and filename='" + name + "'");
+            PreparedStatement preparedStatement = conection.prepareStatement(borrar.toString());
+            preparedStatement.execute();
+
+            resultRemove = true;
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+        return resultRemove;
     }
 
     //Backup
@@ -1116,10 +1146,11 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Store a category's ponderation
+     *
      * @param idEvaluation
      * @param idCategoria
      * @param ponderacion
-     * @return 
+     * @return
      */
     private boolean newPonderacionCategoria(int idEvaluation, String idCategoria, float ponderacion) {
         boolean nuevo = false;
@@ -1153,10 +1184,11 @@ public abstract class DatabaseObject implements DataBaseOperations {
 
     /**
      * Store a criterion's ponderation
+     *
      * @param idEvaluation
      * @param idCriterio
      * @param ponderacion
-     * @return 
+     * @return
      */
     private boolean newPonderacionCriterio(int idEvaluation, String idCriterio, float ponderacion) {
         boolean nuevo = false;
@@ -1210,9 +1242,9 @@ public abstract class DatabaseObject implements DataBaseOperations {
                 executeSQL(sql, TYPESQL.MODIFICACION);
             }
             criterions.add(criterion);
-            
+
             return true;
-            
+
         } catch (Exception ex) {
             return false;
         }

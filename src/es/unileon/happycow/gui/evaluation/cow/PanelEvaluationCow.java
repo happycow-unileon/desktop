@@ -138,7 +138,7 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
      *
      * @param files
      */
-    public void setFileList(LinkedList<String> files) {
+    public void setFileList(List<String> files) {
         panelFileList.addFileList(files);
     }
 

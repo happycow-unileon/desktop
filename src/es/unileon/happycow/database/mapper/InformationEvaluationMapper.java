@@ -91,6 +91,7 @@ public class InformationEvaluationMapper implements EntityDB {
         return sql;
     }
 
+
     /**
      * Retrieve an evaluation's information
      * @param result

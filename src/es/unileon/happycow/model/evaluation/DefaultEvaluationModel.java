@@ -24,7 +24,6 @@ import java.util.logging.Logger;
  * @author dorian
  */
 public class DefaultEvaluationModel implements IEvaluationModel {
-
     protected int numberValoration;
     protected Evaluation evaluation;
 
@@ -243,8 +242,24 @@ public class DefaultEvaluationModel implements IEvaluationModel {
 
     @Override
     public IdHandler nextIdValoration() {
+        if(numberValoration==-1){
+            numberValoration=searchNumberValoration();
+        }
         numberValoration++;
         return new IdValoration(numberValoration);
     }
 
+    
+    private int searchNumberValoration(){
+        Iterator it=new IteratorEvaluation(evaluation);
+        int max=-1;
+        for (Iterator iterator = it; iterator.hasNext();) {
+            Valoration next = (Valoration)iterator.next();
+            int id=Integer.parseInt(next.getId().getValue());
+            if(id>max){
+                max=id;
+            }
+        }
+        return max;
+    }
 }

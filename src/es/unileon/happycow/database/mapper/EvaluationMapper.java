@@ -28,25 +28,43 @@ import java.util.logging.Logger;
 
 /**
  * Map class for an evaluation
+ *
  * @author dorian
  */
 public class EvaluationMapper implements EntityDB {
+
     /**
      * Evaluation
      */
     private IEvaluationModel evaluation;
+    /**
+     * Id evaluation
+     */
+    private IdHandler idEvaluation;
 
     /**
      * Constructor
-     * @param evaluation 
+     *
+     * @param evaluation
      */
     public EvaluationMapper(IEvaluationModel evaluation) {
         this.evaluation = evaluation;
+        idEvaluation=null;
+    }
+
+    public EvaluationMapper(IdHandler id) {
+        this.evaluation=null;
+        this.idEvaluation=id;
+    }
+
+    public void setIdEvaluation(IdHandler idEvaluation) {
+        this.idEvaluation = idEvaluation;
     }
 
     /**
      * Set the evaluation
-     * @param evaluation 
+     *
+     * @param evaluation
      */
     public void setEvaluation(IEvaluationModel evaluation) {
         this.evaluation = evaluation;
@@ -71,10 +89,11 @@ public class EvaluationMapper implements EntityDB {
 
     /**
      * get the number of cows of the evaluation
+     *
      * @param connection
      * @param id
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static PreparedStatement getNumberCows(Connection connection, IdHandler id) throws SQLException {
         PreparedStatement sql = connection.prepareStatement("SELECT NUMEROVACAS FROM EVALUATION WHERE IDGRANJA=?");
@@ -84,20 +103,75 @@ public class EvaluationMapper implements EntityDB {
 
     @Override
     public List<PreparedStatement> updateObject(Connection connection) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LinkedList<PreparedStatement> listSql = new LinkedList<>();
+        IdHandler id;
+        if(this.evaluation!=null){
+            id=this.evaluation.getIdHandler();
+        }else{
+            id=this.idEvaluation;
+        }
+
+        PreparedStatement sql = connection.prepareStatement("delete from VALORATION where IDEVALUATION = ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from PONDERACIONCRITERIO where IDEVALUATION= ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from PONDERACIONCATEGORIA where IDEVALUATION= ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from EVALUATION where IDEVALUATION = ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        
+        listSql.addAll(insertObject(connection));
+        return listSql;
     }
 
     @Override
     public List<PreparedStatement> deleteObject(Connection connection) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LinkedList<PreparedStatement> listSql = new LinkedList<>();
+        IdHandler id;
+        if(this.evaluation!=null){
+            id=this.evaluation.getIdHandler();
+        }else{
+            id=this.idEvaluation;
+        }
+
+        PreparedStatement sql = connection.prepareStatement("delete from FILES where IDEVALUATION= ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from VALORATION where IDEVALUATION = ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from PONDERACIONCRITERIO where IDEVALUATION= ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from PONDERACIONCATEGORIA where IDEVALUATION = ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        sql = connection.prepareStatement("delete from EVALUATION where IDEVALUATION= ?");
+        sql.setString(1, id.getValue());
+        listSql.add(sql);
+
+        return listSql;
     }
 
     /**
      * Get an evaluation given its id
+     *
      * @param connection
      * @param id
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static PreparedStatement getObject(Connection connection, IdHandler id) throws SQLException {
         PreparedStatement sql = connection.prepareStatement(
@@ -120,9 +194,10 @@ public class EvaluationMapper implements EntityDB {
 
     /**
      * Restore an evaluation
+     *
      * @param result
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Evaluation restoreObject(ResultSet result) throws SQLException {
         InformationEvaluation information = null;
@@ -169,11 +244,11 @@ public class EvaluationMapper implements EntityDB {
 
                 //set the criterion
                 if (result.getString("NOMBRECRITERIO") != null) {
-                    IdHandler id=new IdCriterion(result.getString("NOMBRECRITERIO"));
-                    
-                    Component criterion=categoryComponent.search(id);
-                    if(criterion==null){
-                        criterion= new Criterion(id, result.getFloat("PONCRITERIO"));
+                    IdHandler id = new IdCriterion(result.getString("NOMBRECRITERIO"));
+
+                    Component criterion = categoryComponent.search(id);
+                    if (criterion == null) {
+                        criterion = new Criterion(id, result.getFloat("PONCRITERIO"));
                         criterion.setWeighing(result.getFloat("PONCRITERIO"));
                         categoryComponent.add(criterion);
                     }

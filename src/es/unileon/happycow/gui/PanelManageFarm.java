@@ -22,12 +22,10 @@ public class PanelManageFarm extends javax.swing.JPanel {
 
     private ManageFarmController controller;
     private DefaultListModel<InformationEvaluation> model;
-//    private Farm farmSelected;
 
     /**
      * Creates new form PanelManagementFarm
      *
-     * @param farm
      */
     public PanelManageFarm() {
         this.controller = null;
@@ -61,16 +59,15 @@ public class PanelManageFarm extends javax.swing.JPanel {
      * @param farm
      */
     public void setFarm(Farm farm) {
-//        farmSelected = farm;
         fillDataFarm(farm);
     }
 
     public void setList(List<InformationEvaluation> list) {
-        DefaultListModel model = new DefaultListModel();
+        model.clear();
         for (InformationEvaluation element : list) {
             model.addElement(element);
         }
-        jListFarms.setModel(model);
+        jListEvaluations.setModel(model);
 
     }
 
@@ -92,14 +89,14 @@ public class PanelManageFarm extends javax.swing.JPanel {
     }
 
     private void seeModify() {
-        InformationEvaluation info = (InformationEvaluation) jListFarms.getSelectedValue();
+        InformationEvaluation info = (InformationEvaluation) jListEvaluations.getSelectedValue();
         if (info != null) {
             controller.evaluationSelected(info);
         }
     }
 
     private void removeEvaluationEvent() {
-        InformationEvaluation info = (InformationEvaluation) jListFarms.getSelectedValue();
+        InformationEvaluation info = (InformationEvaluation) jListEvaluations.getSelectedValue();
         if (info != null) {
             controller.removeEvaluation(info.getIdEvaluation());
         }
@@ -115,7 +112,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
     }
 
     private void report() {
-        InformationEvaluation info = (InformationEvaluation) jListFarms.getSelectedValue();
+        InformationEvaluation info = (InformationEvaluation) jListEvaluations.getSelectedValue();
         if (info != null) {
             controller.report(info.getIdEvaluation());
         }
@@ -169,7 +166,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
 
         buttonHelp = new javax.swing.JButton(new javax.swing.ImageIcon(getClass().getResource("/images/help.png")));
         scrollList = new javax.swing.JScrollPane();
-        jListFarms = new javax.swing.JList();
+        jListEvaluations = new javax.swing.JList();
     }
 
     /**
@@ -178,8 +175,8 @@ public class PanelManageFarm extends javax.swing.JPanel {
     private void configureComponents() {
         setLayout(new java.awt.BorderLayout());
 
-        jListFarms.setCellRenderer(new EvaluationListRenderer());
-        jListFarms.setModel(model);
+        jListEvaluations.setCellRenderer(new EvaluationListRenderer());
+        jListEvaluations.setModel(model);
 
         panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
@@ -212,8 +209,8 @@ public class PanelManageFarm extends javax.swing.JPanel {
         buttonReport.setFocusPainted(false);
         buttonReport.setToolTipText("Ver reporte");
 
-        jListFarms.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scrollList.setViewportView(jListFarms);
+        jListEvaluations.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollList.setViewportView(jListEvaluations);
 
         decorator = new Decorator(scrollList,
                 Anchor.NORTH_EAST, Decorator.Direction.HORIZONTAL);
@@ -278,7 +275,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
                 seeModify();
             }
         });
-        
+
         buttonSeeEvaluation.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,7 +326,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
     /**
      * lista de evaluaciones
      */
-    private javax.swing.JList jListFarms;
+    private javax.swing.JList jListEvaluations;
     /**
      * panel de botones
      */

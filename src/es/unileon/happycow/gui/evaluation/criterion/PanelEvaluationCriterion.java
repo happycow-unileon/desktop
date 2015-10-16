@@ -88,7 +88,7 @@ public class PanelEvaluationCriterion extends JPanel {
      * Seteo la lista de ficheros que tiene el modelo
      * @param files 
      */
-    public void setFileList(LinkedList<String> files){
+    public void setFileList(List<String> files){
         panelFileList.addFileList(files);
     }
     public void addFile(String file){
