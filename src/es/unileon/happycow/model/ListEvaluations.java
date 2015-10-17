@@ -2,6 +2,7 @@ package es.unileon.happycow.model;
 
 import es.unileon.happycow.database.Database;
 import es.unileon.happycow.handler.IdHandler;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -32,6 +33,7 @@ public class ListEvaluations {
         this.list = list;
         this.farm=farm;
         listLoaded=true;
+        Collections.sort(this.list);
     }
     
     /**
@@ -97,6 +99,7 @@ public class ListEvaluations {
     public LinkedList<InformationEvaluation> getListEvaluation() {
         if (!listLoaded) {
             list = Database.getInstance().getListEvaluations(farm);
+            Collections.sort(this.list);
         }
         listLoaded = true;
         return list;

@@ -30,7 +30,7 @@ public class InformationEvaluationTest {
     @Before
     public void setUp() {
         user=new IdUser("marta");
-        farm=new IdFarm(user, 3);
+        farm=new IdFarm(3);
         evaluation=new IdEvaluation(20);
         info=new InformationEvaluation(evaluation, farm, user, 4.3f, 2f, 2.1f, 2.2f, 2.3f, 
                 new Date(new GregorianCalendar(2000, 5, 22).getTimeInMillis()), 25);

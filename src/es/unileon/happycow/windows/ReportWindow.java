@@ -11,7 +11,7 @@ public class ReportWindow extends IWindow{
     public static Window TYPE=Window.REPORT;
 
     public ReportWindow(IFactory factory) {
-        super("Reporte",true, true, new IdWindow(TYPE, false), factory);
+        super("Reporte",true, false, new IdWindow(TYPE, false), factory);
     } 
 
     @Override

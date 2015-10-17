@@ -19,8 +19,8 @@ public class EvaluationListRenderer extends DefaultListCellRenderer{
          if (value instanceof InformationEvaluation) {
             InformationEvaluation info = (InformationEvaluation)value;
             String date=info.getFecha().toString();
-            date=String.valueOf(index)+ ": " + date+
-                    " -> Valoración: "+ String.valueOf((int)info.getNota());
+            date=String.valueOf(index+1)+ ": " + date+
+                    " -> Valoración: "+ String.valueOf(info.getNota());
              setText(date);
         }
         return this;

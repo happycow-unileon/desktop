@@ -68,6 +68,7 @@ public class PanelManageFarm extends javax.swing.JPanel {
             model.addElement(element);
         }
         jListEvaluations.setModel(model);
+        
 
     }
 

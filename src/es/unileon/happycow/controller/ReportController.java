@@ -6,6 +6,7 @@ import es.unileon.happycow.gui.PanelReport;
 import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
+import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
 import es.unileon.happycow.model.evaluation.IEvaluationModel;
 import es.unileon.happycow.procedures.Printer;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 
 /**
  * The controller of the report's window
+ *
  * @author dorian
  */
 public class ReportController extends Controller {
@@ -33,6 +35,7 @@ public class ReportController extends Controller {
 
     /**
      * Constructor
+     *
      * @param report the panel that is controled
      */
     public ReportController(PanelReport report) {
@@ -49,10 +52,10 @@ public class ReportController extends Controller {
             if (service != null) {
                 print.printJEditorPane(panelReport.getPanelReport(), service);
             }
-        }else{
-            JOptionPane.showMessageDialog(null, 
-                "No tiene ninguna impresora predeterminada", 
-                "Impresoras", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "No tiene ninguna impresora predeterminada",
+                    "Impresoras", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -75,7 +78,7 @@ public class ReportController extends Controller {
 
     @Override
     public void onResume(Parameters parameters) {
-        //guardo la granja
+        //saco la granja
         farm = new IdFarm(parameters.getString("idFarm"));
         //saco el identificador de la evaluación para el reporte
         IdHandler evaluation = new IdEvaluation(parameters.getString("idEvaluation"));
@@ -86,5 +89,15 @@ public class ReportController extends Controller {
         Report rep = new Report(algorithm, model);
         //escribo el reporte
         panelReport.setReport(rep.toString());
+
+        //guardo los datos del reporte en la granja
+        InformationEvaluation info = model.getInformation();
+        info.setNota(algorithm.getTotal());
+        info.setAlimentacion(algorithm.getFood());
+        info.setComfort(algorithm.getHouse());
+        info.setComportamiento(algorithm.getBehaviour());
+        info.setSalud(algorithm.getHealth());
+
+        Database.getInstance().updateInformationEvaluation(info);
     }
 }

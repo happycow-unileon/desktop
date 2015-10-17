@@ -8,7 +8,7 @@ import java.sql.Date;
  * Represent the information of an evaluation
  * @author dorian
  */
-public class InformationEvaluation  implements Serializable {
+public class InformationEvaluation  implements Serializable, Comparable<InformationEvaluation> {
 /**
  * Id of evaluation
  */
@@ -211,5 +211,11 @@ public class InformationEvaluation  implements Serializable {
     @Override
     public int hashCode() {
         return idEvaluation.getValue().hashCode();
+    }
+
+
+    @Override
+    public int compareTo(InformationEvaluation t) {
+        return getFecha().compareTo(t.getFecha());
     }
 }

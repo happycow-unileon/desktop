@@ -237,7 +237,12 @@ public interface DataBaseOperations {
      */
     public boolean removeEvaluation(IdHandler id);
     
-    
+    /**
+     * Actualiza la información de una evaluación
+     * @param info
+     * @return 
+     */
+    public boolean updateInformationEvaluation(InformationEvaluation info);
 
     
 

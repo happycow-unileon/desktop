@@ -78,7 +78,7 @@ public class PanelEvaluationCow extends javax.swing.JPanel {
     }
     public void addCow(){
         int size=modelCows.getSize();
-        modelCows.addElement("Vaca ".concat(Integer.toString(size)));
+        modelCows.addElement("Vaca ".concat(Integer.toString(size+1)));
     }
 
     public IdHandler getCriterion() {

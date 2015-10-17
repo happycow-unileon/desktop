@@ -83,8 +83,12 @@ public class GuiQueue {
      * @return the window restored to first position of queue
      */
     public IWindow back() {
-        pop();
+        IWindow last=pop();
         IWindow result = peek();
+        while(last.getType()==result.getType()){
+            last=pop();
+            result=peek();
+        }
         result.onResume(new Parameters());
         return result;
     }

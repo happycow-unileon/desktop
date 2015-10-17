@@ -694,6 +694,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public LinkedList<InformationEvaluation> getListEvaluations(IdHandler idFarm) {
         //TODO: (Necesario?!?!) CREAR UNA CLASE LIST EVALUATIONS el cual controla también si es cargada o no
+        
         LinkedList<InformationEvaluation> lista = null;
         try {
             PreparedStatement sql = InformationEvaluationMapper.getListEvaluations(conection, idFarm);
@@ -850,6 +851,21 @@ public abstract class DatabaseObject implements DataBaseOperations {
     public boolean saveFile(IdHandler handler, File file) {
         byte[] arr = getByteArray(file);
         return saveFile(handler, arr, file.getName());
+    }
+    
+    @Override
+    public boolean updateInformationEvaluation(InformationEvaluation info) {
+        try {
+            InformationEvaluationMapper map = new InformationEvaluationMapper(info);
+            List<PreparedStatement> list = map.updateObject(conection);
+            for (PreparedStatement sql : list) {
+                executeSQL(sql, TYPESQL.MODIFICACION);
+            }
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            return false;
+        }
     }
 
     /**

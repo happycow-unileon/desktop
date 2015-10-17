@@ -64,7 +64,20 @@ public class InformationEvaluationMapper implements EntityDB {
 
     @Override
     public List<PreparedStatement> updateObject(Connection connection) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PreparedStatement sql = connection.prepareStatement("UPDATE EVALUATION SET "
+                + "NOTA=?,"
+                + "ALIMENTACION=?,SALUD=?,COMFORT=?,COMPORTAMIENTO=?"
+                + " WHERE IDEVALUATION=?");
+        sql.setFloat(1, info.getNota());
+        sql.setFloat(2, info.getAlimentacion());
+        sql.setFloat(3, info.getSalud());
+        sql.setFloat(4, info.getComfort());
+        sql.setFloat(5, info.getComportamiento());
+        sql.setInt(6, Integer.parseInt(info.getIdEvaluation().getValue()));
+
+        LinkedList<PreparedStatement> list = new LinkedList<>();
+        list.add(sql);
+        return list;
     }
 
     @Override
