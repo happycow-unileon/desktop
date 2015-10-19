@@ -2,6 +2,8 @@ HappyCow
 =================================
 HappyCow es un programa pensado para realizar evaluaciones del bienestar animal vacuno en granjas.
 
+La última versión compilada se puede encontrar en la carpeta Release
+
 Compilar HappyCow desde netbeans
 ------------------------------------
 Crear un proyecto en Netbeans, descargar el código fuente en otra carpeta y copiar la carpeta nbproject y el fichero build.xml en la carpeta del código fuente. Abrir el proyecto desde Netbeans.
