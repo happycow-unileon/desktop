@@ -12,13 +12,10 @@ import es.unileon.happycow.handler.IdEvaluation;
 import es.unileon.happycow.handler.IdFarm;
 import es.unileon.happycow.handler.IdHandler;
 import es.unileon.happycow.handler.IdUser;
-import es.unileon.happycow.model.InformationEvaluation;
 import es.unileon.happycow.model.composite.Component;
 import es.unileon.happycow.model.composite.Criterion;
 import es.unileon.happycow.model.composite.Valoration;
 import es.unileon.happycow.model.evaluation.EvaluationCriterionModel;
-import es.unileon.happycow.procedures.Report;
-import es.unileon.happycow.strategy.AverageEvaluation;
 import es.unileon.happycow.strategy.EvaluationAlgorithm;
 import es.unileon.happycow.windows.Window;
 import java.awt.Color;
@@ -107,6 +104,7 @@ public class EvaluationCriterionController extends Controller implements IEvalua
             //rellenar los datos de evaluación
             IdHandler idEvaluation = new IdEvaluation(parameters.getString("idEvaluation"));
             model = new EvaluationCriterionModel(Database.getInstance().getEvaluation(idEvaluation));
+            Database.getInstance().prepareFiles(idEvaluation);
         } else {
             //crear nueva evaluación
             IdHandler user = new IdUser(parameters.getString("user"));
@@ -392,10 +390,6 @@ public class EvaluationCriterionController extends Controller implements IEvalua
     @Override
     public void finishEvaluation() {
         //TODO mirar opciones usuario
-        EvaluationAlgorithm algorithm = new AverageEvaluation();
-        
-        
-        
         if (newEvaluation) {
             if (Database.getInstance().saveEvaluation(model)) {
                 controller.clearParameters();

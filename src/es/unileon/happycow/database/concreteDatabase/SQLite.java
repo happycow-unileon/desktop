@@ -61,6 +61,8 @@ public class SQLite extends DatabaseObject {
                 //cargamos los criterios
                 getListCriterion();
                 newUser(new User("Admin", "Admin", Rol.ADMINISTRADOR));
+                //limpiamos la tabla temporal
+                removeTemporaryFiles();
             } catch (Exception e) {
                 System.out.println("Error creando la conexion: ".concat(e.toString()));
                 JOptionPane.showMessageDialog(null,

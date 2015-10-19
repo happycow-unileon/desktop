@@ -139,6 +139,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     public boolean closeDB() {
         try {
             if (conection != null) {
+                removeTemporaryFiles();
                 conection.close();
             }
             System.out.println("Base de datos cerrada");
@@ -259,7 +260,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
                     + "  CONSTRAINT KEY_EVALUATION_IDEVALUACION UNIQUE (IDEVALUATION));");
             sql.executeUpdate();
 
-            //tablas con registro de los tipos de codigos usados y su usuario
+            //tablas con registro de los tipos de codigos usados
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS CRITERION ("
                     + "  NOMBRECRITERIO NVARCHAR2(100) UNIQUE,"
                     + "  DESCRIPCION NVARCHAR2(300),"
@@ -286,28 +287,34 @@ public abstract class DatabaseObject implements DataBaseOperations {
                     + "(IDEVALUATION NUMBER(38, 0), "
                     + "CATEGORIA NVARCHAR2(50),  "
                     + "PONDERACION FLOAT,  "
-                    + "CONSTRAINT PK_PONDERACIONCATEGORIA PRIMARY KEY (IDEVALUATION, CATEGORIA))");
+                    + "CONSTRAINT PK_PONDERACIONCATEGORIA PRIMARY KEY (IDEVALUATION, CATEGORIA) "
+                    + "  CONSTRAINT FK_PONDERACIONCATEGORIA_EVALUATION FOREIGN KEY (IDEVALUATION)"
+                    + "    REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
             sql.executeUpdate();
 
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS PONDERACIONCRITERIO (  "
                     + "IDEVALUATION NUMBER(38, 0), "
                     + "NOMBRECRITERIO NVARCHAR2(50),  "
                     + "PONDERACION FLOAT(126),  "
-                    + "CONSTRAINT PK_PONDERACIONCRITERIO PRIMARY KEY (IDEVALUATION, NOMBRECRITERIO))");
+                    + "CONSTRAINT PK_PONDERACIONCRITERIO PRIMARY KEY (IDEVALUATION, NOMBRECRITERIO)"
+                    + "  CONSTRAINT FK_PONDERACIONCRITERIO_EVALUATION FOREIGN KEY (IDEVALUATION)"
+                    + "    REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE);");
+            sql.executeUpdate();
+
+            sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS TEMPORARY_FILES ( "
+                    + "IDEVALUATION NUMBER(38, 0), "
+                    + "FILE BLOB, "
+                    + "FILENAME NVARCHAR2(100), "
+                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION, FILENAME))");
             sql.executeUpdate();
 
             sql = conection.prepareStatement("CREATE TABLE IF NOT EXISTS FILES ( "
                     + "IDEVALUATION NUMBER(38, 0), "
                     + "FILE BLOB, "
                     + "FILENAME NVARCHAR2(100), "
-                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION, FILENAME))");
-            /**
-             * TODO !!! Se ha quitado la constrain porque cuando la evaluación
-             * todavía no se ha guardado al guardar el fichero no tiene el id e
-             * incumple la foreign key + "CONSTRAINT FK_FILES_EVALUATION FOREIGN
-             * KEY (IDEVALUATION) " + "REFERENCES EVALUATION(IDEVALUATION) ON
-             * DELETE CASCADE);
-             */
+                    + "CONSTRAINT PK_FILES PRIMARY KEY (IDEVALUATION, FILENAME) "
+                    + "CONSTRAINT FK_FILES_EVALUATION FOREIGN KEY (IDEVALUATION) "
+                    + "REFERENCES EVALUATION(IDEVALUATION) ON DELETE CASCADE)");
 
             sql.executeUpdate();
 
@@ -694,7 +701,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public LinkedList<InformationEvaluation> getListEvaluations(IdHandler idFarm) {
         //TODO: (Necesario?!?!) CREAR UNA CLASE LIST EVALUATIONS el cual controla también si es cargada o no
-        
+
         LinkedList<InformationEvaluation> lista = null;
         try {
             PreparedStatement sql = InformationEvaluationMapper.getListEvaluations(conection, idFarm);
@@ -728,13 +735,22 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public boolean saveEvaluation(IEvaluationModel evaluation) {
         EvaluationMapper map = new EvaluationMapper(evaluation);
-        return storeObject(map);
+        boolean result = storeObject(map);
+        if (result) {
+            result = saveTemporaryFiles();
+        }
+        return result;
     }
 
     @Override
     public boolean updateEvaluation(IEvaluationModel evaluation) {
-        EvaluationMapper map=new EvaluationMapper(evaluation);
-        return updateObject(map);
+        EvaluationMapper map = new EvaluationMapper(evaluation);
+        boolean result = updateObject(map);
+        if (result) {
+            
+            result = saveTemporaryFiles();
+        }
+        return result;
     }
 
     /**
@@ -747,8 +763,86 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public boolean removeEvaluation(IdHandler id) {
         //TODO mejorar con la eliminación en cascada de la base de datos
-        EvaluationMapper map=new EvaluationMapper(id);
-        return removeObject(map);
+        boolean result;
+        EvaluationMapper map = new EvaluationMapper(id);
+        result=removeObject(map);
+        if (result) {
+            result = removeFileEvaluation(id);
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean prepareFiles(IdHandler id){
+        boolean result = false;
+        try {
+            startTransaccion();
+
+            PreparedStatement sql = conection.prepareStatement(
+                    "INSERT INTO TEMPORARY_FILES SELECT * from FILES WHERE idevaluation=?;");
+            sql.setString(1, id.getValue());
+            executeSQL(sql, TYPESQL.MODIFICACION);
+
+            commit();
+            result = true;
+        } catch (SQLException ex) {
+            rollback();
+        } catch (Exception ex) {
+            rollback();
+        }
+        return result;
+    }
+
+    private boolean saveTemporaryFiles() {
+        boolean result = false;
+        try {
+            startTransaccion();
+
+            PreparedStatement sql = conection.prepareStatement(
+                    "INSERT INTO FILES select * from TEMPORARY_FILES;");
+            executeSQL(sql, TYPESQL.MODIFICACION);
+            removeTemporaryFiles();
+
+            commit();
+            result = true;
+        } catch (SQLException ex) {
+            rollback();
+        } catch (Exception ex) {
+            rollback();
+        }
+        return result;
+    }
+
+    protected boolean removeTemporaryFiles() {
+        boolean result=false;
+        try {
+            PreparedStatement sql = conection.prepareStatement(
+                    "DELETE FROM TEMPORARY_FILES;");
+            executeSQL(sql, TYPESQL.MODIFICACION);
+            result=true;
+        } catch (SQLException ex) {
+            
+        } catch (Exception ex) {
+            
+        }
+        return result;
+    }
+
+    private boolean removeFileEvaluation(IdHandler evaluationId) {
+        boolean result = false;
+        try {
+            PreparedStatement sql = conection.prepareStatement(
+                    "DELETE FROM FILES WHERE idevaluation=?;");
+            sql.setString(1, evaluationId.getValue());
+            executeSQL(sql, TYPESQL.MODIFICACION);
+
+            result = true;
+        } catch (SQLException ex) {
+            rollback();
+        } catch (Exception ex) {
+            rollback();
+        }
+        return result;
     }
 
     //identificadores
@@ -852,7 +946,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         byte[] arr = getByteArray(file);
         return saveFile(handler, arr, file.getName());
     }
-    
+
     @Override
     public boolean updateInformationEvaluation(InformationEvaluation info) {
         try {
@@ -880,6 +974,26 @@ public abstract class DatabaseObject implements DataBaseOperations {
         boolean result = true;
 
         try {
+            PreparedStatement sql = conection.prepareStatement("INSERT INTO TEMPORARY_FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
+
+            sql.setString(1, handler.getValue());
+            sql.setBytes(2, arr);
+            sql.setString(3, name);
+            executeSQL(sql, TYPESQL.MODIFICACION);
+
+        } catch (Exception ex) {
+            result = false;
+            ex.printStackTrace();
+        }
+
+        return result;
+
+    }
+
+    private boolean saveFileDefinitive(IdHandler handler, byte[] arr, String name) {
+        boolean result = true;
+
+        try {
             PreparedStatement sql = conection.prepareStatement("INSERT INTO FILES (IDEVALUATION, FILE,  FILENAME) VALUES(?,?, ?)");
 
             sql.setString(1, handler.getValue());
@@ -900,7 +1014,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     public List<String> getFileNames(IdHandler idHandler) {
         List<String> fileNamesList = new ArrayList<>();
         try {
-            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=?");
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM TEMPORARY_FILES WHERE IDEVALUATION=?");
             sql.setString(1, idHandler.getValue());
 
             executeSQL(sql, TYPESQL.CONSULTA);
@@ -923,7 +1037,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         boolean found = false;
         try {
 
-            PreparedStatement sql = conection.prepareStatement("SELECT * FROM FILES WHERE IDEVALUATION=? AND FILENAME=?");
+            PreparedStatement sql = conection.prepareStatement("SELECT * FROM TEMPORARY_FILES WHERE IDEVALUATION=? AND FILENAME=?");
             sql.setString(1, idHandler.getValue());
             sql.setString(2, name);
 
@@ -985,7 +1099,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
         boolean resultRemove = false;
         try {
             StringBuilder borrar = new StringBuilder();
-            borrar.append("delete from files where idevaluation = " + idEvaluation.getValue() + " and filename='" + name + "'");
+            borrar.append("delete from TEMPORARY_FILES where idevaluation = " + idEvaluation.getValue() + " and filename='" + name + "'");
             PreparedStatement preparedStatement = conection.prepareStatement(borrar.toString());
             preparedStatement.execute();
 
@@ -1145,7 +1259,7 @@ public abstract class DatabaseObject implements DataBaseOperations {
     @Override
     public boolean saveFiles(LinkedList<FilesDB> list) {
         for (FilesDB file : list) {
-            saveFile(new IdEvaluation(file.getId()), file.getFile(), file.getFilename());
+            saveFileDefinitive(new IdEvaluation(file.getId()), file.getFile(), file.getFilename());
         }
         return true;
     }

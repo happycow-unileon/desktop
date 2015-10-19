@@ -16,18 +16,6 @@ public class Init {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Ocean".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//
-//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-//            System.out.println("Error con el Look and feel");
-//        }
-
         //com.jtattoo.plaf.aluminium.AluminiumLookAndFeel
         //com.jtattoo.plaf.fast.FastLookAndFeel mñegh
         //com.jtattoo.plaf.graphite.GraphiteLookAndFeel

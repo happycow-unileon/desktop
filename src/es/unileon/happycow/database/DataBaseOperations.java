@@ -215,6 +215,12 @@ public interface DataBaseOperations {
     public Evaluation getEvaluation(IdHandler id);
    
     /**
+     * Get the files of an evaluation to the temporary files
+     * @return 
+     */
+    public boolean prepareFiles(IdHandler id);
+    
+    /**
      * Guarda los datos de una evaluación 
      * @param evaluation evaluación a guardar
      * datos

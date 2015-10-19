@@ -126,6 +126,7 @@ public class EvaluationCowController extends Controller implements IEvaluationCo
             //rellenar los datos de evaluación
             IdHandler idEvaluation = new IdEvaluation(parameters.getString("idEvaluation"));
             model = new EvaluationCowModel(Database.getInstance().getEvaluation(idEvaluation));
+            Database.getInstance().prepareFiles(idEvaluation);
         } else {
             IdHandler user = new IdUser(parameters.getString("user"));
             model = new EvaluationCowModel(farm, user);

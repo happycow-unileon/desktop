@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.UIManager;
 
 
 /**
@@ -44,6 +45,16 @@ public class Splash{
      * @param args the command line arguments
      */
     public static void main(String[] args){
+        //com.jtattoo.plaf.aluminium.AluminiumLookAndFeel
+        //com.jtattoo.plaf.fast.FastLookAndFeel mñegh
+        //com.jtattoo.plaf.graphite.GraphiteLookAndFeel
+        try {
+            UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
         //inicializo el splashScreen
         splashInit();
         
@@ -51,6 +62,7 @@ public class Splash{
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                //abro la base de datos
                 /**
                  * Poner aquí el trabajo a realizar, no abrir ninguna ventana
                  * hasta que se haya terminado de cargar y se termina con el splashscreen
@@ -64,10 +76,11 @@ public class Splash{
                 actualizarProgreso("Preparando ventanas...", 65);
 //                JFrameApplication.getInstance();
 //                actualizarProgreso("Finalizando...", 100);
-//                dormir();
+                dormir();
                 
                 new JFrame();
                 actualizarProgreso("Finalizado...", 100);
+
             }
         });
     }
@@ -77,7 +90,7 @@ public class Splash{
      */
     private static void dormir(){
         try{
-            Thread.sleep(500);
+            Thread.sleep(5000);
         }catch (InterruptedException ex){}
     }
     
